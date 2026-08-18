@@ -16,7 +16,7 @@ export function Preloader() {
     }
     document.body.style.overflow = "hidden";
     let alive = true;
-    let tl: import("gsap").gsap.core.Timeline | null = null;
+    let tl: { kill: () => void } | null = null;
 
     void (async () => {
       const { gsap } = await import("gsap");
