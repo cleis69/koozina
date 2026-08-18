@@ -28,22 +28,24 @@ export function Preloader() {
       const wordmark = el.querySelector("[data-logo-wordmark]");
       const counter = { v: 0 };
 
-      tl = gsap.timeline({
+      const timeline = gsap.timeline({
         onComplete: () => {
           document.body.style.overflow = "";
           setGone(true);
         },
       });
 
+      tl = timeline;
+
       if (ring.current) {
-        tl.fromTo(
+        timeline.fromTo(
           ring.current,
           { strokeDasharray: 560, strokeDashoffset: 560 },
           { strokeDashoffset: 0, duration: 1.5, ease: "power2.inOut" },
           0,
         );
       }
-      tl.from(octopus, { opacity: 0, duration: 0.9, ease: "power2.out" }, 0.35)
+      timeline.from(octopus, { opacity: 0, duration: 0.9, ease: "power2.out" }, 0.35)
         .from(
           poppies,
           {
