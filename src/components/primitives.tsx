@@ -11,7 +11,7 @@ export function SplitTitle({
   text: string;
   className?: string;
   as?: "h1" | "h2" | "h3";
-  accent?: string;
+  accent?: string | undefined;
 }) {
   const ref = useRef<HTMLElement>(null);
   const Tag = as as "h2";
@@ -78,8 +78,8 @@ export function RevealImage({
   height: number;
   className?: string;
   imgClassName?: string;
-  eager?: boolean;
-  ratio?: string;
+  eager?: boolean | undefined;
+  ratio?: string | undefined;
 }) {
   const ref = useRef<HTMLDivElement>(null);
 
@@ -171,8 +171,8 @@ export function SectionHead({
   num: string;
   label: string;
   title: string;
-  accent?: string;
-  intro?: string;
+  accent?: string | undefined;
+  intro?: string | undefined;
   tone?: "light" | "dark";
 }) {
   const numColor = tone === "dark" ? "text-poppy-light" : "text-poppy";
