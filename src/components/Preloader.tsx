@@ -5,22 +5,24 @@ import { prefersReduced } from "@/lib/anim";
 /** Au-delà, on rend la main quoi qu'il arrive. */
 const HARD_TIMEOUT = 3200;
 const SEEN_KEY = "kz-preloader-seen";
+/** 2πr pour r = 170,3 — le rayon exact de l'anneau du fichier de marque. */
+const RING = 1070;
 
 /**
- * Le logo se dessine, puis le rideau remonte.
+ * L'anneau du logo se trace, le badge apparaît dedans, puis le rideau remonte.
  *
  * Deux garde-fous, parce qu'un preloader est le seul composant capable de
  * rendre un site entièrement inaccessible :
  *   1. `finish()` est appelé par un `setTimeout` de sécurité **et** par la fin
  *      de la timeline. Si l'import de GSAP échoue, la page se débloque quand
- *      même — l'ancienne version laissait `body.overflow = hidden` pour
- *      toujours.
+ *      même.
  *   2. Il ne se joue qu'une fois par session : revenir sur le site ne coûte
  *      pas 3 s de LCP à chaque fois.
  */
 export function Preloader() {
   const root = useRef<HTMLDivElement>(null);
   const ring = useRef<SVGCircleElement>(null);
+  const badge = useRef<HTMLDivElement>(null);
   const [count, setCount] = useState(0);
   const [gone, setGone] = useState(false);
 
@@ -48,21 +50,14 @@ export function Preloader() {
       if (alive) setGone(true);
     };
 
-    // Garde-fou : quoi qu'il arrive en dessous, la page est rendue à l'utilisateur.
     const failsafe = window.setTimeout(finish, HARD_TIMEOUT);
 
     void (async () => {
       try {
         const { gsap } = await import("gsap");
-        if (!alive) return;
-        const el = root.current;
-        if (!el) return;
+        if (!alive || !root.current) return;
 
-        const octopus = el.querySelector("[data-logo-octopus]");
-        const poppies = el.querySelectorAll("[data-logo-poppies] > g");
-        const wordmark = el.querySelector("[data-logo-wordmark]");
         const counter = { v: 0 };
-
         const timeline = gsap.timeline({
           onComplete: () => {
             window.clearTimeout(failsafe);
@@ -74,29 +69,17 @@ export function Preloader() {
         if (ring.current) {
           timeline.fromTo(
             ring.current,
-            { strokeDasharray: 560, strokeDashoffset: 560 },
-            { strokeDashoffset: 0, duration: 1.1, ease: "power2.inOut" },
+            { strokeDasharray: RING, strokeDashoffset: RING },
+            { strokeDashoffset: 0, duration: 1.2, ease: "power2.inOut" },
             0,
           );
         }
         timeline
-          .from(octopus, { opacity: 0, duration: 0.7, ease: "power2.out" }, 0.3)
-          .from(
-            poppies,
-            {
-              scale: 0,
-              opacity: 0,
-              transformOrigin: "center",
-              duration: 0.6,
-              ease: "back.out(2.2)",
-              stagger: 0.1,
-            },
-            0.65,
-          )
-          .from(
-            wordmark,
-            { opacity: 0, y: 12, duration: 0.6, ease: "power2.out" },
-            0.9,
+          .fromTo(
+            badge.current,
+            { opacity: 0, scale: 0.94 },
+            { opacity: 1, scale: 1, duration: 0.9, ease: "power2.out" },
+            0.45,
           )
           .to(
             counter,
@@ -114,7 +97,7 @@ export function Preloader() {
             ease: "expo.inOut",
           });
       } catch {
-        // GSAP indisponible : on n'insiste pas, le failsafe fera le travail.
+        // GSAP indisponible : on n'insiste pas, le failsafe fait le travail.
         window.clearTimeout(failsafe);
         finish();
       }
@@ -133,12 +116,13 @@ export function Preloader() {
   return (
     <div
       ref={root}
-      // Le loader n'est qu'un rideau décoratif : il ne doit rien annoncer,
-      // et le contenu réel est déjà dans le DOM derrière lui.
+      // Rideau décoratif : le contenu réel est déjà dans le DOM derrière lui.
       aria-hidden="true"
       className="fixed inset-0 z-[80] flex flex-col items-center justify-center bg-beige"
     >
-      <LogoBadge className="w-[min(58vw,300px)]" drawRef={ring} />
+      <div ref={badge} className="w-[min(58vw,300px)]">
+        <LogoBadge ringRef={ring} priority />
+      </div>
       <div className="mt-10 flex items-baseline gap-3">
         <span className="eyebrow text-quiet">Chargement</span>
         <span className="font-display text-[15px] font-light tabular-nums text-ink">

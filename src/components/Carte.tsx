@@ -20,7 +20,7 @@ export function Carte() {
           parcours d'accessibilité. */}
       <LogoMark
         aria-hidden="true"
-        className="pointer-events-none absolute -right-[8%] top-[14%] -z-0 hidden w-[46vw] text-ink opacity-[0.045] md:block"
+        className="pointer-events-none absolute -right-[8%] top-[12%] hidden w-[46vw] text-ink opacity-[0.045] md:block"
       />
 
       <div className="pad-x relative z-10">

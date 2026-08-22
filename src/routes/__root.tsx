@@ -138,15 +138,25 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { name: "twitter:card", content: "summary_large_image" },
       { name: "twitter:title", content: TITLE },
       { name: "twitter:description", content: DESCRIPTION },
+      { property: "og:image", content: "/brand/koozina-logo-1024.png" },
+      { property: "og:image:alt", content: "Logo de Koozina Garden" },
+      { name: "twitter:image", content: "/brand/koozina-logo-1024.png" },
+      // Vert profond de la maison plutôt que l'olive du logo (#929261) : la
+      // barre du navigateur jouxte le hero, qui est sombre.
       { name: "theme-color", content: "#38422A" },
     ],
     links: [
       { rel: "stylesheet", href: appCss },
-      // SVG d'abord : les navigateurs modernes le préfèrent et il reste net à
-      // toute taille. Le .ico ne sert plus que de repli (vieux Safari, Windows).
+      // Kit de marque livré par le graphiste (public/). SVG d'abord : net à
+      // toute taille ; le .ico et les PNG servent de repli aux navigateurs qui
+      // ne lisent pas le SVG. Le 16 px utilise le poulpe simplifié — le badge
+      // complet devient illisible à cette taille.
       { rel: "icon", href: "/favicon.svg", type: "image/svg+xml" },
-      { rel: "icon", href: "/favicon.ico", sizes: "48x48" },
-      { rel: "apple-touch-icon", href: "/apple-touch-icon.png" },
+      { rel: "icon", href: "/favicon.ico", sizes: "any" },
+      { rel: "icon", href: "/favicon-32x32.png", type: "image/png", sizes: "32x32" },
+      { rel: "icon", href: "/favicon-16x16.png", type: "image/png", sizes: "16x16" },
+      { rel: "apple-touch-icon", href: "/apple-touch-icon.png", sizes: "180x180" },
+      { rel: "mask-icon", href: "/safari-pinned-tab.svg", color: "#929261" },
       { rel: "manifest", href: "/site.webmanifest" },
     ],
   }),
