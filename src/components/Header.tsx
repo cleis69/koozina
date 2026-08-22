@@ -105,7 +105,7 @@ export function Header() {
             className="-my-2 flex h-11 items-center gap-3 py-2"
             aria-label="Koozina Garden — accueil"
           >
-            <LogoMark className="h-7" />
+            <LogoMark className="h-7" interactive />
             <span className="font-display text-[15px] tracking-[0.14em]">
               KOOZINA <span className="italic text-poppy">Garden</span>
             </span>

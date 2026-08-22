@@ -1,5 +1,5 @@
-import { Reveal, RevealImage, SectionHead } from "./primitives";
-import courtyard from "@/assets/hero-courtyard.jpg";
+import { Reveal, SectionHead } from "./primitives";
+import { Picture } from "./Picture";
 
 const VALEURS = [
   {
@@ -70,11 +70,9 @@ export function Maison() {
               l'échelle éditoriale. Sur mobile elle revient dans la grille. */}
           <div className="lg:col-span-5 lg:col-start-8 lg:-mr-[var(--pad)]">
             <div className="relative">
-              <RevealImage
-                src={courtyard}
-                alt="La cour intérieure de Koozina Garden, ses arcades et ses tables en fer forgé"
-                width={1200}
-                height={1500}
+              <Picture
+                name="tagine-cour"
+                alt="Un tagine aux amandes servi dans la cour, les arcades rayées en arrière-plan"
                 ratio="4 / 5"
                 sizes="(max-width: 1024px) 100vw, 42vw"
               />

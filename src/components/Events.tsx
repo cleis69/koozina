@@ -2,10 +2,6 @@ import { useRef, useState } from "react";
 import { isCoarse } from "@/lib/anim";
 import { infos } from "@/data/menu";
 import { Dot, Reveal, SectionHead } from "./primitives";
-import eventTable from "@/assets/event-table.jpg";
-import terrace from "@/assets/gallery-terrace.jpg";
-import herbs from "@/assets/garden-herbs.jpg";
-import chef from "@/assets/gallery-chef.jpg";
 
 /**
  * 05 · Événements — liste éditoriale, aperçu photo qui suit le curseur.
@@ -21,28 +17,28 @@ const EVENTS = [
     date: "Chaque vendredi",
     titre: "Table d'hôtes",
     desc: "Un menu unique en cinq services, écrit le matin même. Douze couverts.",
-    img: eventTable,
+    img: "table-vichy",
     alt: "Grande table dressée pour un dîner",
   },
   {
     date: "Premier dimanche",
     titre: "Brunch au jardin",
     desc: "Buffet de la maison sous les arcades, de 10h à 14h.",
-    img: terrace,
+    img: "cour-arcades",
     alt: "La terrasse au petit matin",
   },
   {
     date: "Sur demande",
     titre: "Atelier cuisine",
     desc: "Marché avec le chef, puis cuisine à quatre mains. Quatre personnes.",
-    img: chef,
+    img: "table-zellige",
     alt: "Le chef en cuisine",
   },
   {
     date: "Privatisation",
     titre: "Le jardin pour vous",
     desc: "Anniversaires, tournages, réceptions. Jusqu'à quarante personnes.",
-    img: herbs,
+    img: "tagine-cour",
     alt: "Le jardin et ses herbes",
   },
 ] as const;
@@ -125,10 +121,10 @@ export function Events() {
         {EVENTS.map((ev, i) => (
           <img
             key={ev.titre}
-            src={ev.img}
+            src={`/photos/${ev.img}-640.webp`}
             alt=""
-            width={520}
-            height={650}
+            width={640}
+            height={800}
             loading="lazy"
             decoding="async"
             className={`h-[325px] w-full object-cover ${hover === i ? "block" : "hidden"}`}

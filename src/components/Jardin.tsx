@@ -1,21 +1,17 @@
 import { useRef } from "react";
 import { isCoarse, prefersReduced, useGsap } from "@/lib/anim";
 import { SectionHead } from "./primitives";
-import terrace from "@/assets/gallery-terrace.jpg";
-import herbs from "@/assets/garden-herbs.jpg";
-import table from "@/assets/gallery-table.jpg";
-import chef from "@/assets/gallery-chef.jpg";
-import pastilla from "@/assets/gallery-pastilla.jpg";
-import sardines from "@/assets/dish-sardines.jpg";
+import { Picture } from "./Picture";
 
 /** Cinq formats alternés : l'allure d'un reportage, pas d'une grille. */
+/** Uniquement des photos réelles du lieu, vérifiées une à une. */
 const TILES = [
-  { src: terrace, alt: "La terrasse ombragée sous les arbres", ratio: "3 / 4", w: 900, h: 1200 },
-  { src: herbs, alt: "Les herbes du jardin, cueillies le matin", ratio: "4 / 5", w: 1000, h: 1250 },
-  { src: table, alt: "Une table dressée, nappe vichy et vaisselle de la maison", ratio: "3 / 2", w: 1200, h: 800 },
-  { src: chef, alt: "En cuisine, au retour du marché", ratio: "1 / 1", w: 1000, h: 1000 },
-  { src: pastilla, alt: "Pastilla de poulet fermier M'rozia", ratio: "4 / 5", w: 1000, h: 1250 },
-  { src: sardines, alt: "Keftas de sardines façon makful, chermoula et herbes", ratio: "16 / 9", w: 1600, h: 900 },
+  { name: "cour-arcades", alt: "La cour et ses arcades rayées, la fresque du poulpe sur le mur", ratio: "3 / 2" },
+  { name: "table-vichy", alt: "Une table dressée sous les nappes vichy noir et blanc", ratio: "4 / 3" },
+  { name: "bowls-quinoa", alt: "Bols de quinoa, avocat et œuf poché servis en terre cuite", ratio: "3 / 4" },
+  { name: "table-zellige", alt: "Table en zellige vert : tagine de crevettes, brochettes et mezze", ratio: "16 / 9" },
+  { name: "tagine-cour", alt: "Tagine aux amandes, la cour en arrière-plan", ratio: "9 / 16" },
+  { name: "desserts", alt: "Basboussa à l'orange et crumble aux pommes", ratio: "4 / 3" },
 ];
 
 /**
@@ -86,26 +82,16 @@ export function Jardin() {
         >
           {TILES.map((t, i) => (
             <figure
-              key={t.src}
+              key={t.name}
               className="w-[68vw] shrink-0 sm:w-[44vw] lg:w-[30vw] xl:w-[26vw]"
-              style={{ marginTop: i % 2 ? "clamp(20px,4vw,64px)" : undefined }}
+              style={i % 2 ? { marginTop: "clamp(20px,4vw,64px)" } : undefined}
             >
-              <div
-                data-cursor="view"
-                className="overflow-hidden rounded-[4px] bg-green-night"
-                style={{ aspectRatio: t.ratio }}
-              >
-                <img
-                  src={t.src}
-                  alt={t.alt}
-                  width={t.w}
-                  height={t.h}
-                  loading="lazy"
-                  decoding="async"
-                  sizes="(max-width: 640px) 68vw, (max-width: 1024px) 44vw, 28vw"
-                  className="h-full w-full object-cover transition-transform duration-[1400ms] ease-editorial hover:scale-[1.045]"
-                />
-              </div>
+              <Picture
+                name={t.name}
+                alt={t.alt}
+                ratio={t.ratio}
+                sizes="(max-width: 640px) 68vw, (max-width: 1024px) 44vw, 28vw"
+              />
               <figcaption className="mt-3 flex items-baseline gap-3">
                 <span className="font-display text-[11px] font-light text-rose">
                   Fig. {String(i + 1).padStart(2, "0")}

@@ -3,7 +3,6 @@ import { infos } from "@/data/menu";
 import { E, useGsap } from "@/lib/anim";
 import { scrollToId } from "./SmoothScroll";
 import { Dot } from "./primitives";
-import courtyard from "@/assets/hero-courtyard.jpg";
 
 const facts = [
   { label: "Ouvert", value: infos.hours },
@@ -130,38 +129,44 @@ export function Hero() {
           enfant en z négatif passerait DERRIÈRE le `bg-ink` de la section et
           deviendrait invisible. */}
       <div data-hero-media className="absolute inset-0 z-0 scale-[1.12]">
-        <img
-          src={courtyard}
-          alt="La cour de Koozina Garden, ses arcades rayées et ses tables sous les arbres"
-          width={1600}
-          height={1067}
-          loading="eager"
-          fetchPriority="high"
-          decoding="async"
-          className="h-full w-full object-cover"
-        />
+        <picture>
+          <source
+            type="image/webp"
+            sizes="100vw"
+            srcSet="/photos/cour-arcades-640.webp 640w, /photos/cour-arcades-1080.webp 1080w, /photos/cour-arcades-1440.webp 1440w, /photos/cour-arcades-1920.webp 1920w"
+          />
+          <img
+            src="/photos/cour-arcades.jpg"
+            alt="La cour de Koozina Garden : arcades rayées ocre et blanc, fresque de poulpe peinte sur le mur, tables sous les palmiers"
+            width={2400}
+            height={1600}
+            loading="eager"
+            fetchPriority="high"
+            decoding="async"
+            className="h-full w-full object-cover"
+          />
+        </picture>
       </div>
 
-      {/* Voile : contraste garanti quelle que soit la photo.
-          ink 72 % en bas → transparent au tiers haut, plus un voile latéral
-          gauche pour le bloc de titre. */}
+      {/* Bande haute, uniquement pour la navigation.
+          Le titre n'est plus en surimpression : il est posé sur un cartouche
+          opaque (voir plus bas). Mesuré : sur cette photo, aucun dégradé —
+          vertical, latéral ou combiné — ne permettait au beige de tenir 3:1
+          sur le mur en plein soleil sans éteindre l'image. */}
       <div
         aria-hidden="true"
-        className="absolute inset-0 z-[1]"
+        className="absolute inset-x-0 top-0 z-[1] h-[38vh]"
         style={{
-          backgroundImage: [
-            // bande haute : protège la navigation, qui passe sur les arcades
-            // en plein soleil — c'est là que le contraste tombait le plus bas
-            "linear-gradient(to bottom, rgba(21,20,15,.68) 0%, rgba(21,20,15,.22) 14%, transparent 26%)",
-            // colonne de gauche : densifie le fond du bloc titre + sous-titre
-            "linear-gradient(to right, rgba(21,20,15,.62) 0%, rgba(21,20,15,.28) 42%, transparent 68%)",
-            // remontée depuis le bas : titre, CTA et bandeau de faits
-            "linear-gradient(to top, rgba(21,20,15,.92) 0%, rgba(21,20,15,.74) 26%, rgba(21,20,15,.42) 55%, transparent 80%)",
-          ].join(","),
+          backgroundImage:
+            "linear-gradient(to bottom, rgba(21,20,15,.84) 0%, rgba(21,20,15,.46) 34%, rgba(21,20,15,.12) 68%, transparent 100%)",
         }}
       />
 
+      {/* Cartouche éditorial : le type repose sur un aplat, jamais sur la photo.
+          Beige sur encre = 16,4:1, quelle que soit l'image qu'on y mettra
+          demain. C'est ce qui rend la composition indépendante du cliché. */}
       <div className="pad-x relative z-[2] w-full">
+        <div className="-mx-[var(--pad)] bg-ink/95 px-[var(--pad)] pb-8 pt-10 md:-mr-0 md:max-w-[62ch] md:rounded-tr-[4px] md:pb-10 md:pr-14 md:pt-12">
         <p
           data-intro
           className="eyebrow flex flex-wrap items-center gap-x-3 gap-y-2 text-beige/72"
@@ -213,6 +218,8 @@ export function Hero() {
               <span className="eyebrow">Voir la carte</span>
             </button>
           </div>
+        </div>
+
         </div>
 
         {/* Bandeau de faits — `gap` explicite : sans lui les colonnes se touchent

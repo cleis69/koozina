@@ -2,20 +2,14 @@ import { useEffect, useRef, useState } from "react";
 import { infos } from "@/data/menu";
 import { scrollToId } from "./SmoothScroll";
 import { sections } from "./sections";
-import gardenHerbs from "@/assets/garden-herbs.jpg";
-import courtyard from "@/assets/hero-courtyard.jpg";
-import pastilla from "@/assets/gallery-pastilla.jpg";
-import terrace from "@/assets/gallery-terrace.jpg";
-import shopCeramique from "@/assets/shop-ceramique.jpg";
-import eventTable from "@/assets/event-table.jpg";
 
 const images = [
-  courtyard,
-  pastilla,
-  gardenHerbs,
-  shopCeramique,
-  eventTable,
-  terrace,
+  "cour-arcades",
+  "table-vichy",
+  "bowls-quinoa",
+  "table-zellige",
+  "tagine-cour",
+  "desserts",
 ];
 
 export function MenuOverlay({
@@ -64,7 +58,7 @@ export function MenuOverlay({
     >
       <div className="pad-x relative flex h-full flex-col justify-between pb-10 pt-24 md:pt-32">
         <img
-          src={images[hover] ?? courtyard}
+          src={`/photos/${images[hover] ?? "cour-arcades"}-1080.webp`}
           alt=""
           aria-hidden="true"
           width={1600}
