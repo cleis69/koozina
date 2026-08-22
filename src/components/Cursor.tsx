@@ -8,6 +8,12 @@ export function Cursor() {
 
   useEffect(() => {
     if (isCoarse() || prefersReduced()) return;
+    // Le curseur de remplacement est `hidden md:block`. Masquer le curseur
+    // système en dehors de cette plage laissait l'utilisateur sans aucun
+    // curseur entre 0 et 768px sur pointeur fin (fenêtre réduite).
+    const fine = window.matchMedia("(min-width: 768px) and (pointer: fine)");
+    if (!fine.matches) return;
+
     const target = { x: window.innerWidth / 2, y: window.innerHeight / 2 };
     const pos = { ...target };
     let raf = 0;
@@ -42,11 +48,20 @@ export function Cursor() {
 
     window.addEventListener("pointermove", onMove, { passive: true });
     raf = requestAnimationFrame(loop);
-    document.documentElement.style.cursor = "none";
+
+    // `cursor: none` sur <html> masquait aussi le curseur texte des champs du
+    // formulaire de réservation : on le rétablit explicitement là où il porte
+    // une information.
+    const style = document.createElement("style");
+    style.textContent =
+      "html{cursor:none}" +
+      "input,textarea,select,[contenteditable]{cursor:auto}";
+    document.head.appendChild(style);
+
     return () => {
       window.removeEventListener("pointermove", onMove);
       cancelAnimationFrame(raf);
-      document.documentElement.style.cursor = "";
+      style.remove();
     };
   }, []);
 

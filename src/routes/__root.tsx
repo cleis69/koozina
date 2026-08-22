@@ -72,26 +72,82 @@ function ErrorComponent({ error, reset }: { error: Error; reset: () => void }) {
   );
 }
 
+const TITLE = "Koozina Garden — Restaurant & Shop · Médina d'Essaouira";
+const DESCRIPTION =
+  "Né de la mer, enraciné au jardin. Cuisine à l'huile d'olive et au beurre, " +
+  "écrite chaque matin au retour du marché. Bab Sbaa, médina d'Essaouira — " +
+  "ouvert tous les jours de 10h à 21h.";
+
+/**
+ * Données structurées : c'est le balisage le plus rentable pour un restaurant
+ * (horaires, note, gamme de prix et bouton d'appel directement dans les
+ * résultats Google). Rien ici n'est décoratif.
+ */
+const JSON_LD = {
+  "@context": "https://schema.org",
+  "@type": "Restaurant",
+  name: "Koozina Garden",
+  description: DESCRIPTION,
+  servesCuisine: ["Marocaine", "Méditerranéenne", "Poissons et fruits de mer"],
+  priceRange: "100–150 MAD",
+  telephone: "+212707059002",
+  address: {
+    "@type": "PostalAddress",
+    streetAddress: "Complexe Commercial Bin Al Aswar, Bab Sbaa",
+    addressLocality: "Essaouira",
+    postalCode: "44000",
+    addressCountry: "MA",
+  },
+  openingHoursSpecification: [
+    {
+      "@type": "OpeningHoursSpecification",
+      dayOfWeek: [
+        "Monday",
+        "Tuesday",
+        "Wednesday",
+        "Thursday",
+        "Friday",
+        "Saturday",
+        "Sunday",
+      ],
+      opens: "10:00",
+      closes: "21:00",
+    },
+  ],
+  aggregateRating: {
+    "@type": "AggregateRating",
+    ratingValue: "4.8",
+    reviewCount: "709",
+  },
+  sameAs: ["https://www.instagram.com/koozinagarden_essaouira/"],
+};
+
 export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()({
   head: () => ({
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Lovable App" },
-      { name: "description", content: "Lovable Generated Project" },
-      { name: "author", content: "Lovable" },
-      { property: "og:title", content: "Lovable App" },
-      { property: "og:description", content: "Lovable Generated Project" },
-      { property: "og:type", content: "website" },
+      { title: TITLE },
+      { name: "description", content: DESCRIPTION },
+      { name: "author", content: "Koozina Garden" },
+      { property: "og:title", content: TITLE },
+      { property: "og:description", content: DESCRIPTION },
+      { property: "og:type", content: "restaurant.restaurant" },
+      { property: "og:locale", content: "fr_MA" },
+      { property: "og:site_name", content: "Koozina Garden" },
       { name: "twitter:card", content: "summary_large_image" },
-      { name: "twitter:site", content: "@Lovable" },
+      { name: "twitter:title", content: TITLE },
+      { name: "twitter:description", content: DESCRIPTION },
+      { name: "theme-color", content: "#38422A" },
     ],
     links: [
-      {
-        rel: "stylesheet",
-        href: appCss,
-      },
-      { rel: "icon", href: "/favicon.ico", type: "image/x-icon" },
+      { rel: "stylesheet", href: appCss },
+      // SVG d'abord : les navigateurs modernes le préfèrent et il reste net à
+      // toute taille. Le .ico ne sert plus que de repli (vieux Safari, Windows).
+      { rel: "icon", href: "/favicon.svg", type: "image/svg+xml" },
+      { rel: "icon", href: "/favicon.ico", sizes: "48x48" },
+      { rel: "apple-touch-icon", href: "/apple-touch-icon.png" },
+      { rel: "manifest", href: "/site.webmanifest" },
     ],
   }),
   shellComponent: RootShell,
@@ -102,9 +158,14 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
 
 function RootShell({ children }: { children: ReactNode }) {
   return (
-    <html lang="en">
+    <html lang="fr">
       <head>
         <HeadContent />
+        <script
+          type="application/ld+json"
+          // Contenu statique défini dans ce fichier — aucune donnée externe.
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(JSON_LD) }}
+        />
       </head>
       <body>
         {children}

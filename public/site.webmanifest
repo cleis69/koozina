@@ -1,0 +1,23 @@
+{
+  "name": "Koozina Garden — Restaurant & Shop",
+  "short_name": "Koozina Garden",
+  "description": "Né de la mer, enraciné au jardin. Restaurant & shop, médina d'Essaouira.",
+  "lang": "fr",
+  "dir": "ltr",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#F7F1E6",
+  "theme_color": "#38422A",
+  "icons": [
+    { "src": "/favicon.svg", "sizes": "any", "type": "image/svg+xml" },
+    { "src": "/icon-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "/icon-512.png", "sizes": "512x512", "type": "image/png" },
+    {
+      "src": "/icon-512-maskable.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ]
+}

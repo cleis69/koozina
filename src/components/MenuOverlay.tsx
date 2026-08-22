@@ -34,12 +34,24 @@ export function MenuOverlay({
     if (!open) return;
     const onKey = (e: KeyboardEvent) => e.key === "Escape" && onClose();
     window.addEventListener("keydown", onKey);
+
+    // Le focus entre dans le menu à l'ouverture ; il repart au burger à la
+    // fermeture (géré par Header), pour que le clavier ne perde jamais sa place.
+    const first = root.current?.querySelector<HTMLElement>("nav button");
+    first?.focus({ preventScroll: true });
+
     return () => window.removeEventListener("keydown", onKey);
   }, [open, onClose]);
 
   return (
     <div
       ref={root}
+      id="menu-principal"
+      // `inert` retire réellement le sous-arbre du parcours clavier. Sans lui,
+      // les six liens du menu fermé restaient tabulables : la tabulation
+      // disparaissait dans un panneau invisible.
+      // React 19 le type en booléen — pas en chaîne vide comme l'attribut HTML.
+      inert={!open}
       aria-hidden={!open}
       className={`fixed inset-0 z-[65] bg-green-night transition-[clip-path,opacity] duration-[900ms] ease-editorial ${
         open ? "opacity-100" : "pointer-events-none opacity-0"
@@ -55,6 +67,8 @@ export function MenuOverlay({
           src={images[hover] ?? courtyard}
           alt=""
           aria-hidden="true"
+          width={1600}
+          height={1200}
           loading="lazy"
           className="pointer-events-none absolute inset-0 h-full w-full object-cover opacity-[0.16] transition-opacity duration-700 ease-editorial"
         />
@@ -94,14 +108,14 @@ export function MenuOverlay({
             {infos.address}
           </p>
           <div className="flex flex-col gap-2 text-[13px] md:items-end">
-            <a href={infos.phoneHref} className="link-underline">
+            <a href={infos.phoneHref} className="tap link-underline">
               {infos.phone}
             </a>
             <a
               href={infos.instagram}
               target="_blank"
               rel="noreferrer"
-              className="link-underline"
+              className="tap link-underline"
             >
               Instagram ↗
             </a>

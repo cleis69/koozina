@@ -1,37 +1,53 @@
 import { useRef, type ReactNode } from "react";
 import { E, useGsap } from "@/lib/anim";
+import { revealOnScroll, revealVars } from "@/lib/reveal";
 
-/* ── Titre découpé par caractères dans des masques ───────────────── */
+/* ── Titre découpé par caractères dans des masques ─────────────────
+ * Accessibilité : les lecteurs d'écran épellent un titre dont chaque
+ * lettre est un élément séparé. Le texte complet est donc porté par
+ * `aria-label`, et toute la découpe est masquée par `aria-hidden`.
+ */
 export function SplitTitle({
   text,
   className = "",
   as = "h2",
   accent,
+  accentClass = "text-poppy",
 }: {
   text: string;
   className?: string;
   as?: "h1" | "h2" | "h3";
   accent?: string | undefined;
+  /** le coquelicot pur tombe à 2,24 sur vert profond : sur fond sombre
+   *  l'accent passe au rose, qui tient 7:1. */
+  accentClass?: string;
 }) {
   const ref = useRef<HTMLElement>(null);
   const Tag = as as "h2";
+  const label = accent ? `${text} ${accent}` : text;
 
   useGsap(({ gsap, ScrollTrigger }) => {
     const el = ref.current;
     if (!el) return;
     const chars = el.querySelectorAll<HTMLElement>("[data-ch]");
-    const tw = gsap.from(chars, {
-      yPercent: 108,
-      duration: E.ink.d,
-      ease: E.ink.ease,
-      stagger: 0.024,
-      scrollTrigger: { trigger: el, start: "top 88%" },
-    });
-    return () => {
-      tw.scrollTrigger?.kill();
-      tw.kill();
-      ScrollTrigger.refresh();
-    };
+    if (!chars.length) return;
+
+    // le tween porte sur les caractères, le trigger sur le titre entier
+    return (
+      revealOnScroll(
+        gsap,
+        ScrollTrigger,
+        chars,
+        {
+          from: { yPercent: 108 },
+          yPercent: 0,
+          duration: E.ink.d,
+          ease: E.ink.ease,
+          stagger: 0.024,
+        },
+        el,
+      ) ?? undefined
+    );
   }, []);
 
   const render = (chunk: string, italic: boolean, offset: number) =>
@@ -42,21 +58,34 @@ export function SplitTitle({
             <span
               data-ch
               className={
-                italic ? "inline-block italic text-poppy" : "inline-block"
+                italic ? `inline-block italic ${accentClass}` : "inline-block"
               }
             >
               {c}
             </span>
           </span>
         ))}
-        <span className="inline-block">&nbsp;</span>
+        {wi < chunk.split(" ").length - 1 ? (
+          <span className="inline-block">&nbsp;</span>
+        ) : null}
       </span>
     ));
 
   return (
-    <Tag ref={ref as React.Ref<HTMLHeadingElement>} className={className}>
-      {render(text, false, 0)}
-      {accent ? render(accent, true, 1) : null}
+    <Tag
+      ref={ref as React.Ref<HTMLHeadingElement>}
+      className={className}
+      aria-label={label}
+    >
+      <span aria-hidden="true">
+        {render(text, false, 0)}
+        {accent ? (
+          <>
+            <span className="inline-block">&nbsp;</span>
+            {render(accent, true, 1)}
+          </>
+        ) : null}
+      </span>
     </Tag>
   );
 }
@@ -71,6 +100,7 @@ export function RevealImage({
   imgClassName = "",
   eager,
   ratio,
+  sizes,
 }: {
   src: string;
   alt: string;
@@ -80,24 +110,39 @@ export function RevealImage({
   imgClassName?: string;
   eager?: boolean | undefined;
   ratio?: string | undefined;
+  sizes?: string | undefined;
 }) {
   const ref = useRef<HTMLDivElement>(null);
 
-  useGsap(({ gsap }) => {
+  useGsap(({ gsap, ScrollTrigger }) => {
     const el = ref.current;
     if (!el) return;
     const img = el.querySelector("img");
-    const tl = gsap.timeline({
-      scrollTrigger: { trigger: el, start: "top 85%" },
-    });
-    tl.from(el, {
-      clipPath: "inset(0 0 100% 0)",
+
+    const volet = revealOnScroll(gsap, ScrollTrigger, el, {
+      from: { clipPath: "inset(0 0 100% 0)" },
+      clipPath: "inset(0 0 0% 0)",
       duration: 1.35,
       ease: E.ink.ease,
-    }).from(img, { scale: 1.32, duration: 1.8, ease: E.ink.ease }, 0);
+    });
+    const zoom = img
+      ? revealOnScroll(
+          gsap,
+          ScrollTrigger,
+          img,
+          {
+            from: { scale: 1.32 },
+            scale: 1,
+            duration: 1.8,
+            ease: E.ink.ease,
+          },
+          el,
+        )
+      : null;
+
     return () => {
-      tl.scrollTrigger?.kill();
-      tl.kill();
+      volet?.();
+      zoom?.();
     };
   }, []);
 
@@ -113,7 +158,9 @@ export function RevealImage({
         alt={alt}
         width={width}
         height={height}
+        {...(sizes ? { sizes } : {})}
         loading={eager ? "eager" : "lazy"}
+        {...(eager ? { fetchPriority: "high" as const } : {})}
         decoding="async"
         className={`h-full w-full object-cover transition-transform duration-[1400ms] ease-editorial hover:scale-[1.045] ${imgClassName}`}
       />
@@ -135,21 +182,10 @@ export function Reveal({
 }) {
   const ref = useRef<HTMLDivElement>(null);
 
-  useGsap(({ gsap }) => {
+  useGsap(({ gsap, ScrollTrigger }) => {
     const el = ref.current;
     if (!el) return;
-    const tw = gsap.from(el, {
-      y: 44,
-      opacity: 0,
-      delay,
-      duration: E[tempo].d,
-      ease: E[tempo].ease,
-      scrollTrigger: { trigger: el, start: "top 90%" },
-    });
-    return () => {
-      tw.scrollTrigger?.kill();
-      tw.kill();
-    };
+    return revealOnScroll(gsap, ScrollTrigger, el, revealVars(tempo, delay)) ?? undefined;
   }, []);
 
   return (
@@ -175,7 +211,10 @@ export function SectionHead({
   intro?: string | undefined;
   tone?: "light" | "dark";
 }) {
-  const numColor = tone === "dark" ? "text-poppy-light" : "text-poppy";
+  // 13px = petit texte, seuil 4,5. Sur fond clair le coquelicot pur ne fait
+  // que 3,7–4,2 selon la nuance de beige ; sur fond sombre poppy-light fait 2,5.
+  const numColor = tone === "dark" ? "text-rose" : "text-poppy-dark";
+  const accentColor = tone === "dark" ? "text-rose" : "text-poppy";
   const labelColor = tone === "dark" ? "text-beige/70" : "text-quiet";
   const titleColor = tone === "dark" ? "text-beige" : "text-ink";
 
@@ -193,6 +232,7 @@ export function SectionHead({
           <SplitTitle
             text={title}
             accent={accent}
+            accentClass={accentColor}
             className={`h-display ${titleColor} text-[clamp(28px,4.4vw,62px)]`}
           />
           {intro ? (

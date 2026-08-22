@@ -2,6 +2,22 @@
 @source "../src";
 @import "tw-animate-css";
 
+/* ── Polices de marque, auto-hébergées ───────────────────────────
+ * Zilla Slab est la police du logo : elle ne se substitue pas.
+ * Auto-hébergées plutôt que servies par un CDN, pour que l'identité
+ * tienne même si un tiers tombe. Sous-ensemble latin uniquement
+ * (le français y est entièrement couvert). font-display: swap est
+ * le défaut de Fontsource — le texte reste lisible pendant le chargement.
+ */
+@import "@fontsource/zilla-slab/latin-300.css";
+@import "@fontsource/zilla-slab/latin-300-italic.css";
+@import "@fontsource/zilla-slab/latin-500.css";
+@import "@fontsource/zilla-slab/latin-500-italic.css";
+/* 700 : uniquement pour le wordmark du logo, qui est nettement plus gras
+   que le display éditorial (300). */
+@import "@fontsource/zilla-slab/latin-700.css";
+@import "@fontsource-variable/jost/wght.css";
+
 /*
  * KOOZINA GARDEN — Mediterranean Botanical Editorial
  *
@@ -30,10 +46,13 @@
   --color-rose: #d9a6a0;
   --color-rose-wash: #f3e4e0;
   --color-rose-deep: #ad7068;
+  /* rose assombri : #ad7068 ne tenait que 3,21 sur rose-wash (seuil 4,5) */
+  --color-rose-ink: #8a5049;
   /* ÉDITORIAL */
   --color-ink: #15140f;
   --color-ink-2: #2a2820;
-  --color-quiet: #6e675a;
+  /* #6e675a passait sur beige (4,98) mais tombait à 4,36 sur beige-3 */
+  --color-quiet: #665f52;
 
   --font-display: "Zilla Slab", Rockwell, "Roboto Slab", Georgia, serif;
   --font-sans: "Jost", "Avenir Next", "Helvetica Neue", Arial, sans-serif;
@@ -47,27 +66,35 @@
   --pad: clamp(20px, 5vw, 88px);
   --ease: cubic-bezier(0.16, 1, 0.3, 1);
 
-  /* shadcn — alignés sur la palette maison */
+  /* ── shadcn : une seule source de vérité ──────────────────────────
+   * Les tokens sémantiques ne redéclarent aucune couleur : ils pointent
+   * vers la palette de marque définie dans @theme. Sans cela, un <Button>
+   * shadcn sort en noir (--primary = ink) au lieu du coquelicot, et le
+   * design system se scinde en deux au premier formulaire.
+   * Conséquence : `bg-primary` et `bg-poppy` sont garantis identiques.
+   */
   --radius: 4px;
-  --background: oklch(0.98 0.012 85);
-  --foreground: oklch(0.17 0.012 80);
-  --card: oklch(0.99 0.008 85);
-  --card-foreground: oklch(0.17 0.012 80);
-  --popover: oklch(0.99 0.008 85);
-  --popover-foreground: oklch(0.17 0.012 80);
-  --primary: oklch(0.17 0.012 80);
-  --primary-foreground: oklch(0.98 0.012 85);
-  --secondary: oklch(0.94 0.018 85);
-  --secondary-foreground: oklch(0.17 0.012 80);
-  --muted: oklch(0.94 0.018 85);
-  --muted-foreground: oklch(0.53 0.02 80);
-  --accent: oklch(0.94 0.018 85);
-  --accent-foreground: oklch(0.17 0.012 80);
-  --destructive: oklch(0.53 0.19 28);
-  --destructive-foreground: oklch(0.98 0.012 85);
-  --border: oklch(0.17 0.012 80 / 14%);
-  --input: oklch(0.17 0.012 80 / 22%);
-  --ring: oklch(0.58 0.08 122);
+  --background: var(--color-beige);
+  --foreground: var(--color-ink);
+  --card: var(--color-paper);
+  --card-foreground: var(--color-ink);
+  --popover: var(--color-paper);
+  --popover-foreground: var(--color-ink);
+  /* le coquelicot est la couleur de l'action — 5 % de la surface, 100 % des CTA */
+  --primary: var(--color-poppy);
+  --primary-foreground: var(--color-paper);
+  --secondary: var(--color-green);
+  --secondary-foreground: var(--color-paper);
+  --muted: var(--color-beige-2);
+  /* #6e675a : la seule valeur qui passe AA sur beige (4,98) et sur rose (4,53) */
+  --muted-foreground: var(--color-quiet);
+  --accent: var(--color-beige-3);
+  --accent-foreground: var(--color-ink);
+  --destructive: var(--color-poppy-dark);
+  --destructive-foreground: var(--color-paper);
+  --border: color-mix(in oklab, var(--color-ink) 14%, transparent);
+  --input: color-mix(in oklab, var(--color-ink) 22%, transparent);
+  --ring: var(--color-green);
 }
 
 @theme inline {
@@ -206,6 +233,28 @@
   display: inline-block;
   overflow: hidden;
   vertical-align: top;
+}
+
+/* ── Zone tactile ────────────────────────────────────────────────
+ * Un lien de texte fait 20 px de haut : sous la barre des 44 px exigée
+ * au doigt. On étend la zone cliquable par un pseudo-élément plutôt que
+ * par du padding, pour ne rien déplacer dans la composition éditoriale.
+ */
+@utility tap {
+  position: relative;
+
+  /* ::before, et non ::after : `link-underline` possède déjà l'::after de ces
+     mêmes liens (le filet de soulignement). Deux utilitaires ne peuvent pas
+     se partager un pseudo-élément — le second écrasait le premier. */
+  &::before {
+    content: "";
+    position: absolute;
+    left: -6px;
+    right: -6px;
+    top: 50%;
+    height: max(44px, 100%);
+    transform: translateY(-50%);
+  }
 }
 
 @utility link-underline {
