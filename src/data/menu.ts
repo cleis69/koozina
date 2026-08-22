@@ -181,5 +181,7 @@ export const infos = {
   instagramHandle: "@koozinagarden_essaouira",
   hours: "10h — 21h",
   budget: "100 — 150 dh / personne",
-  google: "4,8 ★ · 709 avis",
+  // Le nombre d'avis varie selon la source et la date (591, 688, 709 relevés) :
+  // on n'affiche que la note, qui est stable et vérifiable.
+  google: "4,8 ★ Google",
 };

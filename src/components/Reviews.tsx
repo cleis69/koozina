@@ -1,41 +1,55 @@
-import { useEffect, useRef, useState } from "react";
-import { fr, prefersReduced, useGsap } from "@/lib/anim";
+import { useEffect, useState } from "react";
+import { useGsap } from "@/lib/anim";
+import { useRef } from "react";
 import { Reveal } from "./primitives";
 
-const CHIFFRES = [
-  { to: 4.8, dec: 1, label: "Note Google", suffix: " ★" },
-  { to: 709, dec: 0, label: "Avis Google", suffix: "" },
-  { to: 4.9, dec: 1, label: "Tripadvisor", suffix: " ★" },
-];
-
+/**
+ * Avis — **uniquement des témoignages réels, attribués**.
+ *
+ * La version précédente affichait trois citations inventées signées de noms
+ * inventés. Elles sont retirées : on ne fabrique pas de témoignage pour un
+ * commerce réel.
+ *
+ * Ceux-ci sont des avis Google publics, repris mot pour mot, avec le nom
+ * affiché par leur auteur et la date. Ils sont en anglais parce qu'ils ont été
+ * écrits en anglais — traduire un témoignage sans le dire serait le falsifier.
+ *
+ * Source : agrégateur public Wanderlog (fiche Google du restaurant),
+ * consulté le 22 août 2026.
+ */
 const AVIS = [
   {
     texte:
-      "Une adresse qu'on garde pour soi. Le jardin est un secret en pleine médina, et l'assiette suit.",
-    nom: "Camille R.",
-    source: "Google",
+      "The crispy octopus on creamy mashed potatoes is a dish worth reordering—dressed with vibrant herbs and juicy tomatoes.",
+    nom: "Claire J.",
+    date: "janvier 2026",
   },
   {
     texte:
-      "Les keftas de sardines valent le détour à eux seuls. Service attentif, sans être guindé.",
-    nom: "Youssef B.",
-    source: "Tripadvisor",
+      "The chicken pastilla was absolutely outstanding, perfectly balanced, delicately spiced, crispy on the outside and wonderfully tender inside.",
+    nom: "Berdah M.",
+    date: "janvier 2026",
   },
   {
     texte:
-      "Nous y sommes retournés trois fois en une semaine. Le menu du jour n'a jamais déçu.",
-    nom: "Anna M.",
-    source: "Google",
+      "The sardine meatball keftas are perfectly seasoned and melt-in-the-mouth delicious, showcasing the best of local provenance.",
+    nom: "Jamie M.",
+    date: "octobre 2025",
+  },
+  {
+    texte:
+      "We had the most delicious John Dory. The plate was a work of art and every morsel was delicious.",
+    nom: "Bl K.",
+    date: "février 2026",
   },
 ] as const;
 
-/** Compteur animé, format fr-FR, qui se contente d'afficher sa valeur si GSAP manque. */
 function Compteur({ to, dec, suffix }: { to: number; dec: number; suffix: string }) {
   const el = useRef<HTMLSpanElement>(null);
   const format = (v: number) =>
-    dec ? v.toFixed(dec).replace(".", ",") : fr(Math.round(v));
+    dec ? v.toFixed(dec).replace(".", ",") : String(Math.round(v));
 
-  useGsap(({ gsap, ScrollTrigger }) => {
+  useGsap(({ gsap }) => {
     const node = el.current;
     if (!node) return;
     const o = { v: 0 };
@@ -62,8 +76,9 @@ export function Reviews() {
   const [i, setI] = useState(0);
 
   useEffect(() => {
-    if (prefersReduced()) return;
-    const t = window.setInterval(() => setI((v) => (v + 1) % AVIS.length), 6500);
+    const m = window.matchMedia("(prefers-reduced-motion: reduce)");
+    if (m.matches) return;
+    const t = window.setInterval(() => setI((v) => (v + 1) % AVIS.length), 7000);
     return () => window.clearInterval(t);
   }, []);
 
@@ -71,30 +86,35 @@ export function Reviews() {
     <section aria-labelledby="avis-titre" className="sec bg-beige-2">
       <div className="pad-x">
         <h2 id="avis-titre" className="sr-only">
-          Ce qu'on dit de nous
+          Ce qu'en disent les clients
         </h2>
 
         <div className="grid gap-16 lg:grid-cols-12 lg:gap-10">
-          <div className="lg:col-span-4">
-            <dl className="space-y-10">
-              {CHIFFRES.map((c) => (
-                <Reveal key={c.label}>
-                  <div>
-                    <dt className="eyebrow text-quiet">{c.label}</dt>
-                    <dd className="mt-2 font-display text-[clamp(34px,4.4vw,58px)] font-light leading-none tracking-[-0.03em] text-ink">
-                      <Compteur to={c.to} dec={c.dec} suffix={c.suffix} />
-                    </dd>
-                  </div>
-                </Reveal>
-              ))}
-            </dl>
+          <div className="lg:col-span-3">
+            <Reveal>
+              <dl className="flex gap-12 lg:flex-col lg:gap-10">
+                <div>
+                  <dt className="eyebrow text-quiet">Google</dt>
+                  <dd className="mt-2 font-display text-[clamp(36px,4.6vw,62px)] font-light leading-none tracking-[-0.03em] text-ink">
+                    <Compteur to={4.8} dec={1} suffix="" />
+                    <span className="ml-2 align-top text-[0.42em] text-poppy">★</span>
+                  </dd>
+                </div>
+                <div>
+                  <dt className="eyebrow text-quiet">Tripadvisor</dt>
+                  <dd className="mt-2 font-display text-[clamp(36px,4.6vw,62px)] font-light leading-none tracking-[-0.03em] text-ink">
+                    <Compteur to={4.9} dec={1} suffix="" />
+                    <span className="ml-2 align-top text-[0.42em] text-poppy">★</span>
+                  </dd>
+                </div>
+              </dl>
+            </Reveal>
           </div>
 
-          <div className="lg:col-span-7 lg:col-start-6">
+          <div className="lg:col-span-8 lg:col-start-5">
             <Reveal delay={0.08}>
-              {/* Hauteur réservée : la rotation des avis ne doit pas faire
-                  sauter la mise en page (CLS). */}
-              <blockquote className="relative min-h-[210px] md:min-h-[190px]">
+              {/* Hauteur réservée : la rotation ne doit pas faire sauter la page. */}
+              <blockquote className="relative min-h-[260px] sm:min-h-[220px] md:min-h-[200px]">
                 {AVIS.map((a, idx) => (
                   <div
                     key={a.nom}
@@ -103,19 +123,22 @@ export function Reviews() {
                       idx === i ? "opacity-100" : "absolute inset-0 opacity-0"
                     }`}
                   >
-                    <p className="font-display text-[clamp(20px,2.5vw,32px)] font-light leading-[1.35] tracking-[-0.02em] text-ink">
+                    <p
+                      lang="en"
+                      className="font-display text-[clamp(19px,2.4vw,31px)] font-light italic leading-[1.4] tracking-[-0.02em] text-ink"
+                    >
                       « {a.texte} »
                     </p>
-                    <footer className="mt-6 flex items-center gap-3 text-[12.5px] text-quiet">
+                    <footer className="mt-6 flex flex-wrap items-center gap-x-3 gap-y-1 text-[12.5px] text-quiet">
                       <cite className="not-italic">{a.nom}</cite>
                       <span aria-hidden="true" className="h-px w-6 bg-ink/25" />
-                      <span>{a.source}</span>
+                      <span>Avis Google · {a.date}</span>
                     </footer>
                   </div>
                 ))}
               </blockquote>
 
-              <div className="mt-8 flex gap-2.5" role="tablist" aria-label="Avis">
+              <div className="mt-8 flex gap-1" role="tablist" aria-label="Avis clients">
                 {AVIS.map((a, idx) => (
                   <button
                     key={a.nom}
