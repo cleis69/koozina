@@ -53,7 +53,27 @@ export function Carte() {
           </p>
         </Reveal>
 
-        <div className="mt-16 grid gap-x-16 gap-y-20 md:mt-24 lg:grid-cols-2 lg:gap-x-24">
+        {/* Index des catégories.
+            Neuf catégories et trente-trois plats : sans point d'entrée, le
+            lecteur doit tout parcourir pour savoir s'il y a un petit-déjeuner.
+            Ces pastilles sont des ancres — elles n'ajoutent aucune information,
+            elles rendent la carte navigable. */}
+        <nav aria-label="Catégories de la carte" className="mt-14 md:mt-16">
+          <ul className="flex flex-wrap gap-2.5">
+            {menu.map((cat) => (
+              <li key={cat.id}>
+                <a
+                  href={`#cat-${cat.id}`}
+                  className="tap inline-flex items-center rounded-[4px] border border-ink/20 px-4 py-2.5 font-display text-[13.5px] font-light text-ink transition-colors duration-[340ms] ease-editorial hover:border-poppy hover:bg-poppy hover:text-paper focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-poppy"
+                >
+                  {cat.title}
+                </a>
+              </li>
+            ))}
+          </ul>
+        </nav>
+
+        <div className="mt-16 grid gap-x-16 gap-y-20 md:mt-20 lg:grid-cols-2 lg:gap-x-24">
           {menu.map((cat, i) => (
             <div key={cat.id} className="break-inside-avoid">
               <Reveal delay={(i % 2) * 0.05}>
@@ -61,7 +81,10 @@ export function Carte() {
                   <header className="border-t border-ink/14 pt-5">
                     <h3
                       id={`cat-${cat.id}`}
-                      className="font-display text-[clamp(22px,2.4vw,32px)] font-light italic leading-tight tracking-[-0.02em] text-poppy"
+                      /* La marge de defilement porte sur l element que le lien
+                         cible reellement (le titre, pas la section), sinon
+                         l ancre atterrit sous le header fixe. */
+                      className="scroll-mt-28 md:scroll-mt-36 font-display text-[clamp(24px,2.9vw,40px)] font-light italic leading-[1.05] tracking-[-0.03em] text-poppy"
                     >
                       {cat.title}
                     </h3>

@@ -38,13 +38,34 @@ export function revealOnScroll(
   // l'intro du hero gérer sa propre chorégraphie.
   if (isInViewport(trig)) return null;
 
+  let guard = 0;
+
   const tw = gsap.fromTo(target, from, {
     ...to,
     immediateRender: false,
-    scrollTrigger: { trigger: trig, start: "top 88%", once: true },
+    scrollTrigger: {
+      trigger: trig,
+      start: "top 88%",
+      once: true,
+      onEnter: () => {
+        // Filet de sécurité : `immediateRender: false` protège du cas où le
+        // trigger ne se déclenche jamais. Il ne protège pas du cas inverse —
+        // le trigger parle, GSAP écrit l'état caché, puis le ticker s'arrête
+        // (il tourne sur requestAnimationFrame). Le bloc resterait alors à
+        // opacity 0 pour toujours.
+        //
+        // setTimeout ne dépend pas de rAF : si le tween n'a pas bougé au bout
+        // de 2,5 s, on le pousse à son état final. L'animation est un bonus,
+        // jamais une condition d'existence du contenu.
+        guard = window.setTimeout(() => {
+          if (tw.progress() === 0) tw.progress(1);
+        }, 2500);
+      },
+    },
   });
 
   return () => {
+    window.clearTimeout(guard);
     tw.scrollTrigger?.kill();
     tw.kill();
   };

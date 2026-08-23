@@ -97,14 +97,24 @@ export function Reviews() {
                   <dt className="eyebrow text-quiet">Google</dt>
                   <dd className="mt-2 font-display text-[clamp(36px,4.6vw,62px)] font-light leading-none tracking-[-0.03em] text-ink">
                     <Compteur to={4.8} dec={1} suffix="" />
-                    <span className="ml-2 align-top text-[0.42em] text-poppy">★</span>
+                    <span
+                      aria-hidden="true"
+                      className="ml-2 align-top text-[0.42em] text-poppy-dark"
+                    >
+                      ★
+                    </span>
                   </dd>
                 </div>
                 <div>
                   <dt className="eyebrow text-quiet">Tripadvisor</dt>
                   <dd className="mt-2 font-display text-[clamp(36px,4.6vw,62px)] font-light leading-none tracking-[-0.03em] text-ink">
                     <Compteur to={4.9} dec={1} suffix="" />
-                    <span className="ml-2 align-top text-[0.42em] text-poppy">★</span>
+                    <span
+                      aria-hidden="true"
+                      className="ml-2 align-top text-[0.42em] text-poppy-dark"
+                    >
+                      ★
+                    </span>
                   </dd>
                 </div>
               </dl>

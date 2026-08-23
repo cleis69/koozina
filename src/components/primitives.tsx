@@ -233,7 +233,7 @@ export function SectionHead({
             text={title}
             accent={accent}
             accentClass={accentColor}
-            className={`h-display ${titleColor} text-[clamp(28px,4.4vw,62px)]`}
+            className={`h-display ${titleColor} text-[clamp(31px,5.4vw,78px)]`}
           />
           {intro ? (
             <Reveal delay={0.12}>
