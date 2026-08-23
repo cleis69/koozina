@@ -22,7 +22,7 @@ export function Footer() {
                 <li key={s.id}>
                   <button
                     onClick={() => scrollToId(s.id)}
-                    className="tap link-underline text-[14px] text-quiet transition-colors duration-300 hover:text-ink"
+                    className="tap press link-underline text-[14px] text-quiet transition-colors duration-300 hover:text-ink"
                   >
                     {s.label}
                   </button>

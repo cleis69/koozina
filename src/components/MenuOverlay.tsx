@@ -76,7 +76,7 @@ export function MenuOverlay({
                 onClose();
                 setTimeout(() => scrollToId(s.id), 260);
               }}
-              className="group block w-full border-b border-beige/12 py-4 text-left transition-colors duration-[340ms] ease-editorial md:py-5"
+              className="press group block w-full border-b border-beige/12 py-4 text-left transition-colors duration-[340ms] ease-editorial md:py-5"
               style={{
                 transitionDelay: open ? `${i * 70 + 260}ms` : "0ms",
                 opacity: open ? 1 : 0,

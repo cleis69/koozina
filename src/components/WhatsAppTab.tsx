@@ -19,7 +19,7 @@ export function WhatsAppTab() {
         href={infos.whatsapp}
         target="_blank"
         rel="noreferrer"
-        className={`fixed right-0 top-1/2 z-50 hidden -translate-y-1/2 bg-green px-3 py-6 text-paper transition-all duration-[600ms] ease-editorial hover:bg-[#25D366] hover:text-ink md:block ${
+        className={`fixed right-0 top-1/2 z-50 hidden -translate-y-1/2 bg-green px-3 py-6 text-paper transition-[transform,opacity,background-color,color] duration-[600ms] ease-editorial hover:bg-[#25D366] hover:text-ink active:scale-[0.97] md:block ${
           shown ? "translate-x-0 opacity-100" : "translate-x-full opacity-0"
         }`}
         style={{ borderRadius: "4px 0 0 4px" }}
@@ -37,7 +37,7 @@ export function WhatsAppTab() {
         target="_blank"
         rel="noreferrer"
         aria-label="Réserver par WhatsApp"
-        className={`fixed bottom-5 right-5 z-50 flex h-14 w-14 items-center justify-center rounded-full bg-green text-paper shadow-lg transition-all duration-[600ms] ease-editorial md:hidden ${
+        className={`fixed bottom-5 right-5 z-50 flex h-14 w-14 items-center justify-center rounded-full bg-green text-paper shadow-lg transition-[transform,opacity] duration-[600ms] ease-editorial active:scale-[0.94] md:hidden ${
           shown ? "translate-y-0 opacity-100" : "translate-y-24 opacity-0"
         }`}
       >

@@ -164,10 +164,10 @@ export function Reviews() {
                     aria-selected={idx === i}
                     aria-label={`Avis de ${a.nom}`}
                     onClick={() => setI(idx)}
-                    className="flex h-11 w-11 items-center justify-center focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-poppy"
+                    className="press flex h-11 w-11 items-center justify-center focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-poppy"
                   >
                     <span
-                      className={`block h-[5px] rounded-full transition-all duration-[340ms] ease-editorial ${
+                      className={`block h-[5px] rounded-full transition-[width,background-color] duration-200 ease-editorial ${
                         idx === i ? "w-7 bg-poppy" : "w-[5px] bg-ink/25"
                       }`}
                     />

@@ -102,7 +102,7 @@ export function Header() {
         <div className="pad-x flex h-[68px] items-center justify-between md:h-[76px]">
           <button
             onClick={() => scrollToId("maison")}
-            className="-my-2 flex h-11 items-center gap-3 py-2"
+            className="press -my-2 flex h-11 items-center gap-3 py-2"
             aria-label="Koozina Garden — accueil"
           >
             <LogoMark className="h-7" interactive />
@@ -116,7 +116,7 @@ export function Header() {
               <button
                 key={s.id}
                 onClick={() => scrollToId(s.id)}
-                className={`eyebrow tap link-underline transition-opacity duration-300 ${
+                className={`eyebrow tap press link-underline transition-opacity duration-200 ${
                   current === s.id ? "opacity-100" : "opacity-60 hover:opacity-100"
                 }`}
               >
@@ -128,7 +128,7 @@ export function Header() {
           <div className="flex items-center gap-6">
             <button
               onClick={() => scrollToId("reservation")}
-              className="eyebrow tap group hidden items-center gap-2 sm:flex"
+              className="eyebrow tap press group hidden items-center gap-2 sm:flex"
             >
               <Dot className="transition-transform duration-[340ms] ease-editorial group-hover:scale-[1.6]" />
               Réserver
@@ -185,7 +185,7 @@ export function Header() {
             key={s.id}
             onClick={() => scrollToId(s.id)}
             aria-label={s.label}
-            className={`tap flex w-6 justify-center font-display text-[11px] font-light transition-all duration-[340ms] ease-editorial ${
+            className={`tap press flex w-6 justify-center font-display text-[11px] font-light transition-[color,opacity] duration-200 ease-editorial ${
               current === s.id
                 ? dark
                   ? "text-poppy-light"

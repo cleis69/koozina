@@ -232,6 +232,18 @@
    Le hover vit dans le bloc via `&:hover` : `@utility nom:hover` n'est pas une
    syntaxe valide, et cette erreur empechait l'emission de TOUTES les utilities
    suivantes — les boutons perdaient jusqu'a leur hauteur. */
+/* Retour de pression.
+   Un element pressable sans etat :active ne dit jamais qu'il a entendu le
+   clic. Echelle subtile (0,97), 160 ms : assez rapide pour etre percu comme
+   une reponse et non comme une animation. */
+@utility press {
+  transition: transform 160ms cubic-bezier(0.23, 1, 0.32, 1);
+
+  &:active {
+    transform: scale(0.97);
+  }
+}
+
 @utility pill {
   display: inline-flex;
   align-items: center;
@@ -244,14 +256,25 @@
   font-size: 11px;
   letter-spacing: 0.14em;
   text-transform: uppercase;
+  /* 200 ms plutot que 340 : sur un CTA, le survol doit repondre, pas
+     s'installer. Les longues durees sont reservees aux revelations au scroll. */
   transition:
-    background-color 0.34s var(--ease),
-    color 0.34s var(--ease),
-    border-color 0.34s var(--ease),
-    transform 0.34s var(--ease);
+    background-color 200ms var(--ease),
+    color 200ms var(--ease),
+    border-color 200ms var(--ease),
+    transform 160ms cubic-bezier(0.23, 1, 0.32, 1);
 
-  &:hover {
-    transform: translateY(-2px);
+  /* Garde explicite : les variantes `hover:` de Tailwind sont deja enveloppees
+     dans @media (hover:hover), mais un `&:hover` ecrit a la main y echappe —
+     sur mobile l'etat survole reste colle apres le tap. */
+  @media (hover: hover) and (pointer: fine) {
+    &:hover {
+      transform: translateY(-2px);
+    }
+  }
+
+  &:active {
+    transform: scale(0.97);
   }
 }
 
@@ -315,8 +338,10 @@
     transition: transform 0.34s var(--ease);
   }
 
-  &:hover::after {
-    transform: scaleX(1);
+  @media (hover: hover) and (pointer: fine) {
+    &:hover::after {
+      transform: scaleX(1);
+    }
   }
 }
 

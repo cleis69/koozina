@@ -64,7 +64,7 @@ export function Carte() {
               <li key={cat.id}>
                 <a
                   href={`#cat-${cat.id}`}
-                  className="tap type-mass inline-flex items-center rounded-full border-2 border-ink px-5 py-3 text-[13px] text-ink transition-colors duration-[340ms] ease-editorial hover:bg-ink hover:text-paper focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-poppy"
+                  className="tap type-mass inline-flex items-center rounded-full border-2 border-ink px-5 py-3 text-[13px] text-ink press transition-colors duration-200 ease-editorial hover:bg-ink hover:text-paper focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-poppy"
                 >
                   {cat.title}
                 </a>
