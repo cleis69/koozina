@@ -16,6 +16,7 @@
 /* 700 : uniquement pour le wordmark du logo, qui est nettement plus gras
    que le display éditorial (300). */
 @import "@fontsource/zilla-slab/latin-700.css";
+@import "@fontsource/zilla-slab/latin-700-italic.css";
 @import "@fontsource-variable/jost/wght.css";
 
 /*
@@ -211,6 +212,47 @@
   font-weight: 300;
   line-height: 0.94;
   letter-spacing: -0.035em;
+}
+
+
+/* ── Registre graphique : masse, aplats, capitales ─────────────────
+ * Zilla Slab 700 en capitales, approche negative. Un slab a plus de
+ * coffre qu'une geometrique a poids egal : la masse vient du plein des
+ * empattements, pas d'une graisse ajoutee.
+ */
+@utility type-mass {
+  font-family: var(--font-display);
+  font-weight: 700;
+  text-transform: uppercase;
+  line-height: 0.86;
+  letter-spacing: -0.035em;
+}
+
+/* Pastille pleine, la forme des CTA de ce registre.
+   Le hover vit dans le bloc via `&:hover` : `@utility nom:hover` n'est pas une
+   syntaxe valide, et cette erreur empechait l'emission de TOUTES les utilities
+   suivantes — les boutons perdaient jusqu'a leur hauteur. */
+@utility pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.625rem;
+  border-radius: 999px;
+  padding: 0 1.75rem;
+  height: 3rem;
+  font-family: var(--font-sans);
+  font-weight: 500;
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  transition:
+    background-color 0.34s var(--ease),
+    color 0.34s var(--ease),
+    border-color 0.34s var(--ease),
+    transform 0.34s var(--ease);
+
+  &:hover {
+    transform: translateY(-2px);
+  }
 }
 
 /* ── Le vichy des nappes — seul motif autorisé ───────────────────── */

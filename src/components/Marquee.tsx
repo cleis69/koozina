@@ -54,7 +54,7 @@ export function Marquee() {
   return (
     <div
       aria-hidden="true"
-      className="relative z-[4] overflow-hidden bg-ink py-4 text-beige"
+      className="relative z-[4] overflow-hidden bg-poppy py-5 text-paper"
     >
       <div ref={track} className="flex w-max will-change-transform">
         {[0, 1].map((copy) => (
@@ -62,10 +62,10 @@ export function Marquee() {
             {WORDS.map((w) => (
               <span
                 key={w}
-                className="flex items-center gap-9 whitespace-nowrap pr-9 font-display text-[clamp(15px,1.6vw,20px)] font-light italic opacity-90"
+                className="type-mass flex items-center gap-9 whitespace-nowrap pr-9 text-[clamp(17px,2vw,26px)]"
               >
                 {w}
-                <span className="h-1 w-1 shrink-0 rounded-full bg-poppy" />
+                <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-paper/70" />
               </span>
             ))}
           </div>

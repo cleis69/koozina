@@ -209,18 +209,29 @@ export function SectionHead({
   title: string;
   accent?: string | undefined;
   intro?: string | undefined;
-  tone?: "light" | "dark";
+  /**
+   * `light`  fonds beige et papier
+   * `dark`   fonds vert profond et vert nuit
+   * `solid`  aplats saturés (coquelicot) — troisième cas necessaire : le rose
+   *          de l'accent tombe a 2,24 sur le coquelicot, et le blanc casse
+   *          n'y tient que par sa clarte. Numero et accent passent en papier.
+   */
+  tone?: "light" | "dark" | "solid";
 }) {
   // 13px = petit texte, seuil 4,5. Sur fond clair le coquelicot pur ne fait
   // que 3,7–4,2 selon la nuance de beige ; sur fond sombre poppy-light fait 2,5.
-  const numColor = tone === "dark" ? "text-rose" : "text-poppy-dark";
-  const accentColor = tone === "dark" ? "text-rose" : "text-poppy";
-  const labelColor = tone === "dark" ? "text-beige/70" : "text-quiet";
-  const titleColor = tone === "dark" ? "text-beige" : "text-ink";
+  const clair = tone !== "light";
+  const numColor =
+    tone === "solid" ? "text-paper" : tone === "dark" ? "text-rose" : "text-poppy-dark";
+  const accentColor =
+    tone === "solid" ? "text-paper/85" : tone === "dark" ? "text-rose" : "text-poppy";
+  const labelColor =
+    tone === "solid" ? "text-paper/80" : tone === "dark" ? "text-beige/70" : "text-quiet";
+  const titleColor = clair ? (tone === "solid" ? "text-paper" : "text-beige") : "text-ink";
 
   return (
     <header className="relative">
-      <div className={tone === "dark" ? "rule text-beige" : "rule text-ink"} />
+      <div className={clair ? "rule text-beige" : "rule text-ink"} />
       <div className="relative pt-6 md:pt-8">
         <div className="flex items-baseline gap-5 md:absolute md:left-0 md:top-8">
           <span className={`font-display text-[13px] font-light ${numColor}`}>
@@ -233,13 +244,17 @@ export function SectionHead({
             text={title}
             accent={accent}
             accentClass={accentColor}
-            className={`h-display ${titleColor} text-[clamp(31px,5.4vw,78px)]`}
+            className={`type-mass ${titleColor} text-[clamp(34px,6.6vw,96px)]`}
           />
           {intro ? (
             <Reveal delay={0.12}>
               <p
                 className={`mt-6 max-w-[46ch] text-[14px] leading-[1.75] md:text-[15.5px] ${
-                  tone === "dark" ? "text-beige/72" : "text-quiet"
+                  tone === "solid"
+                    ? "text-paper/85"
+                    : tone === "dark"
+                      ? "text-beige/72"
+                      : "text-quiet"
                 }`}
               >
                 {intro}

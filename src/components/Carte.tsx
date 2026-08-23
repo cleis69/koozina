@@ -59,12 +59,12 @@ export function Carte() {
             Ces pastilles sont des ancres — elles n'ajoutent aucune information,
             elles rendent la carte navigable. */}
         <nav aria-label="Catégories de la carte" className="mt-14 md:mt-16">
-          <ul className="flex flex-wrap gap-2.5">
+          <ul className="flex flex-wrap gap-3">
             {menu.map((cat) => (
               <li key={cat.id}>
                 <a
                   href={`#cat-${cat.id}`}
-                  className="tap inline-flex items-center rounded-[4px] border border-ink/20 px-4 py-2.5 font-display text-[13.5px] font-light text-ink transition-colors duration-[340ms] ease-editorial hover:border-poppy hover:bg-poppy hover:text-paper focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-poppy"
+                  className="tap type-mass inline-flex items-center rounded-full border-2 border-ink px-5 py-3 text-[13px] text-ink transition-colors duration-[340ms] ease-editorial hover:bg-ink hover:text-paper focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-poppy"
                 >
                   {cat.title}
                 </a>

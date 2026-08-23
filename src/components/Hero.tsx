@@ -207,15 +207,15 @@ export function Hero() {
           <div data-intro className="flex flex-wrap gap-3">
             <button
               onClick={() => scrollToId("reservation")}
-              className="group inline-flex h-12 items-center gap-2.5 rounded-[4px] bg-poppy px-7 text-paper transition-colors duration-[340ms] ease-editorial hover:bg-poppy-dark focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-3 focus-visible:outline-paper"
+              className="pill bg-poppy text-paper hover:bg-paper hover:text-ink focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-3 focus-visible:outline-paper"
             >
-              <span className="eyebrow">Réserver une table</span>
+              Réserver une table
             </button>
             <button
               onClick={() => scrollToId("carte")}
-              className="inline-flex h-12 items-center rounded-[4px] border border-beige/35 px-7 text-beige transition-colors duration-[340ms] ease-editorial hover:border-beige hover:bg-beige/10 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-3 focus-visible:outline-paper"
+              className="pill border-2 border-beige/60 text-beige hover:bg-beige hover:text-ink focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-3 focus-visible:outline-paper"
             >
-              <span className="eyebrow">Voir la carte</span>
+              Voir la carte
             </button>
           </div>
         </div>

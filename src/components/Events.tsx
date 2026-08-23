@@ -21,7 +21,8 @@ export function Events() {
   return (
     <section
       id="evenements"
-      className="sec bg-beige-3"
+      data-tone="dark"
+      className="sec sec-dark bg-poppy text-paper"
     >
       <div className="pad-x">
         <SectionHead
@@ -30,16 +31,17 @@ export function Events() {
           title="Le jardin"
           accent="se réserve"
           intro="Tables d'hôtes, brunchs, ateliers, privatisations. Le lieu se prête aux occasions qui demandent de la place et du calme."
+          tone="solid"
         />
         <div className="mt-16 grid gap-12 md:mt-24 lg:grid-cols-12 lg:gap-10">
           <div className="lg:col-span-5">
             <Reveal tempo="green">
-              <p className="text-[15px] leading-[1.8] text-quiet md:text-[16px]">
+              <p className="text-[15px] leading-[1.8] text-paper/90 md:text-[16px]">
                 La cour se privatise : grandes tablées, anniversaires,
                 réceptions. L'enseigne annonce d'ailleurs autant les événements
                 que la table.
               </p>
-              <p className="mt-6 text-[14px] leading-[1.75] text-quiet">
+              <p className="mt-6 text-[14px] leading-[1.75] text-paper/85">
                 Le calendrier des rendez-vous réguliers est en cours de
                 confirmation. Pour une date précise ou une privatisation, le
                 plus direct reste WhatsApp — l'équipe répond dans la journée.
@@ -57,7 +59,7 @@ export function Events() {
         </div>
 
         <Reveal delay={0.1}>
-          <p className="mt-12 flex items-center gap-3 text-[13.5px] text-quiet">
+          <p className="mt-12 flex items-center gap-3 text-[13.5px] text-paper/90">
             <Dot />
             Écrivez-nous sur WhatsApp au {infos.phone} pour toute demande.
           </p>

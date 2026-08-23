@@ -185,10 +185,10 @@ export function Booking() {
                 <div className="sm:col-span-2">
                   <button
                     type="submit"
-                    className="group inline-flex h-12 items-center gap-3 rounded-[4px] bg-poppy px-8 text-paper transition-colors duration-[340ms] ease-editorial hover:bg-poppy-dark focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-3 focus-visible:outline-beige"
+                    className="pill group bg-poppy text-paper hover:bg-beige hover:text-ink focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-3 focus-visible:outline-beige"
                   >
                     <Dot className="bg-paper transition-transform duration-[340ms] ease-editorial group-hover:scale-[1.6]" />
-                    <span className="eyebrow">Envoyer sur WhatsApp</span>
+                    Envoyer sur WhatsApp
                   </button>
                   <p className="mt-4 text-[12.5px] leading-relaxed text-beige/55">
                     Le formulaire ouvre WhatsApp avec votre demande déjà écrite.
