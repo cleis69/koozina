@@ -119,9 +119,17 @@ export function Reviews() {
                   <div
                     key={a.nom}
                     aria-hidden={idx !== i}
-                    className={`transition-opacity duration-[900ms] ease-editorial ${
-                      idx === i ? "opacity-100" : "absolute inset-0 opacity-0"
-                    }`}
+                    /* La citation active est opaque sans transition : elle ne
+                       dépend d'aucune animation pour exister. Seules les
+                       sortantes s'effacent. Mesuré : quand le moteur de frames
+                       est gelé (onglet en arrière-plan, économie d'énergie),
+                       un fondu d'entrée n'avance jamais — la citation annoncée
+                       aux lecteurs d'écran serait restée invisible. */
+                    className={
+                      idx === i
+                        ? "opacity-100"
+                        : "absolute inset-0 opacity-0 transition-opacity duration-[900ms] ease-editorial"
+                    }
                   >
                     <p
                       lang="en"
