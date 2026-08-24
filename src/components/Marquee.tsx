@@ -59,10 +59,10 @@ export function Marquee() {
             {WORDS.map((w) => (
               <span
                 key={w}
-                className="type-mass flex items-center gap-9 whitespace-nowrap pr-9 text-[clamp(17px,2vw,26px)]"
+                className="flex items-center gap-6 whitespace-nowrap pr-6 font-display text-[clamp(15px,1.5vw,19px)]"
               >
                 {w}
-                <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-paper/70" />
+                <span className="shrink-0 text-[0.8em] text-paper/70">✳</span>
               </span>
             ))}
           </div>

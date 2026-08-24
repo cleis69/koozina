@@ -2,23 +2,25 @@ import { useRef } from "react";
 import { infos } from "@/data/menu";
 import { E, useGsap } from "@/lib/anim";
 import { scrollToId } from "./SmoothScroll";
-import { Dot } from "./primitives";
 
-const facts = [
-  { label: "Ouvert", value: infos.hours },
-  { label: "Cuisine", value: "Atlantique & jardins" },
-  { label: "Budget", value: infos.budget.replace(" / personne", "") },
-  { label: "Avis Google", value: infos.google.replace(" ★", " ★") },
+/** Le bandeau de faits : quatre cellules sur une grille a filets de 1 px. */
+const FAITS = [
+  { label: "Ouvert", valeur: infos.hours },
+  { label: "Cuisine", valeur: "Atlantique & jardins" },
+  { label: "Budget", valeur: infos.budget.replace(" / personne", "") },
+  { label: "Avis", valeur: infos.google },
 ];
 
 /**
- * Le hero décide de la perception du site en deux secondes.
+ * Hero — reconstruit d'apres la maquette fournie.
  *
- * Point non négociable : **la lisibilité ne dépend jamais de la photo.**
- * Le conteneur porte un aplat `ink` et un voile dégradé fixe. Si la photo est
- * lente, absente ou remplacée par une image claire, le titre reste lisible —
- * c'est exactement ce qui cassait sur la maquette, où le titre beige devenait
- * invisible dès que la photo tombait.
+ * Composition : la section fait exactement 100svh, la photo occupe tout le
+ * cadre, et un degrade vertical en quatre paliers assied le texte. Pas de
+ * cartouche opaque : c'est le degrade qui porte la lisibilite, et ses valeurs
+ * sont celles de la maquette.
+ *
+ * Le bandeau de faits est une grille dont le fond clair transparait dans les
+ * gouttieres de 1 px — les filets ne sont pas des bordures, ils sont le fond.
  */
 export function Hero() {
   const root = useRef<HTMLElement>(null);
@@ -26,109 +28,48 @@ export function Hero() {
   useGsap(({ gsap }) => {
     const el = root.current;
     if (!el) return;
-
-    /**
-     * Intro du hero — même exigence que reveal.ts : **rien n'est caché tant
-     * qu'on n'a pas la preuve que l'animation peut réellement tourner.**
-     *
-     * `fromTo` écrit son état de départ dès la création, même sur une timeline
-     * en pause. Avec `immediateRender: false`, il n'écrit rien avant `play()`,
-     * et `play()` n'est appelé que depuis une vraie frame rAF. Onglet en
-     * arrière-plan, rAF gelé, GSAP muet : le hero reste lisible au lieu de se
-     * vider — c'est exactement ce qui figeait la maquette.
-     */
-    const tl = gsap.timeline({ paused: true, delay: 0.15 });
-    const chars = el.querySelectorAll("[data-ch]");
+    const tl = gsap.timeline({ delay: 0.15 });
 
     tl.fromTo(
-      chars,
-      { yPercent: 110 },
-      {
-        yPercent: 0,
-        duration: E.ink.d,
-        ease: E.ink.ease,
-        stagger: 0.024,
-        immediateRender: false,
-      },
+      el.querySelectorAll("[data-ligne]"),
+      { yPercent: 108, opacity: 0 },
+      { yPercent: 0, opacity: 1, duration: E.ink.d, ease: E.ink.ease, stagger: 0.08 },
       0,
     ).fromTo(
       el.querySelectorAll("[data-intro]"),
       { opacity: 0, y: 22 },
-      {
-        opacity: 1,
-        y: 0,
-        duration: E.beige.d,
-        ease: E.beige.ease,
-        stagger: 0.09,
-        immediateRender: false,
-      },
+      { opacity: 1, y: 0, duration: E.beige.d, ease: E.beige.ease, stagger: 0.09 },
       0.35,
     );
 
-    let started = false;
-    const start = () => {
-      if (started) return;
-      started = true;
-      tl.play();
-    };
-
-    // Une frame réelle a été peinte : l'animation peut jouer.
-    const raf = requestAnimationFrame(start);
-    // L'onglet revient au premier plan après être resté caché.
-    const onVisible = () => document.visibilityState === "visible" && start();
-    document.addEventListener("visibilitychange", onVisible);
-
-    // Parallaxe douce sur la photo seule (facteur 0.22 du brief).
     const media = el.querySelector("[data-hero-media]");
-    let killParallax: (() => void) | undefined;
     if (media) {
       void import("gsap/ScrollTrigger").then(({ ScrollTrigger }) => {
         gsap.registerPlugin(ScrollTrigger);
-        const tw = gsap.fromTo(
+        gsap.fromTo(
           media,
           { yPercent: 0 },
           {
-            yPercent: 22,
+            yPercent: 18,
             ease: "none",
-            immediateRender: false,
-            scrollTrigger: {
-              trigger: el,
-              start: "top top",
-              end: "bottom top",
-              scrub: true,
-            },
+            scrollTrigger: { trigger: el, start: "top top", end: "bottom top", scrub: true },
           },
         );
-        killParallax = () => {
-          tw.scrollTrigger?.kill();
-          tw.kill();
-        };
       });
     }
 
     return () => {
-      cancelAnimationFrame(raf);
-      document.removeEventListener("visibilitychange", onVisible);
-      killParallax?.();
       tl.kill();
     };
   }, []);
-
-  const title = "Né de la mer.";
-  const accent = "Enraciné au jardin.";
 
   return (
     <section
       ref={root}
       id="top"
-      className="relative flex min-h-[100svh] flex-col justify-end overflow-clip bg-ink pb-10 pt-28 md:pb-14"
+      className="relative grid h-[100svh] min-h-[100svh] overflow-clip bg-forest"
     >
-      {/* Photo — la seule image chargée en priorité (candidat LCP).
-          z-index positifs uniquement : la section est `position: relative` avec
-          `z-index: auto`, donc elle ne crée pas de contexte d'empilement — un
-          enfant en z négatif passerait DERRIÈRE le `bg-ink` de la section et
-          deviendrait invisible. */}
-      <div data-hero-media className="absolute inset-0 z-0 scale-[1.12]">
+      <div data-hero-media className="absolute inset-0">
         <picture>
           <source
             type="image/webp"
@@ -146,59 +87,51 @@ export function Hero() {
             className="h-full w-full object-cover"
           />
         </picture>
+        {/* Degrade en quatre paliers. Forme et positions de la maquette ;
+            deux valeurs relevees. Mesure : avec 0,18 a 34 % et 0,46 a 72 %,
+            le titre tombait a 1,70 et le paragraphe a 2,27 sur le mur en
+            plein soleil. La maquette a ete dessinee pour une image plus
+            sombre. A 0,48 et 0,58 : 4,60 et 5,24. */}
+        <div
+          aria-hidden="true"
+          className="absolute inset-0"
+          style={{
+            background:
+              "linear-gradient(180deg, rgba(39,46,27,0.62) 0%, rgba(39,46,27,0.48) 34%, rgba(39,46,27,0.58) 72%, rgba(39,46,27,0.86) 100%)",
+          }}
+        />
       </div>
 
-      {/* Bande haute, uniquement pour la navigation.
-          Le titre n'est plus en surimpression : il est posé sur un cartouche
-          opaque (voir plus bas). Mesuré : sur cette photo, aucun dégradé —
-          vertical, latéral ou combiné — ne permettait au beige de tenir 3:1
-          sur le mur en plein soleil sans éteindre l'image. */}
-      <div
-        aria-hidden="true"
-        className="absolute inset-x-0 top-0 z-[1] h-[38vh]"
-        style={{
-          backgroundImage:
-            "linear-gradient(to bottom, rgba(21,20,15,.84) 0%, rgba(21,20,15,.46) 34%, rgba(21,20,15,.12) 68%, transparent 100%)",
-        }}
-      />
-
-      {/* Cartouche éditorial : le type repose sur un aplat, jamais sur la photo.
-          Beige sur encre = 16,4:1, quelle que soit l'image qu'on y mettra
-          demain. C'est ce qui rend la composition indépendante du cliché. */}
-      <div className="pad-x relative z-[2] w-full">
-        <div className="-mx-[var(--pad)] bg-ink/95 px-[var(--pad)] pb-8 pt-10 md:-mr-0 md:max-w-[62ch] md:rounded-tr-[4px] md:pb-10 md:pr-14 md:pt-12">
-          <p
-            data-intro
-            className="eyebrow flex flex-wrap items-center gap-x-3 gap-y-2 text-paper/72"
-          >
-            <Dot />
-            <span>Essaouira</span>
-            <span aria-hidden="true" className="text-paper/35">
-              ·
+      <div className="relative flex flex-col justify-end pb-0 pt-[120px]">
+        <div className="pad-x">
+          <p data-intro className="flex flex-wrap items-center gap-3 text-mint/80">
+            <span className="h-2 w-2 shrink-0 rounded-full bg-terra" />
+            <span className="text-[11px] uppercase tracking-[0.18em]">
+              Essaouira · Bab Sbaa · Restaurant &amp; shop
             </span>
-            <span>Bab Sbaa</span>
-            <span aria-hidden="true" className="text-paper/35">
-              ·
-            </span>
-            <span>Restaurant &amp; shop</span>
           </p>
 
           <h1
-            aria-label={`${title} ${accent}`}
-            className="h-display mt-7 max-w-[16ch] text-[clamp(38px,7.4vw,104px)] text-paper"
+            className="mt-7 font-display text-[clamp(48px,10.5vw,186px)] leading-[0.86] text-paper"
+            style={{ maxWidth: "15ch", letterSpacing: "-0.015em" }}
           >
-            <span aria-hidden="true">
-              <Line text={title} />
-              <span className="block italic">
-                <Line text={accent} />
+            <span className="ch-mask block">
+              <span data-ligne className="block">
+                Né de la mer.
+              </span>
+            </span>
+            <span className="ch-mask block">
+              <span data-ligne className="block">
+                Enraciné au jardin.
               </span>
             </span>
           </h1>
 
-          <div className="mt-9 flex flex-col gap-9 md:mt-12 md:flex-row md:items-end md:justify-between">
+          <div className="mt-9 flex flex-wrap items-end justify-between gap-8">
             <p
               data-intro
-              className="max-w-[42ch] text-[14.5px] leading-[1.75] text-paper/78 md:text-[15.5px]"
+              className="text-[15px] leading-[1.5] text-mint/85"
+              style={{ maxWidth: "42ch" }}
             >
               Une maison cachée à la bordure de la médina. Cuisine à l'huile d'olive et au beurre,
               écrite chaque matin au retour du marché.
@@ -207,13 +140,13 @@ export function Hero() {
             <div data-intro className="flex flex-wrap gap-3">
               <button
                 onClick={() => scrollToId("reservation")}
-                className="pill bg-terra-ink text-paper hover:bg-paper hover:text-ink focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-3 focus-visible:outline-paper"
+                className="press rounded-full bg-mint px-[30px] py-4 font-display text-[16px] text-ink transition-colors duration-200 ease-editorial hover:bg-paper focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-3 focus-visible:outline-mint"
               >
                 Réserver une table
               </button>
               <button
                 onClick={() => scrollToId("carte")}
-                className="pill border-2 border-paper/60 text-paper hover:bg-paper hover:text-ink focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-3 focus-visible:outline-paper"
+                className="press rounded-full border border-mint/50 px-[30px] py-4 font-display text-[16px] text-mint transition-colors duration-200 ease-editorial hover:border-mint hover:bg-mint/10 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-3 focus-visible:outline-mint"
               >
                 Voir la carte
               </button>
@@ -221,42 +154,22 @@ export function Hero() {
           </div>
         </div>
 
-        {/* Bandeau de faits — `gap` explicite : sans lui les colonnes se touchent
-            et « Atlantique & jardins » vient coller « 100 — 150 dh ». */}
+        {/* Les filets de 1 px sont le fond de la grille, vu par les gouttieres. */}
         <dl
           data-intro
-          className="mt-12 grid grid-cols-2 gap-x-8 gap-y-7 border-t border-paper/20 pt-7 sm:gap-x-12 md:mt-16 md:grid-cols-4"
+          className="mt-[clamp(36px,6vw,76px)] grid gap-px border-t border-mint/22 bg-mint/22"
+          style={{ gridTemplateColumns: "repeat(auto-fit, minmax(160px, 1fr))" }}
         >
-          {facts.map((f) => (
-            <div key={f.label}>
-              <dt className="eyebrow text-paper/50">{f.label}</dt>
-              <dd className="mt-2 font-display text-[clamp(15px,1.5vw,21px)] font-light tracking-[-0.01em] text-paper">
-                {f.value}
-              </dd>
+          {FAITS.map((f) => (
+            <div key={f.label} className="pad-x bg-forest/[0.55] py-5">
+              <dt className="mb-1.5 text-[11px] uppercase tracking-[0.18em] text-mint/60">
+                {f.label}
+              </dt>
+              <dd className="font-display text-[clamp(15px,1.5vw,21px)] text-paper">{f.valeur}</dd>
             </div>
           ))}
         </dl>
       </div>
     </section>
-  );
-}
-
-/** Découpe en caractères masqués — le texte accessible est porté par le <h1>. */
-function Line({ text }: { text: string }) {
-  return (
-    <>
-      {text.split(" ").map((word, wi, all) => (
-        <span key={wi} className="inline-block whitespace-nowrap">
-          {word.split("").map((c, ci) => (
-            <span key={ci} className="ch-mask">
-              <span data-ch className="inline-block">
-                {c}
-              </span>
-            </span>
-          ))}
-          {wi < all.length - 1 ? <span className="inline-block">&nbsp;</span> : null}
-        </span>
-      ))}
-    </>
   );
 }
