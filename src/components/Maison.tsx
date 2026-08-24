@@ -41,8 +41,11 @@ export function Maison() {
           intro="Notre emblème dit tout du lieu : un poulpe pour le port et l'Atlantique à cinq minutes, des coquelicots pour le jardin qui pousse derrière le mur."
         />
 
-        <div className="mt-16 grid gap-12 md:mt-24 lg:grid-cols-12 lg:gap-x-10">
-          <div className="lg:col-span-5 lg:col-start-2">
+        <div className="mt-10 grid gap-10 md:mt-14 lg:grid-cols-12 lg:gap-x-10">
+          <div // Colonne 1, pas 2 : c'etait le dernier bloc a flotter a 183 px
+            // quand tout le reste tient la marge a 72.
+            className="lg:col-span-5 lg:col-start-1"
+          >
             <Reveal>
               <div className="space-y-6 text-[14.5px] leading-[1.8] text-quiet md:text-[15.5px]">
                 <p>
@@ -88,7 +91,7 @@ export function Maison() {
         </div>
 
         {/* Les trois valeurs : le vert entre en scène. */}
-        <div className="mt-28 grid gap-x-10 gap-y-12 border-t border-ink/12 pt-14 md:mt-36 md:grid-cols-3">
+        <div className="mt-16 grid gap-x-10 gap-y-10 border-t border-ink/12 pt-10 md:mt-20 md:grid-cols-3">
           {VALEURS.map((v, i) => (
             <Reveal key={v.n} tempo="green" delay={i * 0.08}>
               <article>

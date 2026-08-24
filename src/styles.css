@@ -63,7 +63,10 @@
 }
 
 :root {
-  --sec-y: clamp(96px, 13vw, 210px);
+  /* Mesure a 375 px : 1 496 px de padding de section, soit 13 % de la page,
+     avant meme de compter les ecarts entre blocs. Ramene a une valeur qui
+     respire sans separer. */
+  --sec-y: clamp(52px, 6.5vw, 116px);
   --pad: clamp(20px, 5vw, 88px);
   --ease: cubic-bezier(0.16, 1, 0.3, 1);
 

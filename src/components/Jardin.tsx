@@ -91,7 +91,7 @@ export function Jardin() {
 
       {/* Rail : `overflow-x: auto` en base — le pin GSAP le pilote en plus,
           il ne le remplace pas. */}
-      <div className="mt-14 overflow-x-auto pb-4 md:mt-20 lg:overflow-visible [scrollbar-width:thin]">
+      <div className="mt-9 overflow-x-auto pb-4 md:mt-12 lg:overflow-visible [scrollbar-width:thin]">
         <div ref={track} className="flex w-max gap-5 pl-[var(--pad)] pr-[var(--pad)] md:gap-8">
           {TILES.map((t, i) => (
             <figure

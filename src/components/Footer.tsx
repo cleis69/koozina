@@ -5,7 +5,7 @@ import { sections } from "./sections";
 
 export function Footer() {
   return (
-    <footer className="relative bg-beige-3 pb-10 pt-[clamp(72px,9vw,140px)]">
+    <footer className="relative bg-beige-3 pb-9 pt-[clamp(48px,6vw,96px)]">
       <div className="pad-x">
         <div className="grid gap-14 lg:grid-cols-12 lg:gap-10">
           <div className="lg:col-span-4">
@@ -64,7 +64,7 @@ export function Footer() {
         </div>
 
         {/* Le vichy des nappes en séparateur — le seul motif autorisé. */}
-        <div aria-hidden="true" className="vichy mt-16 h-[6px] w-full opacity-[0.16]" />
+        <div aria-hidden="true" className="vichy mt-10 h-[6px] w-full opacity-[0.16]" />
 
         <div className="mt-7 flex flex-col gap-3 text-[12px] text-quiet sm:flex-row sm:items-center sm:justify-between">
           <p>© {new Date().getFullYear()} Koozina Garden — Essaouira, Maroc.</p>

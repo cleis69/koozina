@@ -60,26 +60,18 @@ export function SplitTitle({
           <span key={ci} className="ch-mask">
             <span
               data-ch
-              className={
-                italic ? `inline-block italic ${accentClass}` : "inline-block"
-              }
+              className={italic ? `inline-block italic ${accentClass}` : "inline-block"}
             >
               {c}
             </span>
           </span>
         ))}
-        {wi < chunk.split(" ").length - 1 ? (
-          <span className="inline-block">&nbsp;</span>
-        ) : null}
+        {wi < chunk.split(" ").length - 1 ? <span className="inline-block">&nbsp;</span> : null}
       </span>
     ));
 
   return (
-    <Tag
-      ref={ref as React.Ref<HTMLHeadingElement>}
-      className={className}
-      aria-label={label}
-    >
+    <Tag ref={ref as React.Ref<HTMLHeadingElement>} className={className} aria-label={label}>
       <span aria-hidden="true">
         {render(text, false, 0)}
         {accent ? (
@@ -245,37 +237,42 @@ export function SectionHead({
   return (
     <header className="relative">
       <div className={clair ? "rule text-beige" : "rule text-ink"} />
-      <div className="relative pt-6 md:pt-8">
-        <div className="flex items-baseline gap-5 md:absolute md:left-0 md:top-8">
-          <span className={`font-display text-[13px] font-light ${numColor}`}>
-            {num}
-          </span>
+      {/* Un seul bord gauche.
+          La version precedente posait le numero en marge et decalait le titre
+          de 104 px. Mesure a 1440 px : trois bords distincts coexistaient sur
+          la meme page — 72 pour le numero, 176 pour le titre, 72 ou 183 pour
+          le corps selon la section. Un ecart de 7 px n'est pas un parti pris,
+          c'est une gouttiere qui a fui. Numero, titre, intro et corps
+          partagent desormais la marge : rien ne peut plus deriver. */}
+      <div className="pt-5 md:pt-6">
+        <div className="flex items-baseline gap-4">
+          <span className={`font-display text-[12px] font-light ${numColor}`}>{num}</span>
           <span className={`eyebrow ${labelColor}`}>{label}</span>
         </div>
-        <div className="mt-5 md:mt-0 md:pl-[104px]">
-          <SplitTitle
-            text={title}
-            accent={accent}
-            accentClass={accentColor}
-            className={`type-mass ${titleColor} text-[clamp(29px,4.9vw,72px)]`}
-            stack
-          />
-          {intro ? (
-            <Reveal delay={0.12}>
-              <p
-                className={`mt-6 max-w-[46ch] text-[14px] leading-[1.75] md:text-[15.5px] ${
-                  tone === "solid"
-                    ? "text-paper/85"
-                    : tone === "dark"
-                      ? "text-beige/72"
-                      : "text-quiet"
-                }`}
-              >
-                {intro}
-              </p>
-            </Reveal>
-          ) : null}
-        </div>
+
+        <SplitTitle
+          text={title}
+          accent={accent}
+          accentClass={accentColor}
+          className={`type-mass mt-4 ${titleColor} text-[clamp(29px,4.9vw,72px)]`}
+          stack
+        />
+
+        {intro ? (
+          <Reveal delay={0.12}>
+            <p
+              className={`mt-5 max-w-[46ch] text-[14px] leading-[1.7] md:text-[15px] ${
+                tone === "solid"
+                  ? "text-paper/85"
+                  : tone === "dark"
+                    ? "text-beige/72"
+                    : "text-quiet"
+              }`}
+            >
+              {intro}
+            </p>
+          </Reveal>
+        ) : null}
       </div>
     </header>
   );
@@ -284,8 +281,6 @@ export function SectionHead({
 /* ── Ponctuation : point rouge de 5px ────────────────────────────── */
 export function Dot({ className = "" }: { className?: string }) {
   return (
-    <span
-      className={`inline-block h-[5px] w-[5px] shrink-0 rounded-full bg-poppy ${className}`}
-    />
+    <span className={`inline-block h-[5px] w-[5px] shrink-0 rounded-full bg-poppy ${className}`} />
   );
 }

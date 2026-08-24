@@ -27,7 +27,7 @@ export function Events() {
           intro="Tables d'hôtes, brunchs, ateliers, privatisations. Le lieu se prête aux occasions qui demandent de la place et du calme."
           tone="solid"
         />
-        <div className="mt-16 grid gap-12 md:mt-24 lg:grid-cols-12 lg:gap-10">
+        <div className="mt-10 grid gap-10 md:mt-14 lg:grid-cols-12 lg:gap-10">
           <div className="lg:col-span-5">
             <Reveal tempo="green">
               <p className="text-[15px] leading-[1.8] text-paper/90 md:text-[16px]">
@@ -52,7 +52,7 @@ export function Events() {
         </div>
 
         <Reveal delay={0.1}>
-          <p className="mt-12 flex items-center gap-3 text-[13.5px] text-paper/90">
+          <p className="mt-8 flex items-center gap-3 text-[13.5px] text-paper/90">
             <Dot />
             Écrivez-nous sur WhatsApp au {infos.phone} pour toute demande.
           </p>

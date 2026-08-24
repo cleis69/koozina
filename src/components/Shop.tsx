@@ -28,7 +28,7 @@ export function Shop() {
           intro="Le lieu n'est pas qu'une table : l'enseigne annonce aussi un shop et des événements, dans la cour même."
         />
 
-        <div className="mt-16 grid gap-12 md:mt-24 lg:grid-cols-12 lg:gap-10">
+        <div className="mt-10 grid gap-10 md:mt-14 lg:grid-cols-12 lg:gap-10">
           <div className="lg:col-span-5 lg:col-start-1">
             <Reveal tempo="rose">
               <p className="text-[15px] leading-[1.8] text-quiet md:text-[16px]">
@@ -44,7 +44,7 @@ export function Shop() {
                 href={infos.whatsapp}
                 target="_blank"
                 rel="noreferrer"
-                className="group mt-10 inline-flex h-12 items-center gap-3 rounded-[4px] border border-ink/25 px-7 text-ink transition-colors duration-[340ms] ease-editorial hover:border-ink hover:bg-ink hover:text-paper focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-3 focus-visible:outline-poppy"
+                className="group mt-8 inline-flex h-12 items-center gap-3 rounded-[4px] border border-ink/25 px-7 text-ink transition-colors duration-[340ms] ease-editorial hover:border-ink hover:bg-ink hover:text-paper focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-3 focus-visible:outline-poppy"
               >
                 <Dot className="transition-transform duration-[340ms] ease-editorial group-hover:scale-[1.6]" />
                 <span className="eyebrow">Demander sur WhatsApp</span>

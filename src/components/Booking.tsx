@@ -53,7 +53,7 @@ export function Booking() {
           tone="dark"
         />
 
-        <div className="mt-16 grid gap-14 md:mt-24 lg:grid-cols-12 lg:gap-10">
+        <div className="mt-10 grid gap-10 md:mt-14 lg:grid-cols-12 lg:gap-10">
           {/* Coordonnées */}
           <div className="lg:col-span-4">
             <Reveal tempo="green">

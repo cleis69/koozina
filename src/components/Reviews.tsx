@@ -88,7 +88,7 @@ export function Reviews() {
           Ce qu'en disent les clients
         </h2>
 
-        <div className="grid gap-16 lg:grid-cols-12 lg:gap-10">
+        <div className="grid gap-10 lg:grid-cols-12 lg:gap-10">
           <div className="lg:col-span-3">
             <Reveal>
               <dl className="flex gap-12 lg:flex-col lg:gap-10">
