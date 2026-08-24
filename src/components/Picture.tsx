@@ -53,10 +53,18 @@ export function Picture({
       ease: E.ink.ease,
     });
     const zoom = img
-      ? revealOnScroll(gsap, ScrollTrigger, img,
-          { from: { scale: 1.28 }, scale: 1, duration: 1.8, ease: E.ink.ease }, el)
+      ? revealOnScroll(
+          gsap,
+          ScrollTrigger,
+          img,
+          { from: { scale: 1.28 }, scale: 1, duration: 1.8, ease: E.ink.ease },
+          el,
+        )
       : null;
-    return () => { volet?.(); zoom?.(); };
+    return () => {
+      volet?.();
+      zoom?.();
+    };
   }, []);
 
   return (

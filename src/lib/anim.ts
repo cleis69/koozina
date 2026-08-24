@@ -10,12 +10,10 @@ export const E = {
 } as const;
 
 export const prefersReduced = () =>
-  typeof window !== "undefined" &&
-  window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  typeof window !== "undefined" && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
 export const isCoarse = () =>
-  typeof window !== "undefined" &&
-  window.matchMedia("(pointer: coarse)").matches;
+  typeof window !== "undefined" && window.matchMedia("(pointer: coarse)").matches;
 
 type GsapCtx = {
   gsap: typeof import("gsap").gsap;
@@ -27,10 +25,7 @@ type GsapCtx = {
  * Règle absolue : aucun état caché en CSS — tous les états de départ sont
  * posés ici, pour que le site reste lisible si gsap ne charge pas.
  */
-export function useGsap(
-  cb: (ctx: GsapCtx) => void | (() => void),
-  deps: unknown[] = [],
-) {
+export function useGsap(cb: (ctx: GsapCtx) => void | (() => void), deps: unknown[] = []) {
   useEffect(() => {
     if (prefersReduced()) return;
     let alive = true;

@@ -32,14 +32,12 @@ export function Shop() {
           <div className="lg:col-span-5 lg:col-start-1">
             <Reveal tempo="rose">
               <p className="text-[15px] leading-[1.8] text-quiet md:text-[16px]">
-                Le shop occupe les arcades au fond de la cour, sous l'enseigne
-                verte. On y trouve ce que la maison fabrique et ce qu'elle
-                chine à Essaouira.
+                Le shop occupe les arcades au fond de la cour, sous l'enseigne verte. On y trouve ce
+                que la maison fabrique et ce qu'elle chine à Essaouira.
               </p>
               <p className="mt-6 text-[14px] leading-[1.75] text-quiet">
-                Il ouvre aux mêmes heures que le restaurant. Pour savoir ce qui
-                est disponible, ou réserver une pièce, le plus simple est
-                d'écrire sur WhatsApp.
+                Il ouvre aux mêmes heures que le restaurant. Pour savoir ce qui est disponible, ou
+                réserver une pièce, le plus simple est d'écrire sur WhatsApp.
               </p>
 
               <a

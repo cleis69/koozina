@@ -6,8 +6,7 @@ export function WhatsAppTab() {
   const [shown, setShown] = useState(false);
 
   useEffect(() => {
-    const onScroll = () =>
-      setShown(window.scrollY > window.innerHeight * 0.6);
+    const onScroll = () => setShown(window.scrollY > window.innerHeight * 0.6);
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
@@ -24,10 +23,7 @@ export function WhatsAppTab() {
         }`}
         style={{ borderRadius: "4px 0 0 4px" }}
       >
-        <span
-          className="eyebrow block"
-          style={{ writingMode: "vertical-rl" }}
-        >
+        <span className="eyebrow block" style={{ writingMode: "vertical-rl" }}>
           Réserver par WhatsApp
         </span>
       </a>

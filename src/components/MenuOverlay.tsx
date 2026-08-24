@@ -98,9 +98,7 @@ export function MenuOverlay({
         </nav>
 
         <div className="relative flex flex-wrap items-end justify-between gap-6 text-beige/70">
-          <p className="max-w-[34ch] text-[13px] leading-relaxed">
-            {infos.address}
-          </p>
+          <p className="max-w-[34ch] text-[13px] leading-relaxed">{infos.address}</p>
           <div className="flex flex-col gap-2 text-[13px] md:items-end">
             <a href={infos.phoneHref} className="tap link-underline">
               {infos.phone}

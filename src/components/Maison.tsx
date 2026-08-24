@@ -46,15 +46,13 @@ export function Maison() {
             <Reveal>
               <div className="space-y-6 text-[14.5px] leading-[1.8] text-quiet md:text-[15.5px]">
                 <p>
-                  Petit-déjeuner, brunch, déjeuner ou goûter : le jardin vous
-                  accueille toute la journée, sous les arcades et les nappes
-                  vichy.
+                  Petit-déjeuner, brunch, déjeuner ou goûter : le jardin vous accueille toute la
+                  journée, sous les arcades et les nappes vichy.
                 </p>
                 <p>
-                  Une cuisine entre Maroc et Méditerranée, faite de petites
-                  portions à partager et de gourmandises créatives. Le menu du
-                  jour est affiché sur les tableaux, et présenté à table par
-                  Mehdi et Oussama.
+                  Une cuisine entre Maroc et Méditerranée, faite de petites portions à partager et
+                  de gourmandises créatives. Le menu du jour est affiché sur les tableaux, et
+                  présenté à table par Mehdi et Oussama.
                 </p>
               </div>
             </Reveal>
@@ -100,9 +98,7 @@ export function Maison() {
                 <h3 className="mt-4 font-display text-[clamp(18px,1.8vw,23px)] font-light tracking-[-0.02em] text-ink">
                   {v.titre}
                 </h3>
-                <p className="mt-3 max-w-[38ch] text-[14px] leading-[1.75] text-quiet">
-                  {v.texte}
-                </p>
+                <p className="mt-3 max-w-[38ch] text-[14px] leading-[1.75] text-quiet">{v.texte}</p>
               </article>
             </Reveal>
           ))}

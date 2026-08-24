@@ -16,14 +16,8 @@ import { Dot, Reveal, SectionHead } from "./primitives";
  */
 
 export function Events() {
-
-
   return (
-    <section
-      id="evenements"
-      data-tone="dark"
-      className="sec sec-dark bg-poppy text-paper"
-    >
+    <section id="evenements" data-tone="dark" className="sec sec-dark bg-poppy text-paper">
       <div className="pad-x">
         <SectionHead
           num="05"
@@ -37,14 +31,13 @@ export function Events() {
           <div className="lg:col-span-5">
             <Reveal tempo="green">
               <p className="text-[15px] leading-[1.8] text-paper/90 md:text-[16px]">
-                La cour se privatise : grandes tablées, anniversaires,
-                réceptions. L'enseigne annonce d'ailleurs autant les événements
-                que la table.
+                La cour se privatise : grandes tablées, anniversaires, réceptions. L'enseigne
+                annonce d'ailleurs autant les événements que la table.
               </p>
               <p className="mt-6 text-[14px] leading-[1.75] text-paper/85">
-                Le calendrier des rendez-vous réguliers est en cours de
-                confirmation. Pour une date précise ou une privatisation, le
-                plus direct reste WhatsApp — l'équipe répond dans la journée.
+                Le calendrier des rendez-vous réguliers est en cours de confirmation. Pour une date
+                précise ou une privatisation, le plus direct reste WhatsApp — l'équipe répond dans
+                la journée.
               </p>
             </Reveal>
           </div>

@@ -46,8 +46,7 @@ const AVIS = [
 
 function Compteur({ to, dec, suffix }: { to: number; dec: number; suffix: string }) {
   const el = useRef<HTMLSpanElement>(null);
-  const format = (v: number) =>
-    dec ? v.toFixed(dec).replace(".", ",") : String(Math.round(v));
+  const format = (v: number) => (dec ? v.toFixed(dec).replace(".", ",") : String(Math.round(v)));
 
   useGsap(({ gsap }) => {
     const node = el.current;

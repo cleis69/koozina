@@ -25,9 +25,7 @@ export function Cursor() {
       const el = (e.target as HTMLElement | null)?.closest?.(
         "[data-cursor], a, button",
       ) as HTMLElement | null;
-      const next =
-        (el?.dataset?.["cursor"] as "view" | undefined) ??
-        (el ? "link" : "");
+      const next = (el?.dataset?.["cursor"] as "view" | undefined) ?? (el ? "link" : "");
       if (next !== mode) {
         mode = next;
         const r = ring.current;
@@ -54,8 +52,7 @@ export function Cursor() {
     // une information.
     const style = document.createElement("style");
     style.textContent =
-      "html{cursor:none}" +
-      "input,textarea,select,[contenteditable]{cursor:auto}";
+      "html{cursor:none}" + "input,textarea,select,[contenteditable]{cursor:auto}";
     document.head.appendChild(style);
 
     return () => {
@@ -66,14 +63,8 @@ export function Cursor() {
   }, []);
 
   return (
-    <div
-      aria-hidden="true"
-      className="pointer-events-none fixed inset-0 z-[70] hidden md:block"
-    >
-      <div
-        ref={dot}
-        className="absolute left-0 top-0 h-[5px] w-[5px] rounded-full bg-poppy"
-      />
+    <div aria-hidden="true" className="pointer-events-none fixed inset-0 z-[70] hidden md:block">
+      <div ref={dot} className="absolute left-0 top-0 h-[5px] w-[5px] rounded-full bg-poppy" />
       <div
         ref={ring}
         data-mode=""

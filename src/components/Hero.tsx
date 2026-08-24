@@ -167,59 +167,58 @@ export function Hero() {
           demain. C'est ce qui rend la composition indépendante du cliché. */}
       <div className="pad-x relative z-[2] w-full">
         <div className="-mx-[var(--pad)] bg-ink/95 px-[var(--pad)] pb-8 pt-10 md:-mr-0 md:max-w-[62ch] md:rounded-tr-[4px] md:pb-10 md:pr-14 md:pt-12">
-        <p
-          data-intro
-          className="eyebrow flex flex-wrap items-center gap-x-3 gap-y-2 text-beige/72"
-        >
-          <Dot />
-          <span>Essaouira</span>
-          <span aria-hidden="true" className="text-beige/35">
-            ·
-          </span>
-          <span>Bab Sbaa</span>
-          <span aria-hidden="true" className="text-beige/35">
-            ·
-          </span>
-          <span>Restaurant &amp; shop</span>
-        </p>
-
-        <h1
-          aria-label={`${title} ${accent}`}
-          className="h-display mt-7 max-w-[16ch] text-[clamp(38px,7.4vw,104px)] text-beige"
-        >
-          <span aria-hidden="true">
-            <Line text={title} />
-            <span className="block italic">
-              <Line text={accent} />
-            </span>
-          </span>
-        </h1>
-
-        <div className="mt-9 flex flex-col gap-9 md:mt-12 md:flex-row md:items-end md:justify-between">
           <p
             data-intro
-            className="max-w-[42ch] text-[14.5px] leading-[1.75] text-beige/78 md:text-[15.5px]"
+            className="eyebrow flex flex-wrap items-center gap-x-3 gap-y-2 text-beige/72"
           >
-            Une maison cachée à la bordure de la médina. Cuisine à l'huile
-            d'olive et au beurre, écrite chaque matin au retour du marché.
+            <Dot />
+            <span>Essaouira</span>
+            <span aria-hidden="true" className="text-beige/35">
+              ·
+            </span>
+            <span>Bab Sbaa</span>
+            <span aria-hidden="true" className="text-beige/35">
+              ·
+            </span>
+            <span>Restaurant &amp; shop</span>
           </p>
 
-          <div data-intro className="flex flex-wrap gap-3">
-            <button
-              onClick={() => scrollToId("reservation")}
-              className="pill bg-poppy text-paper hover:bg-paper hover:text-ink focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-3 focus-visible:outline-paper"
-            >
-              Réserver une table
-            </button>
-            <button
-              onClick={() => scrollToId("carte")}
-              className="pill border-2 border-beige/60 text-beige hover:bg-beige hover:text-ink focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-3 focus-visible:outline-paper"
-            >
-              Voir la carte
-            </button>
-          </div>
-        </div>
+          <h1
+            aria-label={`${title} ${accent}`}
+            className="h-display mt-7 max-w-[16ch] text-[clamp(38px,7.4vw,104px)] text-beige"
+          >
+            <span aria-hidden="true">
+              <Line text={title} />
+              <span className="block italic">
+                <Line text={accent} />
+              </span>
+            </span>
+          </h1>
 
+          <div className="mt-9 flex flex-col gap-9 md:mt-12 md:flex-row md:items-end md:justify-between">
+            <p
+              data-intro
+              className="max-w-[42ch] text-[14.5px] leading-[1.75] text-beige/78 md:text-[15.5px]"
+            >
+              Une maison cachée à la bordure de la médina. Cuisine à l'huile d'olive et au beurre,
+              écrite chaque matin au retour du marché.
+            </p>
+
+            <div data-intro className="flex flex-wrap gap-3">
+              <button
+                onClick={() => scrollToId("reservation")}
+                className="pill bg-poppy text-paper hover:bg-paper hover:text-ink focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-3 focus-visible:outline-paper"
+              >
+                Réserver une table
+              </button>
+              <button
+                onClick={() => scrollToId("carte")}
+                className="pill border-2 border-beige/60 text-beige hover:bg-beige hover:text-ink focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-3 focus-visible:outline-paper"
+              >
+                Voir la carte
+              </button>
+            </div>
+          </div>
         </div>
 
         {/* Bandeau de faits — `gap` explicite : sans lui les colonnes se touchent

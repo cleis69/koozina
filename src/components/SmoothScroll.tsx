@@ -14,12 +14,11 @@ export function SmoothScroll() {
     let alive = true;
 
     void (async () => {
-      const [{ default: Lenis }, { gsap }, { ScrollTrigger }] =
-        await Promise.all([
-          import("lenis"),
-          import("gsap"),
-          import("gsap/ScrollTrigger"),
-        ]);
+      const [{ default: Lenis }, { gsap }, { ScrollTrigger }] = await Promise.all([
+        import("lenis"),
+        import("gsap"),
+        import("gsap/ScrollTrigger"),
+      ]);
       if (!alive) return;
       gsap.registerPlugin(ScrollTrigger);
       lenis = new Lenis({ lerp: 0.085, wheelMultiplier: 1 });
@@ -47,9 +46,7 @@ export function SmoothScroll() {
 export function scrollToId(id: string) {
   const el = document.getElementById(id);
   if (!el) return;
-  const lenis = (
-    window as unknown as { __lenis?: { scrollTo: (t: Element) => void } }
-  ).__lenis;
+  const lenis = (window as unknown as { __lenis?: { scrollTo: (t: Element) => void } }).__lenis;
   if (lenis) lenis.scrollTo(el);
   else el.scrollIntoView({ behavior: "smooth" });
 }

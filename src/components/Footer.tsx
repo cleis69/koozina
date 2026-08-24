@@ -64,10 +64,7 @@ export function Footer() {
         </div>
 
         {/* Le vichy des nappes en séparateur — le seul motif autorisé. */}
-        <div
-          aria-hidden="true"
-          className="vichy mt-16 h-[6px] w-full opacity-[0.16]"
-        />
+        <div aria-hidden="true" className="vichy mt-16 h-[6px] w-full opacity-[0.16]" />
 
         <div className="mt-7 flex flex-col gap-3 text-[12px] text-quiet sm:flex-row sm:items-center sm:justify-between">
           <p>© {new Date().getFullYear()} Koozina Garden — Essaouira, Maroc.</p>

@@ -1,4 +1,5 @@
-import { menu, menuNote } from "@/data/menu";
+import { useEffect, useRef, useState } from "react";
+import { menu } from "@/data/menu";
 import { LogoMark } from "./logo/LogoMark";
 import { Picture } from "./Picture";
 import { Reveal, SectionHead } from "./primitives";
@@ -30,8 +31,28 @@ const RESPIRATIONS: Record<number, { name: string; alt: string; ratio: string }>
  * prix en <dd>. C'est la structure qu'attend un lecteur d'écran sur une carte.
  */
 export function Carte() {
+  const [actif, setActif] = useState(0);
+  const refs = useRef<Record<number, HTMLButtonElement>>({});
+
+  // L'onglet choisi au clavier doit revenir dans le champ visible quand la
+  // barre défile horizontalement.
+  useEffect(() => {
+    refs.current[actif]?.scrollIntoView({
+      block: "nearest",
+      inline: "center",
+      behavior: "smooth",
+    });
+  }, [actif]);
+
   return (
-    <section id="carte" className="sec bg-paper">
+    <section
+      id="carte"
+      /* Respiration réduite : `sec` pose 187 px en haut et en bas, soit 374 px
+         — plus d'un tiers d'un écran de 900 px. Une section conçue pour tenir
+         dans la fenêtre ne peut pas s'offrir le rythme des autres. */
+      style={{ ["--sec-y" as string]: "clamp(40px, 6vw, 88px)" }}
+      className="sec flex min-h-[100svh] flex-col justify-center bg-paper"
+    >
       <LogoMark className="pointer-events-none absolute -right-[10%] top-[10%] hidden w-[52vw] text-ink opacity-[0.04] lg:block" />
 
       <div className="pad-x relative z-10">
@@ -40,114 +61,111 @@ export function Carte() {
           label="La carte"
           title="Menu"
           accent="d'été"
-          intro="De l'atlantique aux jardins. Le menu du jour est affiché sur les tableaux et présenté à table."
+          intro="De l'atlantique aux jardins — et une seule règle : huile d'olive et beurre, hormis fritures."
         />
 
-        {/* La signature de la maison, traitée comme une déclaration et non
-            comme une note de bas de page : c'est l'argument que peu de tables
-            d'Essaouira peuvent écrire. */}
-        <Reveal delay={0.06}>
-          <p className="mt-14 max-w-[24ch] font-display text-[clamp(22px,3.2vw,42px)] font-light italic leading-[1.25] tracking-[-0.025em] text-ink md:mt-20">
-            {menuNote.replace(/\.$/, "")}
-            <span className="text-poppy">.</span>
-          </p>
-        </Reveal>
+        {/* Une catégorie à la fois.
+            La carte compte trente-trois plats : déroulée, elle faisait 5,7
+            écrans de haut, et personne ne sait qu'il y a un petit-déjeuner
+            sans avoir tout parcouru. Ici chaque catégorie est un panneau qui
+            tient dans la fenêtre, et l'index devient une vraie barre d'onglets.
 
-        {/* Index des catégories.
-            Neuf catégories et trente-trois plats : sans point d'entrée, le
-            lecteur doit tout parcourir pour savoir s'il y a un petit-déjeuner.
-            Ces pastilles sont des ancres — elles n'ajoutent aucune information,
-            elles rendent la carte navigable. */}
-        <nav aria-label="Catégories de la carte" className="mt-14 md:mt-16">
-          <ul className="flex flex-wrap gap-3">
-            {menu.map((cat) => (
-              <li key={cat.id}>
-                <a
-                  href={`#cat-${cat.id}`}
-                  className="tap type-mass inline-flex items-center rounded-full border-2 border-ink px-5 py-3 text-[13px] text-ink press transition-colors duration-200 ease-editorial hover:bg-ink hover:text-paper focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-poppy"
-                >
-                  {cat.title}
-                </a>
-              </li>
+            Accessibilité : rôles tablist/tab/tabpanel, navigation aux flèches,
+            et un seul panneau dans l'ordre de tabulation à la fois. Sans JS,
+            React rend le premier panneau — la carte reste lisible. */}
+        <div className="mt-8 md:mt-10">
+          <div
+            role="tablist"
+            aria-label="Catégories de la carte"
+            /* Rangée unique défilante sous md. Mesuré à 375 px : neuf onglets
+               qui s'enroulent occupent 234 px sur 5 rangées — plus que les
+               plats eux-mêmes (208 px). Le défilement horizontal ramène la
+               barre à une rangée et rend la section à la fenêtre. */
+            className="-mx-[var(--pad)] flex snap-x snap-mandatory gap-2.5 overflow-x-auto px-[var(--pad)] pb-1 [scrollbar-width:none] md:mx-0 md:flex-wrap md:overflow-visible md:px-0"
+            onKeyDown={(e) => {
+              const d = e.key === "ArrowRight" ? 1 : e.key === "ArrowLeft" ? -1 : 0;
+              if (!d) return;
+              e.preventDefault();
+              const n = (actif + d + menu.length) % menu.length;
+              setActif(n);
+              document.getElementById(`onglet-${menu[n]!.id}`)?.focus();
+            }}
+          >
+            {menu.map((cat, i) => (
+              <button
+                key={cat.id}
+                id={`onglet-${cat.id}`}
+                role="tab"
+                aria-selected={i === actif}
+                aria-controls={`panneau-${cat.id}`}
+                tabIndex={i === actif ? 0 : -1}
+                onClick={() => setActif(i)}
+                ref={(el) => {
+                  if (el && i === actif) refs.current[i] = el;
+                }}
+                className={`tap press type-mass shrink-0 snap-start rounded-full border-2 px-5 py-3 text-[12.5px] transition-colors duration-200 ease-editorial focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-poppy ${
+                  i === actif
+                    ? "border-ink bg-ink text-paper"
+                    : "border-ink/25 text-ink hover:border-ink"
+                }`}
+              >
+                {cat.title}
+              </button>
             ))}
-          </ul>
-        </nav>
+          </div>
 
-        <div className="mt-16 grid gap-x-16 gap-y-20 md:mt-20 lg:grid-cols-2 lg:gap-x-24">
           {menu.map((cat, i) => (
-            <div key={cat.id} className="break-inside-avoid">
-              <Reveal delay={(i % 2) * 0.05}>
-                <section aria-labelledby={`cat-${cat.id}`}>
-                  <header className="border-t border-ink/14 pt-5">
-                    <h3
-                      id={`cat-${cat.id}`}
-                      /* La marge de defilement porte sur l element que le lien
-                         cible reellement (le titre, pas la section), sinon
-                         l ancre atterrit sous le header fixe. */
-                      className="scroll-mt-28 md:scroll-mt-36 font-display text-[clamp(24px,2.9vw,40px)] font-light italic leading-[1.05] tracking-[-0.03em] text-poppy"
-                    >
-                      {cat.title}
-                    </h3>
-                    {cat.subtitle ? (
-                      <p className="eyebrow mt-2.5 text-green-2">{cat.subtitle}</p>
-                    ) : null}
-                  </header>
+            <div
+              key={cat.id}
+              id={`panneau-${cat.id}`}
+              role="tabpanel"
+              aria-labelledby={`onglet-${cat.id}`}
+              hidden={i !== actif}
+              className="mt-8 md:mt-10"
+            >
+              <div className="grid gap-x-16 gap-y-10 lg:grid-cols-2 lg:gap-x-24">
+                {cat.subtitle ? (
+                  <p className="eyebrow text-green-2 lg:col-span-2">{cat.subtitle}</p>
+                ) : null}
 
-                  <dl className="mt-7 space-y-6">
-                    {cat.dishes.map((d) => (
-                      <div key={d.name}>
-                        <div className="flex items-baseline gap-3">
-                          <dt className="font-display text-[clamp(15.5px,1.4vw,18.5px)] font-normal leading-snug text-ink">
-                            {d.name}
-                          </dt>
-                          <span
-                            aria-hidden="true"
-                            className="mb-[4px] min-w-4 flex-1 border-b border-dotted border-ink/20"
-                          />
-                          <dd className="shrink-0 font-display text-[15px] font-light tabular-nums text-green-2">
-                            {d.price != null ? (
-                              <>
-                                {d.price}
-                                <span className="ml-1 text-[10.5px] text-quiet">dh</span>
-                              </>
-                            ) : (
-                              <span className="text-[11px] italic text-quiet">
-                                {d.note ?? "—"}
-                              </span>
-                            )}
-                          </dd>
-                        </div>
-                        {d.desc ? (
-                          <dd className="mt-2 max-w-[46ch] text-[13.5px] leading-[1.7] text-quiet">
-                            {d.desc}
-                          </dd>
-                        ) : null}
+                <dl className="space-y-7 lg:col-span-2 lg:columns-2 lg:gap-x-24 lg:space-y-0">
+                  {cat.dishes.map((d) => (
+                    <div key={d.name} className="break-inside-avoid pb-7">
+                      <div className="flex items-baseline gap-3">
+                        <dt className="font-display text-[clamp(15.5px,1.4vw,18.5px)] font-normal leading-snug text-ink">
+                          {d.name}
+                        </dt>
+                        <span
+                          aria-hidden="true"
+                          className="mb-[4px] min-w-4 flex-1 border-b border-dotted border-ink/20"
+                        />
+                        <dd className="shrink-0 font-display text-[15px] font-light tabular-nums text-green-2">
+                          {d.price != null ? (
+                            <>
+                              {d.price}
+                              <span className="ml-1 text-[10.5px] text-quiet">dh</span>
+                            </>
+                          ) : (
+                            <span className="text-[11px] italic text-quiet">{d.note ?? "—"}</span>
+                          )}
+                        </dd>
                       </div>
-                    ))}
-                  </dl>
-                </section>
-              </Reveal>
-
-              {RESPIRATIONS[i] ? (
-                <div className="mt-16">
-                  <Picture
-                    name={RESPIRATIONS[i].name}
-                    alt={RESPIRATIONS[i].alt}
-                    ratio={RESPIRATIONS[i].ratio}
-                    sizes="(max-width: 1024px) 100vw, 42vw"
-                  />
-                </div>
-              ) : null}
+                      {d.desc ? (
+                        <dd className="mt-2 max-w-[46ch] text-[13.5px] leading-[1.7] text-quiet">
+                          {d.desc}
+                        </dd>
+                      ) : null}
+                    </div>
+                  ))}
+                </dl>
+              </div>
             </div>
           ))}
         </div>
 
-        <Reveal delay={0.08}>
-          <p className="mt-20 max-w-[52ch] border-t border-ink/14 pt-7 text-[13.5px] leading-[1.75] text-quiet">
-            Les prix sont en dirhams, service compris. Trois plats végétariens
-            attendent encore leur tarif — ils sont annoncés à table.
-          </p>
-        </Reveal>
+        <p className="mt-7 text-[12px] leading-relaxed text-quiet">
+          Prix en dirhams, service compris. Le menu du jour est affiché sur les tableaux.
+        </p>
       </div>
     </section>
   );

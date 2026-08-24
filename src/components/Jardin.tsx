@@ -6,10 +6,26 @@ import { Picture } from "./Picture";
 /** Cinq formats alternés : l'allure d'un reportage, pas d'une grille. */
 /** Uniquement des photos réelles du lieu, vérifiées une à une. */
 const TILES = [
-  { name: "cour-arcades", alt: "La cour et ses arcades rayées, la fresque du poulpe sur le mur", ratio: "3 / 2" },
-  { name: "table-vichy", alt: "Une table dressée sous les nappes vichy noir et blanc", ratio: "4 / 3" },
-  { name: "bowls-quinoa", alt: "Bols de quinoa, avocat et œuf poché servis en terre cuite", ratio: "3 / 4" },
-  { name: "table-zellige", alt: "Table en zellige vert : tagine de crevettes, brochettes et mezze", ratio: "16 / 9" },
+  {
+    name: "cour-arcades",
+    alt: "La cour et ses arcades rayées, la fresque du poulpe sur le mur",
+    ratio: "3 / 2",
+  },
+  {
+    name: "table-vichy",
+    alt: "Une table dressée sous les nappes vichy noir et blanc",
+    ratio: "4 / 3",
+  },
+  {
+    name: "bowls-quinoa",
+    alt: "Bols de quinoa, avocat et œuf poché servis en terre cuite",
+    ratio: "3 / 4",
+  },
+  {
+    name: "table-zellige",
+    alt: "Table en zellige vert : tagine de crevettes, brochettes et mezze",
+    ratio: "16 / 9",
+  },
   { name: "tagine-cour", alt: "Tagine aux amandes, la cour en arrière-plan", ratio: "9 / 16" },
   { name: "desserts", alt: "Basboussa à l'orange et crumble aux pommes", ratio: "4 / 3" },
 ];
@@ -76,10 +92,7 @@ export function Jardin() {
       {/* Rail : `overflow-x: auto` en base — le pin GSAP le pilote en plus,
           il ne le remplace pas. */}
       <div className="mt-14 overflow-x-auto pb-4 md:mt-20 lg:overflow-visible [scrollbar-width:thin]">
-        <div
-          ref={track}
-          className="flex w-max gap-5 pl-[var(--pad)] pr-[var(--pad)] md:gap-8"
-        >
+        <div ref={track} className="flex w-max gap-5 pl-[var(--pad)] pr-[var(--pad)] md:gap-8">
           {TILES.map((t, i) => (
             <figure
               key={t.name}
@@ -96,9 +109,7 @@ export function Jardin() {
                 <span className="font-display text-[11px] font-light text-rose">
                   Fig. {String(i + 1).padStart(2, "0")}
                 </span>
-                <span className="text-[12.5px] leading-snug text-beige/75">
-                  {t.alt}
-                </span>
+                <span className="text-[12.5px] leading-snug text-beige/75">{t.alt}</span>
               </figcaption>
             </figure>
           ))}

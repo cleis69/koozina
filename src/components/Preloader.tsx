@@ -28,8 +28,7 @@ export function Preloader() {
 
   useEffect(() => {
     const alreadySeen =
-      typeof sessionStorage !== "undefined" &&
-      sessionStorage.getItem(SEEN_KEY) === "1";
+      typeof sessionStorage !== "undefined" && sessionStorage.getItem(SEEN_KEY) === "1";
 
     if (prefersReduced() || alreadySeen) {
       setGone(true);

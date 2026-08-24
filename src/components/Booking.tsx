@@ -42,11 +42,7 @@ export function Booking() {
   const label = "eyebrow text-beige/62";
 
   return (
-    <section
-      id="reservation"
-      data-tone="dark"
-      className="sec sec-dark bg-green-night text-beige"
-    >
+    <section id="reservation" data-tone="dark" className="sec sec-dark bg-green-night text-beige">
       <div className="pad-x">
         <SectionHead
           num="06"
@@ -191,8 +187,8 @@ export function Booking() {
                     Envoyer sur WhatsApp
                   </button>
                   <p className="mt-4 text-[12.5px] leading-relaxed text-beige/55">
-                    Le formulaire ouvre WhatsApp avec votre demande déjà écrite.
-                    Rien n'est enregistré sur ce site.
+                    Le formulaire ouvre WhatsApp avec votre demande déjà écrite. Rien n'est
+                    enregistré sur ce site.
                   </p>
                 </div>
               </form>

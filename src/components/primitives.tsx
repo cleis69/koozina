@@ -13,11 +13,14 @@ export function SplitTitle({
   as = "h2",
   accent,
   accentClass = "text-poppy",
+  stack = false,
 }: {
   text: string;
   className?: string;
   as?: "h1" | "h2" | "h3";
   accent?: string | undefined;
+  /** l'accent descend sur sa propre ligne, en italique et plus petit */
+  stack?: boolean;
   /** le coquelicot pur tombe à 2,24 sur vert profond : sur fond sombre
    *  l'accent passe au rose, qui tient 7:1. */
   accentClass?: string;
@@ -80,10 +83,20 @@ export function SplitTitle({
       <span aria-hidden="true">
         {render(text, false, 0)}
         {accent ? (
-          <>
-            <span className="inline-block">&nbsp;</span>
-            {render(accent, true, 1)}
-          </>
+          stack ? (
+            /* L'accent descend sur sa propre ligne, en bas de casse et deux
+               fois plus petit. C'est ce contraste — masse capitale au-dessus,
+               italique menu en dessous — qui donne sa forme au titre, sans
+               ajouter la moindre police. */
+            <span className="mt-1 block text-[0.42em] normal-case tracking-[-0.01em]">
+              {render(accent, true, 1)}
+            </span>
+          ) : (
+            <>
+              <span className="inline-block">&nbsp;</span>
+              {render(accent, true, 1)}
+            </>
+          )
         ) : null}
       </span>
     </Tag>
@@ -244,7 +257,8 @@ export function SectionHead({
             text={title}
             accent={accent}
             accentClass={accentColor}
-            className={`type-mass ${titleColor} text-[clamp(34px,6.6vw,96px)]`}
+            className={`type-mass ${titleColor} text-[clamp(29px,4.9vw,72px)]`}
+            stack
           />
           {intro ? (
             <Reveal delay={0.12}>
