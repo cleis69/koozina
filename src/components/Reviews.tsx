@@ -82,7 +82,7 @@ export function Reviews() {
   }, []);
 
   return (
-    <section aria-labelledby="avis-titre" className="sec bg-beige-2">
+    <section aria-labelledby="avis-titre" className="sec bg-sand-2">
       <div className="pad-x">
         <h2 id="avis-titre" className="sr-only">
           Ce qu'en disent les clients
@@ -98,7 +98,7 @@ export function Reviews() {
                     <Compteur to={4.8} dec={1} suffix="" />
                     <span
                       aria-hidden="true"
-                      className="ml-2 align-top text-[0.42em] text-poppy-dark"
+                      className="ml-2 align-top text-[0.42em] text-terra-ink"
                     >
                       ★
                     </span>
@@ -110,7 +110,7 @@ export function Reviews() {
                     <Compteur to={4.9} dec={1} suffix="" />
                     <span
                       aria-hidden="true"
-                      className="ml-2 align-top text-[0.42em] text-poppy-dark"
+                      className="ml-2 align-top text-[0.42em] text-terra-ink"
                     >
                       ★
                     </span>
@@ -163,11 +163,11 @@ export function Reviews() {
                     aria-selected={idx === i}
                     aria-label={`Avis de ${a.nom}`}
                     onClick={() => setI(idx)}
-                    className="press flex h-11 w-11 items-center justify-center focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-poppy"
+                    className="press flex h-11 w-11 items-center justify-center focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-terra"
                   >
                     <span
                       className={`block h-[5px] rounded-full transition-[width,background-color] duration-200 ease-editorial ${
-                        idx === i ? "w-7 bg-poppy" : "w-[5px] bg-ink/25"
+                        idx === i ? "w-7 bg-terra-ink" : "w-[5px] bg-ink/25"
                       }`}
                     />
                   </button>

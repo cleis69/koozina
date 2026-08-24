@@ -5,7 +5,7 @@ import { sections } from "./sections";
 
 export function Footer() {
   return (
-    <footer className="relative bg-beige-3 pb-9 pt-[clamp(48px,6vw,96px)]">
+    <footer className="relative bg-sand pb-9 pt-[clamp(48px,6vw,96px)]">
       <div className="pad-x">
         <div className="grid gap-14 lg:grid-cols-12 lg:gap-10">
           <div className="lg:col-span-4">
@@ -16,7 +16,7 @@ export function Footer() {
           </div>
 
           <nav aria-label="Sections du site" className="lg:col-span-3 lg:col-start-6">
-            <h2 className="eyebrow text-green-2">Le site</h2>
+            <h2 className="eyebrow text-sage-ink">Le site</h2>
             <ul className="mt-5 space-y-3">
               {sections.map((s) => (
                 <li key={s.id}>
@@ -32,7 +32,7 @@ export function Footer() {
           </nav>
 
           <div className="lg:col-span-4 lg:col-start-9">
-            <h2 className="eyebrow text-green-2">Nous trouver</h2>
+            <h2 className="eyebrow text-sage-ink">Nous trouver</h2>
             <address className="mt-5 space-y-3 text-[14px] not-italic leading-[1.7] text-quiet">
               <p className="max-w-[30ch]">{infos.address}</p>
               <p>Tous les jours · {infos.hours}</p>

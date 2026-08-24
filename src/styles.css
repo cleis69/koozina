@@ -3,21 +3,12 @@
 @import "tw-animate-css";
 
 /* ── Polices de marque, auto-hébergées ───────────────────────────
- * Zilla Slab est la police du logo : elle ne se substitue pas.
- * Auto-hébergées plutôt que servies par un CDN, pour que l'identité
- * tienne même si un tiers tombe. Sous-ensemble latin uniquement
- * (le français y est entièrement couvert). font-display: swap est
- * le défaut de Fontsource — le texte reste lisible pendant le chargement.
+ * Caprasimo pour le display, Figtree pour l'information.
+ * Auto-hébergées plutôt que servies par un CDN, pour que l'identité tienne
+ * même si un tiers tombe. font-display: swap est le défaut de Fontsource.
  */
-@import "@fontsource/zilla-slab/latin-300.css";
-@import "@fontsource/zilla-slab/latin-300-italic.css";
-@import "@fontsource/zilla-slab/latin-500.css";
-@import "@fontsource/zilla-slab/latin-500-italic.css";
-/* 700 : uniquement pour le wordmark du logo, qui est nettement plus gras
-   que le display éditorial (300). */
-@import "@fontsource/zilla-slab/latin-700.css";
-@import "@fontsource/zilla-slab/latin-700-italic.css";
-@import "@fontsource-variable/jost/wght.css";
+@import "@fontsource/caprasimo/latin-400.css";
+@import "@fontsource-variable/figtree/wght.css";
 
 /*
  * KOOZINA GARDEN — Mediterranean Botanical Editorial
@@ -29,36 +20,30 @@
  */
 
 @theme {
-  /* MATIÈRE — la maison */
-  --color-paper: #fdfbf6;
-  --color-beige: #f7f1e6;
-  --color-beige-2: #f2eadb;
-  --color-beige-3: #ede2ce;
-  /* JARDIN */
-  --color-green: #7e8c50;
-  --color-green-2: #5c6a38;
-  --color-green-deep: #38422a;
-  --color-green-night: #28301d;
-  /* CUISINE */
-  --color-poppy: #d33b2c;
-  --color-poppy-dark: #ae2a1d;
-  --color-poppy-light: #d74b3d;
-  /* FLEURS */
-  --color-rose: #d9a6a0;
-  --color-rose-wash: #f3e4e0;
-  --color-rose-deep: #ad7068;
-  /* rose assombri : #ad7068 ne tenait que 3,21 sur rose-wash (seuil 4,5) */
-  --color-rose-ink: #8a5049;
-  /* ÉDITORIAL */
-  --color-ink: #15140f;
-  --color-ink-2: #2a2820;
-  /* #6e675a passait sur beige (4,98) mais tombait à 4,36 sur beige-3 */
-  --color-quiet: #665f52;
+  /* MATIÈRE */
+  --color-paper: #f9f4ed;
+  --color-sand: #ebddc5;
+  --color-sand-2: #f5ead8;
+  /* SOMBRES */
+  --color-ink: #201e1d;
+  --color-forest: #272e1b;
+  /* ACCENTS */
+  --color-peach: #ffc6a5;
+  --color-terra: #c67139;
+  --color-sage: #7a8a5e;
+  /* Variantes encre. Mesure : la terracotta ne fait que 3,30 sur creme et la
+     sauge 3,41 — ce sont des couleurs de fond, pas d'encre. Ces deux-la
+     passent AA sur creme comme sur sable. */
+  --color-terra-ink: #8e5129;
+  --color-sage-ink: #5a6645;
+  --color-mint: #f0fae1;
+  /* GRIS CHAUDS — seuls #645c50 et plus foncés portent du texte sur crème */
+  --color-quiet: #645c50;
+  --color-quiet-2: #474238;
 
-  --font-display: "Zilla Slab", Rockwell, "Roboto Slab", Georgia, serif;
-  --font-sans: "Jost", "Avenir Next", "Helvetica Neue", Arial, sans-serif;
+  --font-display: Caprasimo, Rockwell, Georgia, serif;
+  --font-sans: "Figtree Variable", Figtree, "Helvetica Neue", Arial, sans-serif;
 
-  --radius-none: 0px;
   --ease-editorial: cubic-bezier(0.16, 1, 0.3, 1);
 }
 
@@ -66,8 +51,8 @@
   /* Mesure a 375 px : 1 496 px de padding de section, soit 13 % de la page,
      avant meme de compter les ecarts entre blocs. Ramene a une valeur qui
      respire sans separer. */
-  --sec-y: clamp(52px, 6.5vw, 116px);
-  --pad: clamp(20px, 5vw, 88px);
+  --sec-y: clamp(60px, 8vw, 120px);
+  --pad: clamp(18px, 4vw, 54px);
   --ease: cubic-bezier(0.16, 1, 0.3, 1);
 
   /* ── shadcn : une seule source de vérité ──────────────────────────
@@ -77,37 +62,37 @@
    * design system se scinde en deux au premier formulaire.
    * Conséquence : `bg-primary` et `bg-poppy` sont garantis identiques.
    */
-  --radius: 4px;
-  --background: var(--color-beige);
+  --radius: 28px;
+  --background: var(--color-paper);
   --foreground: var(--color-ink);
-  --card: var(--color-paper);
+  --card: var(--color-sand-2);
   --card-foreground: var(--color-ink);
-  --popover: var(--color-paper);
+  --popover: var(--color-sand-2);
   --popover-foreground: var(--color-ink);
   /* le coquelicot est la couleur de l'action — 5 % de la surface, 100 % des CTA */
-  --primary: var(--color-poppy);
+  --primary: var(--color-terra);
   --primary-foreground: var(--color-paper);
-  --secondary: var(--color-green);
+  --secondary: var(--color-sage);
   --secondary-foreground: var(--color-paper);
-  --muted: var(--color-beige-2);
+  --muted: var(--color-sand);
   /* #6e675a : la seule valeur qui passe AA sur beige (4,98) et sur rose (4,53) */
   --muted-foreground: var(--color-quiet);
-  --accent: var(--color-beige-3);
+  --accent: var(--color-sand);
   --accent-foreground: var(--color-ink);
-  --destructive: var(--color-poppy-dark);
+  --destructive: var(--color-terra);
   --destructive-foreground: var(--color-paper);
   --border: color-mix(in oklab, var(--color-ink) 14%, transparent);
   --input: color-mix(in oklab, var(--color-ink) 22%, transparent);
-  --ring: var(--color-green);
+  --ring: var(--color-sage);
 }
 
 @theme inline {
-  --radius-sm: 4px;
-  --radius-md: 4px;
-  --radius-lg: 4px;
-  --radius-xl: 4px;
-  --radius-2xl: 4px;
-  --radius-3xl: 4px;
+  --radius-sm: 12px;
+  --radius-md: 20px;
+  --radius-lg: 28px;
+  --radius-xl: 28px;
+  --radius-2xl: 36px;
+  --radius-3xl: 999px;
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-card: var(--card);
@@ -139,7 +124,7 @@
   }
 
   body {
-    background-color: var(--color-beige);
+    background-color: var(--color-paper);
     color: var(--color-ink);
     font-family: var(--font-sans);
     font-weight: 300;
@@ -147,7 +132,7 @@
   }
 
   ::selection {
-    background: var(--color-poppy);
+    background: var(--color-terra);
     color: var(--color-paper);
   }
 
@@ -155,7 +140,9 @@
   h2,
   h3 {
     font-family: var(--font-display);
-    font-weight: 300;
+    /* Caprasimo n'existe qu'en 400, et elle est deja tres pleine :
+       toute graisse simulee l'empaterait. */
+    font-weight: 400;
   }
 }
 
@@ -212,7 +199,9 @@
 
 @utility h-display {
   font-family: var(--font-display);
-  font-weight: 300;
+  /* 400 : Caprasimo ne connait que cette graisse. Toute autre valeur est
+     synthetisee par le navigateur et empate le trace. */
+  font-weight: 400;
   line-height: 0.94;
   letter-spacing: -0.035em;
 }
@@ -225,10 +214,9 @@
  */
 @utility type-mass {
   font-family: var(--font-display);
-  font-weight: 700;
-  text-transform: uppercase;
-  line-height: 0.86;
-  letter-spacing: -0.035em;
+  font-weight: 400;
+  line-height: 0.88;
+  letter-spacing: -0.015em;
 }
 
 /* Pastille pleine, la forme des CTA de ce registre.

@@ -64,11 +64,11 @@ export function Cursor() {
 
   return (
     <div aria-hidden="true" className="pointer-events-none fixed inset-0 z-[70] hidden md:block">
-      <div ref={dot} className="absolute left-0 top-0 h-[5px] w-[5px] rounded-full bg-poppy" />
+      <div ref={dot} className="absolute left-0 top-0 h-[5px] w-[5px] rounded-full bg-terra-ink" />
       <div
         ref={ring}
         data-mode=""
-        className="group absolute left-0 top-0 flex h-[26px] w-[26px] items-center justify-center rounded-full border border-ink/40 transition-[width,height,background-color,border-color] duration-[340ms] ease-editorial data-[mode=link]:h-16 data-[mode=link]:w-16 data-[mode=view]:h-[104px] data-[mode=view]:w-[104px] data-[mode=view]:border-transparent data-[mode=view]:bg-poppy"
+        className="group absolute left-0 top-0 flex h-[26px] w-[26px] items-center justify-center rounded-full border border-ink/40 transition-[width,height,background-color,border-color] duration-[340ms] ease-editorial data-[mode=link]:h-16 data-[mode=link]:w-16 data-[mode=view]:h-[104px] data-[mode=view]:w-[104px] data-[mode=view]:border-transparent data-[mode=view]:bg-terra-ink"
       >
         <span className="eyebrow scale-0 text-paper opacity-0 transition duration-[340ms] ease-editorial group-data-[mode=view]:scale-100 group-data-[mode=view]:opacity-100">
           Voir

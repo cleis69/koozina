@@ -117,7 +117,7 @@ export function Preloader() {
       ref={root}
       // Rideau décoratif : le contenu réel est déjà dans le DOM derrière lui.
       aria-hidden="true"
-      className="fixed inset-0 z-[80] flex flex-col items-center justify-center bg-beige"
+      className="fixed inset-0 z-[80] flex flex-col items-center justify-center bg-paper"
     >
       <div ref={badge} className="w-[min(58vw,300px)]">
         <LogoBadge ringRef={ring} priority />

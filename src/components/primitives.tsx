@@ -12,7 +12,7 @@ export function SplitTitle({
   className = "",
   as = "h2",
   accent,
-  accentClass = "text-poppy",
+  accentClass = "text-terra-ink",
   stack = false,
 }: {
   text: string;
@@ -155,7 +155,7 @@ export function RevealImage({
     <div
       ref={ref}
       data-cursor="view"
-      className={`relative overflow-hidden rounded-[4px] bg-beige-3 ${className}`}
+      className={`relative overflow-hidden rounded-[4px] bg-sand ${className}`}
       style={ratio ? { aspectRatio: ratio } : undefined}
     >
       <img
@@ -227,16 +227,16 @@ export function SectionHead({
   // que 3,7–4,2 selon la nuance de beige ; sur fond sombre poppy-light fait 2,5.
   const clair = tone !== "light";
   const numColor =
-    tone === "solid" ? "text-paper" : tone === "dark" ? "text-rose" : "text-poppy-dark";
+    tone === "solid" ? "text-paper" : tone === "dark" ? "text-peach" : "text-terra-ink";
   const accentColor =
-    tone === "solid" ? "text-paper/85" : tone === "dark" ? "text-rose" : "text-poppy";
+    tone === "solid" ? "text-paper/85" : tone === "dark" ? "text-peach" : "text-terra-ink";
   const labelColor =
-    tone === "solid" ? "text-paper/80" : tone === "dark" ? "text-beige/70" : "text-quiet";
-  const titleColor = clair ? (tone === "solid" ? "text-paper" : "text-beige") : "text-ink";
+    tone === "solid" ? "text-paper/80" : tone === "dark" ? "text-paper/70" : "text-quiet";
+  const titleColor = clair ? (tone === "solid" ? "text-paper" : "text-paper") : "text-ink";
 
   return (
     <header className="relative">
-      <div className={clair ? "rule text-beige" : "rule text-ink"} />
+      <div className={clair ? "rule text-paper" : "rule text-ink"} />
       {/* Un seul bord gauche.
           La version precedente posait le numero en marge et decalait le titre
           de 104 px. Mesure a 1440 px : trois bords distincts coexistaient sur
@@ -265,7 +265,7 @@ export function SectionHead({
                 tone === "solid"
                   ? "text-paper/85"
                   : tone === "dark"
-                    ? "text-beige/72"
+                    ? "text-paper/72"
                     : "text-quiet"
               }`}
             >
@@ -281,6 +281,8 @@ export function SectionHead({
 /* ── Ponctuation : point rouge de 5px ────────────────────────────── */
 export function Dot({ className = "" }: { className?: string }) {
   return (
-    <span className={`inline-block h-[5px] w-[5px] shrink-0 rounded-full bg-poppy ${className}`} />
+    <span
+      className={`inline-block h-[5px] w-[5px] shrink-0 rounded-full bg-terra-ink ${className}`}
+    />
   );
 }

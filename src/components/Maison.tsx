@@ -31,7 +31,7 @@ const VALEURS = [
  */
 export function Maison() {
   return (
-    <section id="maison" className="sec bg-beige">
+    <section id="maison" className="sec bg-paper">
       <div className="pad-x relative">
         <SectionHead
           num="01"
@@ -61,7 +61,7 @@ export function Maison() {
             </Reveal>
 
             <Reveal delay={0.1}>
-              <p className="mt-10 border-l-2 border-poppy pl-5 font-display text-[clamp(19px,2vw,26px)] font-light italic leading-[1.35] text-ink">
+              <p className="mt-10 border-l-2 border-terra pl-5 font-display text-[clamp(19px,2vw,26px)] font-light italic leading-[1.35] text-ink">
                 Une cuisine intuitive, joyeuse et poétique.
               </p>
             </Reveal>
@@ -79,12 +79,12 @@ export function Maison() {
               />
               {/* Pastille : rose poudré, la couleur des fleurs — jamais le rouge,
                   qui reste réservé à l'action. */}
-              <div className="absolute -bottom-7 left-6 flex h-[104px] w-[104px] flex-col items-center justify-center rounded-full bg-rose-wash text-center md:-left-10 md:h-[128px] md:w-[128px]">
-                <span className="eyebrow text-[8.5px] text-rose-ink">Fait</span>
-                <span className="font-display text-[22px] font-light leading-none text-ink md:text-[27px]">
+              <div className="absolute -bottom-7 left-6 flex h-[104px] w-[104px] flex-col items-center justify-center rounded-full bg-terra-ink text-center md:-left-10 md:h-[128px] md:w-[128px]">
+                <span className="eyebrow text-[8.5px] text-paper/90">Fait</span>
+                <span className="font-display text-[22px] font-light leading-none text-paper md:text-[27px]">
                   100%
                 </span>
-                <span className="eyebrow text-[8.5px] text-rose-ink">Maison</span>
+                <span className="eyebrow text-[8.5px] text-paper/90">Maison</span>
               </div>
             </div>
           </div>
@@ -95,7 +95,7 @@ export function Maison() {
           {VALEURS.map((v, i) => (
             <Reveal key={v.n} tempo="green" delay={i * 0.08}>
               <article>
-                <span className="font-display text-[15px] font-light italic text-green-2">
+                <span className="font-display text-[15px] font-light italic text-sage-ink">
                   {v.n}
                 </span>
                 <h3 className="mt-4 font-display text-[clamp(18px,1.8vw,23px)] font-light tracking-[-0.02em] text-ink">

@@ -38,11 +38,11 @@ export function Booking() {
   );
 
   const field =
-    "mt-2 h-12 w-full rounded-[4px] border border-beige/28 bg-beige/8 px-4 text-[14.5px] text-beige placeholder:text-beige/35 transition-colors duration-[340ms] ease-editorial focus:border-beige/70 focus:outline-none focus-visible:ring-2 focus-visible:ring-poppy-light";
-  const label = "eyebrow text-beige/62";
+    "mt-2 h-12 w-full rounded-[4px] border border-ink/25 bg-ink/[0.04] px-4 text-[14.5px] text-ink placeholder:text-quiet/60 transition-colors duration-[340ms] ease-editorial focus:border-ink/60 focus:outline-none focus-visible:ring-2 focus-visible:ring-terra";
+  const label = "eyebrow text-quiet";
 
   return (
-    <section id="reservation" data-tone="dark" className="sec sec-dark bg-green-night text-beige">
+    <section id="reservation" data-tone="light" className="sec bg-sand text-ink">
       <div className="pad-x">
         <SectionHead
           num="06"
@@ -50,7 +50,7 @@ export function Booking() {
           title="Une table"
           accent="au jardin"
           intro="Douze couverts à l'intérieur, une trentaine sous les arcades. Le plus simple reste WhatsApp — nous répondons dans la journée."
-          tone="dark"
+          tone="light"
         />
 
         <div className="mt-10 grid gap-10 md:mt-14 lg:grid-cols-12 lg:gap-10">
@@ -60,20 +60,18 @@ export function Booking() {
               <dl className="space-y-8">
                 <div>
                   <dt className={label}>Adresse</dt>
-                  <dd className="mt-2 max-w-[28ch] text-[14.5px] leading-[1.7] text-beige/85">
+                  <dd className="mt-2 max-w-[28ch] text-[14.5px] leading-[1.7] text-quiet">
                     {infos.address}
                   </dd>
                 </div>
                 <div>
                   <dt className={label}>Horaires</dt>
-                  <dd className="mt-2 text-[14.5px] text-beige/85">
-                    Tous les jours · {infos.hours}
-                  </dd>
+                  <dd className="mt-2 text-[14.5px] text-quiet">Tous les jours · {infos.hours}</dd>
                 </div>
                 <div>
                   <dt className={label}>Téléphone</dt>
                   <dd className="mt-2 text-[14.5px]">
-                    <a href={infos.phoneHref} className="tap link-underline text-beige/85">
+                    <a href={infos.phoneHref} className="tap link-underline text-quiet">
                       {infos.phone}
                     </a>
                   </dd>
@@ -85,7 +83,7 @@ export function Booking() {
                       href={infos.instagram}
                       target="_blank"
                       rel="noreferrer"
-                      className="tap link-underline text-beige/85"
+                      className="tap link-underline text-quiet"
                     >
                       {infos.instagramHandle} ↗
                     </a>
@@ -181,12 +179,12 @@ export function Booking() {
                 <div className="sm:col-span-2">
                   <button
                     type="submit"
-                    className="pill group bg-poppy text-paper hover:bg-beige hover:text-ink focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-3 focus-visible:outline-beige"
+                    className="pill group bg-terra-ink text-paper hover:bg-ink hover:text-paper focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-3 focus-visible:outline-terra"
                   >
                     <Dot className="bg-paper transition-transform duration-[340ms] ease-editorial group-hover:scale-[1.6]" />
                     Envoyer sur WhatsApp
                   </button>
-                  <p className="mt-4 text-[12.5px] leading-relaxed text-beige/55">
+                  <p className="mt-4 text-[12.5px] leading-relaxed text-quiet">
                     Le formulaire ouvre WhatsApp avec votre demande déjà écrite. Rien n'est
                     enregistré sur ce site.
                   </p>

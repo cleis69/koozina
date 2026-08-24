@@ -72,7 +72,7 @@ export function Picture({
       <div
         ref={ref}
         data-cursor="view"
-        className="relative overflow-hidden rounded-[4px] bg-beige-3"
+        className="relative overflow-hidden rounded-[4px] bg-sand"
         style={ratio ? { aspectRatio: ratio } : undefined}
       >
         <picture>

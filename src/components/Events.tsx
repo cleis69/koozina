@@ -17,7 +17,7 @@ import { Dot, Reveal, SectionHead } from "./primitives";
 
 export function Events() {
   return (
-    <section id="evenements" data-tone="dark" className="sec sec-dark bg-poppy text-paper">
+    <section id="evenements" data-tone="dark" className="sec sec-dark bg-forest text-paper">
       <div className="pad-x">
         <SectionHead
           num="05"

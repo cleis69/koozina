@@ -47,7 +47,7 @@ export function MenuOverlay({
       // React 19 le type en booléen — pas en chaîne vide comme l'attribut HTML.
       inert={!open}
       aria-hidden={!open}
-      className={`fixed inset-0 z-[65] bg-green-night transition-[clip-path,opacity] duration-[900ms] ease-editorial ${
+      className={`fixed inset-0 z-[65] bg-forest transition-[clip-path,opacity] duration-[900ms] ease-editorial ${
         open ? "opacity-100" : "pointer-events-none opacity-0"
       }`}
       style={{
@@ -76,7 +76,7 @@ export function MenuOverlay({
                 onClose();
                 setTimeout(() => scrollToId(s.id), 260);
               }}
-              className="press group block w-full border-b border-beige/12 py-4 text-left transition-colors duration-[340ms] ease-editorial md:py-5"
+              className="press group block w-full border-b border-paper/12 py-4 text-left transition-colors duration-[340ms] ease-editorial md:py-5"
               style={{
                 transitionDelay: open ? `${i * 70 + 260}ms` : "0ms",
                 opacity: open ? 1 : 0,
@@ -86,10 +86,8 @@ export function MenuOverlay({
               }}
             >
               <span className="flex items-baseline gap-6">
-                <span className="font-display text-[12px] font-light text-poppy-light">
-                  {s.num}
-                </span>
-                <span className="h-display text-[clamp(26px,5.2vw,58px)] text-beige transition-colors duration-300 group-hover:text-poppy-light">
+                <span className="font-display text-[12px] font-light text-peach">{s.num}</span>
+                <span className="h-display text-[clamp(26px,5.2vw,58px)] text-paper transition-colors duration-300 group-hover:text-peach">
                   {s.label}
                 </span>
               </span>
@@ -97,7 +95,7 @@ export function MenuOverlay({
           ))}
         </nav>
 
-        <div className="relative flex flex-wrap items-end justify-between gap-6 text-beige/70">
+        <div className="relative flex flex-wrap items-end justify-between gap-6 text-paper/70">
           <p className="max-w-[34ch] text-[13px] leading-relaxed">{infos.address}</p>
           <div className="flex flex-col gap-2 text-[13px] md:items-end">
             <a href={infos.phoneHref} className="tap link-underline">

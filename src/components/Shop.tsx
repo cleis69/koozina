@@ -18,7 +18,7 @@ import { Dot, Reveal, SectionHead } from "./primitives";
  */
 export function Shop() {
   return (
-    <section id="shop" className="sec bg-rose-wash">
+    <section id="shop" className="sec bg-sand">
       <div className="pad-x">
         <SectionHead
           num="04"
@@ -44,7 +44,7 @@ export function Shop() {
                 href={infos.whatsapp}
                 target="_blank"
                 rel="noreferrer"
-                className="group mt-8 inline-flex h-12 items-center gap-3 rounded-[4px] border border-ink/25 px-7 text-ink transition-colors duration-[340ms] ease-editorial hover:border-ink hover:bg-ink hover:text-paper focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-3 focus-visible:outline-poppy"
+                className="group mt-8 inline-flex h-12 items-center gap-3 rounded-[4px] border border-ink/25 px-7 text-ink transition-colors duration-[340ms] ease-editorial hover:border-ink hover:bg-ink hover:text-paper focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-3 focus-visible:outline-terra"
               >
                 <Dot className="transition-transform duration-[340ms] ease-editorial group-hover:scale-[1.6]" />
                 <span className="eyebrow">Demander sur WhatsApp</span>

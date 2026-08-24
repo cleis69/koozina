@@ -51,9 +51,9 @@ export function Carte() {
          — plus d'un tiers d'un écran de 900 px. Une section conçue pour tenir
          dans la fenêtre ne peut pas s'offrir le rythme des autres. */
       style={{ ["--sec-y" as string]: "clamp(40px, 6vw, 88px)" }}
-      className="sec flex min-h-[100svh] flex-col justify-center bg-paper"
+      className="sec flex min-h-[100svh] flex-col justify-center bg-forest text-paper"
     >
-      <LogoMark className="pointer-events-none absolute -right-[10%] top-[10%] hidden w-[52vw] text-ink opacity-[0.04] lg:block" />
+      <LogoMark className="pointer-events-none absolute -right-[10%] top-[10%] hidden w-[52vw] text-ink opacity-[0.07] lg:block" />
 
       <div className="pad-x relative z-10">
         <SectionHead
@@ -61,6 +61,7 @@ export function Carte() {
           label="La carte"
           title="Menu"
           accent="d'été"
+          tone="dark"
           intro="De l'atlantique aux jardins — et une seule règle : huile d'olive et beurre, hormis fritures."
         />
 
@@ -103,10 +104,10 @@ export function Carte() {
                 ref={(el) => {
                   if (el && i === actif) refs.current[i] = el;
                 }}
-                className={`tap press type-mass shrink-0 snap-start rounded-full border-2 px-5 py-3 text-[12.5px] transition-colors duration-200 ease-editorial focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-poppy ${
+                className={`tap press type-mass shrink-0 snap-start rounded-full border-2 px-5 py-3 text-[12.5px] transition-colors duration-200 ease-editorial focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-terra ${
                   i === actif
-                    ? "border-ink bg-ink text-paper"
-                    : "border-ink/25 text-ink hover:border-ink"
+                    ? "border-peach bg-peach text-forest"
+                    : "border-paper/30 text-paper hover:border-paper"
                 }`}
               >
                 {cat.title}
@@ -125,33 +126,35 @@ export function Carte() {
             >
               <div className="grid gap-x-16 gap-y-10 lg:grid-cols-2 lg:gap-x-24">
                 {cat.subtitle ? (
-                  <p className="eyebrow text-green-2 lg:col-span-2">{cat.subtitle}</p>
+                  <p className="eyebrow text-peach lg:col-span-2">{cat.subtitle}</p>
                 ) : null}
 
                 <dl className="space-y-7 lg:col-span-2 lg:columns-2 lg:gap-x-24 lg:space-y-0">
                   {cat.dishes.map((d) => (
                     <div key={d.name} className="break-inside-avoid pb-7">
                       <div className="flex items-baseline gap-3">
-                        <dt className="font-display text-[clamp(15.5px,1.4vw,18.5px)] font-normal leading-snug text-ink">
+                        <dt className="font-display text-[clamp(15.5px,1.4vw,18.5px)] font-normal leading-snug text-paper">
                           {d.name}
                         </dt>
                         <span
                           aria-hidden="true"
-                          className="mb-[4px] min-w-4 flex-1 border-b border-dotted border-ink/20"
+                          className="mb-[4px] min-w-4 flex-1 border-b border-dotted border-paper/25"
                         />
-                        <dd className="shrink-0 font-display text-[15px] font-light tabular-nums text-green-2">
+                        <dd className="shrink-0 font-display text-[15px] font-light tabular-nums text-peach">
                           {d.price != null ? (
                             <>
                               {d.price}
-                              <span className="ml-1 text-[10.5px] text-quiet">dh</span>
+                              <span className="ml-1 text-[10.5px] text-paper/70">dh</span>
                             </>
                           ) : (
-                            <span className="text-[11px] italic text-quiet">{d.note ?? "—"}</span>
+                            <span className="text-[11px] italic text-paper/70">
+                              {d.note ?? "—"}
+                            </span>
                           )}
                         </dd>
                       </div>
                       {d.desc ? (
-                        <dd className="mt-2 max-w-[46ch] text-[13.5px] leading-[1.7] text-quiet">
+                        <dd className="mt-2 max-w-[46ch] text-[13.5px] leading-[1.7] text-paper/70">
                           {d.desc}
                         </dd>
                       ) : null}
@@ -163,7 +166,7 @@ export function Carte() {
           ))}
         </div>
 
-        <p className="mt-7 text-[12px] leading-relaxed text-quiet">
+        <p className="mt-7 text-[12px] leading-relaxed text-paper/70">
           Prix en dirhams, service compris. Le menu du jour est affiché sur les tableaux.
         </p>
       </div>

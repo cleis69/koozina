@@ -90,13 +90,13 @@ export function Header() {
   }, []);
 
   const overHero = !solid;
-  const tone = overHero || open ? "text-beige" : "text-ink";
+  const tone = overHero || open ? "text-paper" : "text-ink";
 
   return (
     <>
       <header
         className={`fixed inset-x-0 top-0 z-[66] transition-colors duration-[600ms] ease-editorial ${
-          solid && !open ? "bg-beige/95 shadow-[0_1px_24px_rgba(21,20,15,.07)]" : ""
+          solid && !open ? "bg-paper/95 shadow-[0_1px_24px_rgba(21,20,15,.07)]" : ""
         } ${tone}`}
       >
         <div className="pad-x flex h-[68px] items-center justify-between md:h-[76px]">
@@ -107,7 +107,7 @@ export function Header() {
           >
             <LogoMark className="h-7" interactive />
             <span className="font-display text-[15px] tracking-[0.14em]">
-              KOOZINA <span className="italic text-poppy">Garden</span>
+              KOOZINA <span className="italic text-terra-ink">Garden</span>
             </span>
           </button>
 
@@ -169,7 +169,7 @@ export function Header() {
         <div
           ref={bar}
           aria-hidden="true"
-          className="h-[2px] origin-left bg-poppy"
+          className="h-[2px] origin-left bg-terra-ink"
           style={{ transform: "scaleX(0)" }}
         />
       </header>
@@ -177,7 +177,7 @@ export function Header() {
       {/* Rail d'index vertical */}
       <div
         className={`fixed left-[max(10px,calc(var(--pad)/3))] top-1/2 z-[62] hidden -translate-y-1/2 flex-col gap-4 xl:flex ${
-          dark ? "text-beige" : "text-ink"
+          dark ? "text-paper" : "text-ink"
         } ${open ? "opacity-0" : "opacity-100"} transition-opacity duration-500`}
       >
         {sections.map((s) => (
@@ -188,8 +188,8 @@ export function Header() {
             className={`tap press flex w-6 justify-center font-display text-[11px] font-light transition-[color,opacity] duration-200 ease-editorial ${
               current === s.id
                 ? dark
-                  ? "text-poppy-light"
-                  : "text-poppy"
+                  ? "text-peach"
+                  : "text-terra-ink"
                 : "opacity-40 hover:opacity-90"
             }`}
           >

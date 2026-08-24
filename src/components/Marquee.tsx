@@ -52,7 +52,7 @@ export function Marquee() {
   }, []);
 
   return (
-    <div aria-hidden="true" className="relative z-[4] overflow-hidden bg-poppy py-5 text-paper">
+    <div aria-hidden="true" className="relative z-[4] overflow-hidden bg-terra-ink py-5 text-paper">
       <div ref={track} className="flex w-max will-change-transform">
         {[0, 1].map((copy) => (
           <div key={copy} className="flex shrink-0">

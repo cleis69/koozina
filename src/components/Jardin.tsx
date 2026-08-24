@@ -76,7 +76,7 @@ export function Jardin() {
       ref={section}
       id="jardin"
       data-tone="dark"
-      className="sec sec-dark bg-green-deep text-beige"
+      className="sec sec-dark bg-forest text-paper"
     >
       <div className="pad-x">
         <SectionHead
@@ -106,10 +106,10 @@ export function Jardin() {
                 sizes="(max-width: 640px) 68vw, (max-width: 1024px) 44vw, 28vw"
               />
               <figcaption className="mt-3 flex items-baseline gap-3">
-                <span className="font-display text-[11px] font-light text-rose">
+                <span className="font-display text-[11px] font-light text-peach">
                   Fig. {String(i + 1).padStart(2, "0")}
                 </span>
-                <span className="text-[12.5px] leading-snug text-beige/75">{t.alt}</span>
+                <span className="text-[12.5px] leading-snug text-paper/75">{t.alt}</span>
               </figcaption>
             </figure>
           ))}
@@ -117,11 +117,11 @@ export function Jardin() {
       </div>
 
       <div className="pad-x mt-10 hidden lg:block">
-        <span className="block h-px w-full bg-beige/20">
+        <span className="block h-px w-full bg-paper/20">
           <span
             ref={bar}
             aria-hidden="true"
-            className="block h-px origin-left bg-poppy-light"
+            className="block h-px origin-left bg-peach"
             style={{ transform: "scaleX(0)" }}
           />
         </span>
