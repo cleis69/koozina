@@ -1,3 +1,4 @@
+import { asset } from "@/lib/asset";
 import { useEffect, useRef } from "react";
 import { isCoarse, lerp, prefersReduced } from "@/lib/anim";
 
@@ -19,11 +20,22 @@ export function LogoMark({
   className = "",
   title,
   interactive = false,
+  couleur = false,
   style,
 }: {
   className?: string;
   title?: string;
   interactive?: boolean;
+  /**
+   * Rend le medaillon complet — poulpe ET coquelicots — plutot que le masque.
+   *
+   * Le masque CSS est monochrome par construction : il prend `currentColor`,
+   * ce qui effacait le rouge coquelicot et l'olive du trace. Pour la marque
+   * elle-meme on sert donc `koozina-icon.svg` en image, avec ses quatre
+   * couleurs d'origine. Le masque reste pour le filigrane, ou une teinte
+   * unique est justement ce qu'on veut.
+   */
+  couleur?: boolean;
   /** Pour poser une animation CSS depuis l'appelant. Fusionne avec le masque. */
   style?: React.CSSProperties;
 }) {
@@ -88,7 +100,22 @@ export function LogoMark({
     };
   }, [interactive]);
 
-  const mask = "url(/brand/koozina-mark-simple.svg)";
+  if (couleur) {
+    return (
+      <img
+        src={asset("brand/koozina-icon.svg")}
+        alt={title ?? ""}
+        aria-hidden={title ? undefined : "true"}
+        width={369}
+        height={369}
+        decoding="async"
+        className={`inline-block aspect-square ${className}`}
+        style={style}
+      />
+    );
+  }
+
+  const mask = `url(${asset("brand/koozina-mark-simple.svg")})`;
 
   return (
     // Le ratio est porté ici (viewBox 305,2 × 228) : sans lui, un appelant qui

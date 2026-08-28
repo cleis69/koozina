@@ -1,3 +1,4 @@
+import { asset } from "@/lib/asset";
 import { useEffect, useRef, useState } from "react";
 import { infos } from "@/data/menu";
 import { scrollToId } from "./SmoothScroll";
@@ -58,7 +59,7 @@ export function MenuOverlay({
     >
       <div className="pad-x relative flex h-full flex-col justify-between pb-10 pt-24 md:pt-32">
         <img
-          src={`/photos/${images[hover] ?? "cour-arcades"}-1080.webp`}
+          src={asset(`photos/${images[hover] ?? "cour-arcades"}-1080.webp`)}
           alt=""
           aria-hidden="true"
           width={1600}

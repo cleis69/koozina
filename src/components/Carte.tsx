@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useState } from "react";
 import { menu } from "@/data/menu";
 import { LogoMark } from "./logo/LogoMark";
 import { Picture } from "./Picture";
@@ -32,17 +32,6 @@ const RESPIRATIONS: Record<number, { name: string; alt: string; ratio: string }>
  */
 export function Carte() {
   const [actif, setActif] = useState(0);
-  const refs = useRef<Record<number, HTMLButtonElement>>({});
-
-  // L'onglet choisi au clavier doit revenir dans le champ visible quand la
-  // barre défile horizontalement.
-  useEffect(() => {
-    refs.current[actif]?.scrollIntoView({
-      block: "nearest",
-      inline: "center",
-      behavior: "smooth",
-    });
-  }, [actif]);
 
   return (
     <section
@@ -50,7 +39,7 @@ export function Carte() {
       /* Respiration réduite : `sec` pose 187 px en haut et en bas, soit 374 px
          — plus d'un tiers d'un écran de 900 px. Une section conçue pour tenir
          dans la fenêtre ne peut pas s'offrir le rythme des autres. */
-      style={{ ["--sec-y" as string]: "clamp(30px, 5.5vw, 84px)" }}
+      style={{ ["--sec-y" as string]: "clamp(22px, 5vw, 84px)" }}
       className="sec flex min-h-[100svh] flex-col justify-center bg-forest text-paper"
     >
       <LogoMark className="pointer-events-none absolute -right-[10%] top-[10%] hidden w-[52vw] text-ink opacity-[0.07] lg:block" />
@@ -76,14 +65,35 @@ export function Carte() {
             et un seul panneau dans l'ordre de tabulation à la fois. Sans JS,
             React rend le premier panneau — la carte reste lisible. */}
         <div className="mt-8 md:mt-10">
+          {/* Sous md : un selecteur natif.
+              La barre de pastilles defilait horizontalement — c'est un
+              defilement lateral, precisement ce qu'on ne veut pas. Un <select>
+              tient sur une ligne de 48 px, ne deborde jamais, et ouvre le
+              selecteur natif du telephone, plus rapide qu'un rail a faire
+              glisser. Au-dela de md, les pastilles reviennent : elles tiennent
+              sur deux rangees sans deborder. */}
+          <div className="md:hidden">
+            <label htmlFor="carte-categorie" className="sr-only">
+              Choisir une catégorie de la carte
+            </label>
+            <select
+              id="carte-categorie"
+              value={actif}
+              onChange={(e) => setActif(Number(e.target.value))}
+              className="h-12 w-full rounded-full border-2 border-peach bg-transparent px-5 font-display text-[15px] text-peach focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-peach"
+            >
+              {menu.map((cat, i) => (
+                <option key={cat.id} value={i} className="bg-forest text-paper">
+                  {cat.title}
+                </option>
+              ))}
+            </select>
+          </div>
+
           <div
             role="tablist"
             aria-label="Catégories de la carte"
-            /* Rangée unique défilante sous md. Mesuré à 375 px : neuf onglets
-               qui s'enroulent occupent 234 px sur 5 rangées — plus que les
-               plats eux-mêmes (208 px). Le défilement horizontal ramène la
-               barre à une rangée et rend la section à la fenêtre. */
-            className="-mx-[var(--pad)] flex snap-x snap-mandatory gap-2.5 overflow-x-auto px-[var(--pad)] pb-1 [scrollbar-width:none] md:mx-0 md:flex-wrap md:overflow-visible md:px-0"
+            className="hidden flex-wrap gap-2.5 md:flex"
             onKeyDown={(e) => {
               const d = e.key === "ArrowRight" ? 1 : e.key === "ArrowLeft" ? -1 : 0;
               if (!d) return;
@@ -102,10 +112,7 @@ export function Carte() {
                 aria-controls={`panneau-${cat.id}`}
                 tabIndex={i === actif ? 0 : -1}
                 onClick={() => setActif(i)}
-                ref={(el) => {
-                  if (el && i === actif) refs.current[i] = el;
-                }}
-                className={`tap press type-mass shrink-0 snap-start rounded-full border-2 px-5 py-3 text-[12.5px] transition-colors duration-200 ease-editorial focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-terra ${
+                className={`tap press type-mass shrink-0 rounded-full border-2 px-5 py-3 text-[12.5px] transition-colors duration-200 ease-editorial focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-peach ${
                   i === actif
                     ? "border-peach bg-peach text-forest"
                     : "border-paper/30 text-paper hover:border-paper"
@@ -132,9 +139,9 @@ export function Carte() {
                   </p>
                 ) : null}
 
-                <dl className="space-y-7 lg:col-span-2 lg:columns-2 lg:gap-x-24 lg:space-y-0">
+                <dl className="space-y-0 lg:col-span-2 lg:columns-2 lg:gap-x-24">
                   {cat.dishes.map((d) => (
-                    <div key={d.name} className="break-inside-avoid pb-7">
+                    <div key={d.name} className="break-inside-avoid pb-4">
                       <div className="flex items-baseline gap-3">
                         <dt className="font-display text-[clamp(15.5px,1.4vw,18.5px)] font-normal leading-snug text-paper">
                           {d.name}
@@ -155,7 +162,7 @@ export function Carte() {
                         </dd>
                       </div>
                       {d.desc ? (
-                        <dd className="mt-2 max-w-[46ch] text-[13.5px] leading-[1.7] text-paper/70">
+                        <dd className="mt-1.5 max-w-[46ch] text-[12.5px] leading-[1.5] text-paper/70">
                           {d.desc}
                         </dd>
                       ) : null}
@@ -167,7 +174,7 @@ export function Carte() {
           ))}
         </div>
 
-        <p className="mt-7 text-[12px] leading-relaxed text-paper/70">
+        <p className="mt-4 text-[12px] leading-relaxed text-paper/70">
           Prix en dirhams, service compris. Le menu du jour est affiché sur les tableaux.
         </p>
       </div>

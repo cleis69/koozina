@@ -231,7 +231,7 @@ export function SectionHead({
   poids?: "fort" | "moyen" | "discret";
 }) {
   const ECHELLE = {
-    fort: "text-[clamp(44px,8vw,132px)]",
+    fort: "text-[clamp(36px,8vw,132px)]",
     moyen: "text-[clamp(38px,5.4vw,84px)]",
     discret: "text-[clamp(34px,4.6vw,72px)]",
   } as const;
@@ -273,7 +273,7 @@ export function SectionHead({
         {intro ? (
           <Reveal delay={0.12}>
             <p
-              className={`mt-5 max-w-[46ch] text-[14px] leading-[1.7] md:text-[15px] ${
+              className={`mt-5 hidden max-w-[46ch] text-[14px] leading-[1.7] md:block md:text-[15px] ${
                 tone === "solid"
                   ? "text-paper/85"
                   : tone === "dark"

@@ -74,8 +74,9 @@ export function Header() {
           aria-label="Koozina Garden — haut de page"
         >
           <LogoMark
-            className="h-[38px] shrink-0 text-ink drop-shadow-[0_2px_8px_rgba(32,30,29,0.35)] sm:h-[42px]"
-            interactive
+            couleur
+            title="Koozina Garden"
+            className="h-9 w-9 shrink-0 drop-shadow-[0_2px_10px_rgba(32,30,29,0.45)]"
           />
           {/* Wordmark empile : KOOZINA creme, GARDEN peche. */}
           <span className="hidden flex-col leading-none drop-shadow-[0_2px_10px_rgba(32,30,29,0.45)] sm:flex">

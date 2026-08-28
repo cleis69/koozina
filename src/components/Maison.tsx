@@ -3,19 +3,16 @@ import { Picture } from "./Picture";
 
 const VALEURS = [
   {
-    n: "i",
     titre: "Huile d'olive et beurre",
     texte:
       "Toute la cuisine, hormis les fritures. C'est écrit en tête de notre carte, et peu de tables d'Essaouira peuvent l'écrire.",
   },
   {
-    n: "ii",
     titre: "Le marché décide",
     texte:
       "Nous partons au marché chaque matin. Ce que nous trouvons devient la carte du jour — rien de plus, rien de moins.",
   },
   {
-    n: "iii",
     titre: "Du port au jardin",
     texte:
       "Le poisson vient du port à cinq minutes. Les herbes viennent du jardin qui pousse derrière le mur.",
@@ -91,18 +88,20 @@ export function Maison() {
           </div>
         </div>
 
-        {/* Les trois valeurs : le vert entre en scène. */}
-        <div className="mt-16 grid gap-x-10 gap-y-10 border-t border-ink/12 pt-10 md:mt-20 md:grid-cols-3">
+        {/* Les trois valeurs.
+            Les chiffres romains sont retires : ils occupaient une ligne
+            chacun sans rien apprendre, le titre suffit a numeroter le propos.
+            Respiration et echelle resserrees dans la foulee. */}
+        <div className="mt-10 grid gap-x-10 gap-y-7 border-t border-ink/12 pt-7 md:mt-12 md:grid-cols-3">
           {VALEURS.map((v, i) => (
-            <Reveal key={v.n} tempo="green" delay={i * 0.08}>
+            <Reveal key={v.titre} tempo="green" delay={i * 0.08}>
               <article>
-                <span className="font-display text-[15px] font-light italic text-sage-ink">
-                  {v.n}
-                </span>
-                <h3 className="mt-4 font-display text-[clamp(18px,1.8vw,23px)] font-light tracking-[-0.02em] text-ink">
+                <h3 className="font-display text-[clamp(17px,1.6vw,21px)] tracking-[-0.02em] text-ink">
                   {v.titre}
                 </h3>
-                <p className="mt-3 max-w-[38ch] text-[14px] leading-[1.75] text-quiet">{v.texte}</p>
+                <p className="mt-2.5 max-w-[34ch] text-[13.5px] leading-[1.65] text-quiet">
+                  {v.texte}
+                </p>
               </article>
             </Reveal>
           ))}

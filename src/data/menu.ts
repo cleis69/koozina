@@ -12,8 +12,7 @@ export type MenuCategory = {
   dishes: Dish[];
 };
 
-export const menuNote =
-  "Cuisine uniquement à l'huile d'olive et au beurre, hormis fritures.";
+export const menuNote = "Cuisine uniquement à l'huile d'olive et au beurre, hormis fritures.";
 
 export const menu: MenuCategory[] = [
   {
@@ -172,8 +171,7 @@ export const menu: MenuCategory[] = [
 export const infos = {
   name: "Koozina Garden",
   baseline: "Né de la mer, enraciné au jardin.",
-  address:
-    "Complexe Commercial Bin Al Aswar, Bab Sbaa — Médina d'Essaouira, 44000, Maroc",
+  address: "Complexe Commercial Bin Al Aswar, Bab Sbaa — Médina d'Essaouira, 44000, Maroc",
   phone: "+212 707 059 002",
   phoneHref: "tel:+212707059002",
   whatsapp: "https://wa.me/212707059002",

@@ -1,3 +1,4 @@
+import { asset } from "@/lib/asset";
 import { useRef } from "react";
 import { infos } from "@/data/menu";
 import { E, useGsap } from "@/lib/anim";
@@ -75,10 +76,12 @@ export function Hero() {
           <source
             type="image/webp"
             sizes="100vw"
-            srcSet="/photos/cour-arcades-640.webp 640w, /photos/cour-arcades-1080.webp 1080w, /photos/cour-arcades-1440.webp 1440w, /photos/cour-arcades-1920.webp 1920w"
+            srcSet={[640, 1080, 1440, 1920]
+              .map((w) => `${asset(`photos/cour-arcades-${w}.webp`)} ${w}w`)
+              .join(", ")}
           />
           <img
-            src="/photos/cour-arcades.jpg"
+            src={asset("/photos/cour-arcades.jpg")}
             alt="La cour de Koozina Garden : arcades rayées ocre et blanc, fresque de poulpe peinte sur le mur, tables sous les palmiers"
             width={2400}
             height={1600}

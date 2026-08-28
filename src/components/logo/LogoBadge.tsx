@@ -1,3 +1,4 @@
+import { asset } from "@/lib/asset";
 import type { Ref } from "react";
 
 /**
@@ -24,7 +25,8 @@ export function LogoBadge({
   ringRef?: Ref<SVGCircleElement>;
   priority?: boolean;
 }) {
-  const src = variant === "white" ? "/brand/koozina-logo-white.svg" : "/brand/koozina-logo.svg";
+  const src =
+    variant === "white" ? asset("brand/koozina-logo-white.svg") : asset("brand/koozina-logo.svg");
 
   return (
     <div className={`relative ${className}`}>

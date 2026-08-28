@@ -1,3 +1,4 @@
+import { asset } from "@/lib/asset";
 import { useRef } from "react";
 import { E, useGsap } from "@/lib/anim";
 import { revealOnScroll } from "@/lib/reveal";
@@ -40,7 +41,7 @@ export function Picture({
 }) {
   const ref = useRef<HTMLDivElement>(null);
   const widths = VARIANTS[name] ?? [640, 1080];
-  const srcSet = widths.map((w) => `/photos/${name}-${w}.webp ${w}w`).join(", ");
+  const srcSet = widths.map((w) => `${asset(`photos/${name}-${w}.webp`)} ${w}w`).join(", ");
 
   useGsap(({ gsap, ScrollTrigger }) => {
     const el = ref.current;
@@ -78,7 +79,7 @@ export function Picture({
         <picture>
           <source type="image/webp" srcSet={srcSet} sizes={sizes} />
           <img
-            src={`/photos/${name}.jpg`}
+            src={asset(`photos/${name}.jpg`)}
             alt={alt}
             loading={eager ? "eager" : "lazy"}
             {...(eager ? { fetchPriority: "high" as const } : {})}
