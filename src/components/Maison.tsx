@@ -34,6 +34,7 @@ export function Maison() {
     <section id="maison" className="sec bg-paper">
       <div className="pad-x relative">
         <SectionHead
+          poids="fort"
           num="01"
           label="La maison"
           title="Le poulpe"

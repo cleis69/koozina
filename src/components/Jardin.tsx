@@ -80,6 +80,7 @@ export function Jardin() {
     >
       <div className="pad-x">
         <SectionHead
+          poids="moyen"
           num="03"
           label="Le jardin"
           title="Derrière"

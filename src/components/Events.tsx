@@ -20,6 +20,7 @@ export function Events() {
     <section id="evenements" data-tone="dark" className="sec sec-dark bg-forest text-paper">
       <div className="pad-x">
         <SectionHead
+          poids="discret"
           num="05"
           label="Événements"
           title="Le jardin"

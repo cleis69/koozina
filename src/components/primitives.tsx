@@ -155,7 +155,7 @@ export function RevealImage({
     <div
       ref={ref}
       data-cursor="view"
-      className={`relative overflow-hidden rounded-[4px] bg-sand ${className}`}
+      className={`relative overflow-hidden rounded-[28px] bg-sand ${className}`}
       style={ratio ? { aspectRatio: ratio } : undefined}
     >
       <img
@@ -208,6 +208,7 @@ export function SectionHead({
   accent,
   intro,
   tone = "light",
+  poids = "moyen",
 }: {
   num: string;
   label: string;
@@ -222,7 +223,18 @@ export function SectionHead({
    *          n'y tient que par sa clarte. Numero et accent passent en papier.
    */
   tone?: "light" | "dark" | "solid";
+  /**
+   * Poids de la section dans le recit. La maquette module l'echelle des titres
+   * — 132 px pour la carte, 72 px pour les avis — au lieu de les aligner tous
+   * sur une meme valeur, ce qui aplatissait la hierarchie.
+   */
+  poids?: "fort" | "moyen" | "discret";
 }) {
+  const ECHELLE = {
+    fort: "text-[clamp(44px,8vw,132px)]",
+    moyen: "text-[clamp(38px,5.4vw,84px)]",
+    discret: "text-[clamp(34px,4.6vw,72px)]",
+  } as const;
   // 13px = petit texte, seuil 4,5. Sur fond clair le coquelicot pur ne fait
   // que 3,7–4,2 selon la nuance de beige ; sur fond sombre poppy-light fait 2,5.
   const clair = tone !== "light";
@@ -254,7 +266,7 @@ export function SectionHead({
           text={title}
           accent={accent}
           accentClass={accentColor}
-          className={`type-mass mt-4 ${titleColor} text-[clamp(29px,4.9vw,72px)]`}
+          className={`type-mass mt-4 ${titleColor} ${ECHELLE[poids]}`}
           stack
         />
 

@@ -50,13 +50,14 @@ export function Carte() {
       /* Respiration réduite : `sec` pose 187 px en haut et en bas, soit 374 px
          — plus d'un tiers d'un écran de 900 px. Une section conçue pour tenir
          dans la fenêtre ne peut pas s'offrir le rythme des autres. */
-      style={{ ["--sec-y" as string]: "clamp(40px, 6vw, 88px)" }}
+      style={{ ["--sec-y" as string]: "clamp(30px, 5.5vw, 84px)" }}
       className="sec flex min-h-[100svh] flex-col justify-center bg-forest text-paper"
     >
       <LogoMark className="pointer-events-none absolute -right-[10%] top-[10%] hidden w-[52vw] text-ink opacity-[0.07] lg:block" />
 
       <div className="pad-x relative z-10">
         <SectionHead
+          poids="fort"
           num="02"
           label="La carte"
           title="Menu"
@@ -126,7 +127,9 @@ export function Carte() {
             >
               <div className="grid gap-x-16 gap-y-10 lg:grid-cols-2 lg:gap-x-24">
                 {cat.subtitle ? (
-                  <p className="eyebrow text-peach lg:col-span-2">{cat.subtitle}</p>
+                  <p className="text-right text-[11px] uppercase tracking-[0.18em] text-mint/50 lg:col-span-2">
+                    {cat.subtitle}
+                  </p>
                 ) : null}
 
                 <dl className="space-y-7 lg:col-span-2 lg:columns-2 lg:gap-x-24 lg:space-y-0">
@@ -140,12 +143,10 @@ export function Carte() {
                           aria-hidden="true"
                           className="mb-[4px] min-w-4 flex-1 border-b border-dotted border-paper/25"
                         />
-                        <dd className="shrink-0 font-display text-[15px] font-light tabular-nums text-peach">
+                        <dd className="shrink-0 font-display text-[16px] tabular-nums text-peach">
                           {d.price != null ? (
-                            <>
-                              {d.price}
-                              <span className="ml-1 text-[10.5px] text-paper/70">dh</span>
-                            </>
+                            /* Prix colle a l'unite, comme la maquette : « 95dh ». */
+                            <>{d.price}dh</>
                           ) : (
                             <span className="text-[11px] italic text-paper/70">
                               {d.note ?? "—"}

@@ -70,7 +70,7 @@ export function Header() {
       <header className="pad-x fixed inset-x-0 top-0 z-[80] flex items-center justify-between gap-4 py-[18px]">
         <button
           onClick={() => scrollToId("top")}
-          className="press flex shrink-0 items-center gap-3"
+          className="tap press flex shrink-0 items-center gap-3"
           aria-label="Koozina Garden — haut de page"
         >
           <LogoMark
@@ -110,7 +110,7 @@ export function Header() {
 
           <button
             onClick={() => scrollToId("reservation")}
-            className="press shrink-0 whitespace-nowrap rounded-full bg-terra-ink px-5 py-[10px] font-display text-[14px] text-sand-2 transition-colors duration-200 ease-editorial hover:bg-terra focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-mint"
+            className="tap press shrink-0 whitespace-nowrap rounded-full bg-terra-ink px-5 py-[10px] font-display text-[14px] text-sand-2 transition-colors duration-200 ease-editorial hover:bg-terra focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-mint"
           >
             Réserver
           </button>

@@ -38,13 +38,14 @@ export function Booking() {
   );
 
   const field =
-    "mt-2 h-12 w-full rounded-[4px] border border-ink/25 bg-ink/[0.04] px-4 text-[14.5px] text-ink placeholder:text-quiet/60 transition-colors duration-[340ms] ease-editorial focus:border-ink/60 focus:outline-none focus-visible:ring-2 focus-visible:ring-terra";
+    "mt-2 h-12 w-full rounded-[28px] border border-ink/25 bg-ink/[0.04] px-4 text-[14.5px] text-ink placeholder:text-quiet/60 transition-colors duration-[340ms] ease-editorial focus:border-ink/60 focus:outline-none focus-visible:ring-2 focus-visible:ring-terra";
   const label = "eyebrow text-quiet";
 
   return (
     <section id="reservation" data-tone="light" className="sec bg-sand text-ink">
       <div className="pad-x">
         <SectionHead
+          poids="moyen"
           num="06"
           label="Réservation"
           title="Une table"
