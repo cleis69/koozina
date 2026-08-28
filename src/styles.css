@@ -344,3 +344,39 @@
     transition-duration: 0.01ms !important;
   }
 }
+
+/* ── Animations de la maquette ─────────────────────────────────────
+ * `koWipe` revele une ligne de titre par le bas, `koZoom` fait respirer la
+ * photo du hero a l'arrivee. Les deux sont ecrites en CSS et non en JS :
+ * elles tournent hors du fil principal et restent fluides pendant que la
+ * page charge. Aucun etat de depart n'est cache — sans animation, le titre
+ * est simplement la.
+ */
+@keyframes koWipe {
+  from {
+    opacity: 0;
+    transform: translateY(0.5em);
+    clip-path: inset(0 0 100% 0);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+    clip-path: inset(0 0 -0.15em 0);
+  }
+}
+
+@keyframes koZoom {
+  from {
+    transform: scale(1.12);
+  }
+  to {
+    transform: scale(1);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  [style*="koWipe"],
+  [style*="koZoom"] {
+    animation: none !important;
+  }
+}

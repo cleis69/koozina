@@ -19,10 +19,13 @@ export function LogoMark({
   className = "",
   title,
   interactive = false,
+  style,
 }: {
   className?: string;
   title?: string;
   interactive?: boolean;
+  /** Pour poser une animation CSS depuis l'appelant. Fusionne avec le masque. */
+  style?: React.CSSProperties;
 }) {
   const el = useRef<HTMLSpanElement>(null);
 
@@ -97,6 +100,7 @@ export function LogoMark({
       aria-label={title}
       aria-hidden={title ? undefined : "true"}
       style={{
+        ...style,
         WebkitMaskImage: mask,
         maskImage: mask,
         WebkitMaskRepeat: "no-repeat",

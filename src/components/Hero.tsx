@@ -2,6 +2,7 @@ import { useRef } from "react";
 import { infos } from "@/data/menu";
 import { E, useGsap } from "@/lib/anim";
 import { scrollToId } from "./SmoothScroll";
+import { LogoMark } from "./logo/LogoMark";
 
 /** Le bandeau de faits : quatre cellules sur une grille a filets de 1 px. */
 const FAITS = [
@@ -31,11 +32,6 @@ export function Hero() {
     const tl = gsap.timeline({ delay: 0.15 });
 
     tl.fromTo(
-      el.querySelectorAll("[data-ligne]"),
-      { yPercent: 108, opacity: 0 },
-      { yPercent: 0, opacity: 1, duration: E.ink.d, ease: E.ink.ease, stagger: 0.08 },
-      0,
-    ).fromTo(
       el.querySelectorAll("[data-intro]"),
       { opacity: 0, y: 22 },
       { opacity: 1, y: 0, duration: E.beige.d, ease: E.beige.ease, stagger: 0.09 },
@@ -67,9 +63,14 @@ export function Hero() {
     <section
       ref={root}
       id="top"
-      className="relative grid h-[100svh] min-h-[100svh] overflow-clip bg-forest"
+      /* `min-h` et non `h` : la maquette fige le hero a 100svh, ce qui suppose
+         que le contenu tient. Mesure a 375 px : la grille de faits passe a deux
+         rangees et depasse de 51 px — « Budget » et « Avis » etaient coupes par
+         le clip, puis recouverts par le bandeau. Le hero peut desormais grandir.
+         Le clip descend sur le calque photo, ou il sert au parallaxe. */
+      className="relative grid min-h-[100svh] bg-forest"
     >
-      <div data-hero-media className="absolute inset-0">
+      <div data-hero-media className="absolute inset-0 overflow-clip">
         <picture>
           <source
             type="image/webp"
@@ -85,6 +86,7 @@ export function Hero() {
             fetchPriority="high"
             decoding="async"
             className="h-full w-full object-cover"
+            style={{ animation: "koZoom 2.4s cubic-bezier(.16,1,.3,1) both" }}
           />
         </picture>
         {/* Degrade en quatre paliers. Forme et positions de la maquette ;
@@ -102,7 +104,7 @@ export function Hero() {
         />
       </div>
 
-      <div className="relative flex flex-col justify-end pb-0 pt-[120px]">
+      <div className="relative flex flex-col justify-end pb-0 pt-[clamp(96px,14vw,120px)]">
         <div className="pad-x">
           <p data-intro className="flex flex-wrap items-center gap-3 text-mint/80">
             <span className="h-2 w-2 shrink-0 rounded-full bg-terra" />
@@ -111,19 +113,32 @@ export function Hero() {
             </span>
           </p>
 
+          {/* Le poulpe en grand au-dessus du titre : c'est lui qui signe
+              l'arrivee, pas le wordmark. */}
+          <LogoMark
+            className="mt-6 h-[clamp(64px,9vw,111px)] w-full max-w-[15ch] text-ink drop-shadow-[0_2px_8px_rgba(32,30,29,0.35)]"
+            style={{ animation: "koZoom 1.6s .1s cubic-bezier(.16,1,.3,1) both" }}
+          />
+
           <h1
-            className="mt-7 font-display text-[clamp(48px,10.5vw,186px)] leading-[0.86] text-paper"
+            className="mt-4 font-display text-[clamp(48px,10.5vw,186px)] leading-[0.86] text-paper"
             style={{ maxWidth: "15ch", letterSpacing: "-0.015em" }}
           >
-            <span className="ch-mask block">
-              <span data-ligne className="block">
-                Né de la mer.
-              </span>
+            <span
+              className="block"
+              style={{ animation: "koWipe 1.1s .15s cubic-bezier(.16,1,.3,1) both" }}
+            >
+              Né de la mer.
             </span>
-            <span className="ch-mask block">
-              <span data-ligne className="block">
-                Enraciné au jardin.
-              </span>
+            {/* Seconde ligne en peche, legerement rentree — geste de la maquette. */}
+            <span
+              className="block text-peach"
+              style={{
+                paddingLeft: "0.14em",
+                animation: "koWipe 1.1s .38s cubic-bezier(.16,1,.3,1) both",
+              }}
+            >
+              Enraciné au jardin.
             </span>
           </h1>
 
