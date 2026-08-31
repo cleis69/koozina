@@ -1,5 +1,6 @@
 import { useState } from "react";
-import { menu } from "@/data/menu";
+import { infos, menu } from "@/data/menu";
+import { scrollToId } from "./SmoothScroll";
 import { LogoMark } from "./logo/LogoMark";
 import { Picture } from "./Picture";
 import { Reveal, SectionHead } from "./primitives";
@@ -39,7 +40,7 @@ export function Carte() {
       /* Respiration réduite : `sec` pose 187 px en haut et en bas, soit 374 px
          — plus d'un tiers d'un écran de 900 px. Une section conçue pour tenir
          dans la fenêtre ne peut pas s'offrir le rythme des autres. */
-      style={{ ["--sec-y" as string]: "clamp(22px, 5vw, 84px)" }}
+      style={{ ["--sec-y" as string]: "clamp(16px, 4.4vw, 84px)" }}
       className="sec flex min-h-[100svh] flex-col justify-center bg-forest text-paper"
     >
       <LogoMark className="pointer-events-none absolute -right-[10%] top-[10%] hidden w-[52vw] text-ink opacity-[0.07] lg:block" />
@@ -172,6 +173,25 @@ export function Carte() {
               </div>
             </div>
           ))}
+        </div>
+
+        {/* Micro-CTA au point de decision : on vient de lire les plats et les
+            prix, c'est la que l'envie de reserver se forme. */}
+        <div className="mt-6 flex flex-wrap items-center gap-3">
+          <button
+            onClick={() => scrollToId("reservation")}
+            className="pill bg-peach text-forest hover:bg-paper focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-3 focus-visible:outline-peach"
+          >
+            Réserver une table
+          </button>
+          <a
+            href={`${infos.whatsapp}?text=${encodeURIComponent("Bonjour Koozina Garden, une question sur la carte :")}`}
+            target="_blank"
+            rel="noreferrer"
+            className="pill border border-paper/35 text-paper hover:border-paper focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-3 focus-visible:outline-peach"
+          >
+            Une question ?
+          </a>
         </div>
 
         <p className="mt-4 text-[12px] leading-relaxed text-paper/70">

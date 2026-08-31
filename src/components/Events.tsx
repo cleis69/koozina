@@ -52,6 +52,19 @@ export function Events() {
           </div>
         </div>
 
+        <Reveal delay={0.08}>
+          {/* Le shop et les evenements sont deux offres, pas deux notes de bas
+              de page : chacune merite sa porte d'entree. */}
+          <a
+            href={`${infos.whatsapp}?text=${encodeURIComponent("Bonjour Koozina Garden, je souhaite organiser un evenement dans la cour. Voici ce que j'ai en tete :")}`}
+            target="_blank"
+            rel="noreferrer"
+            className="pill mt-10 bg-peach text-forest hover:bg-paper focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-3 focus-visible:outline-peach"
+          >
+            Organiser un événement
+          </a>
+        </Reveal>
+
         <Reveal delay={0.1}>
           <p className="mt-8 flex items-center gap-3 text-[13.5px] text-paper/90">
             <Dot />

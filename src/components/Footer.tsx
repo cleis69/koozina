@@ -5,7 +5,7 @@ import { sections } from "./sections";
 
 export function Footer() {
   return (
-    <footer className="relative bg-sand pb-9 pt-[clamp(48px,6vw,96px)]">
+    <footer className="relative bg-sand pb-[104px] pt-[clamp(48px,6vw,96px)] md:pb-9">
       <div className="pad-x">
         <div className="grid gap-14 lg:grid-cols-12 lg:gap-10">
           <div className="lg:col-span-4">

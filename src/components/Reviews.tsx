@@ -84,11 +84,25 @@ export function Reviews() {
   return (
     <section aria-labelledby="avis-titre" className="sec bg-sand-2">
       <div className="pad-x">
-        <h2 id="avis-titre" className="sr-only">
-          Ce qu'en disent les clients
+        {/* Le titre etait en sr-only : une section de preuve sociale muette
+            pour l'oeil ne rassure personne. Les etoiles et les notes montent
+            en tete, avant les citations. */}
+        <h2 id="avis-titre" className="type-mass text-[clamp(29px,4.4vw,64px)] text-ink">
+          Ce qu&apos;en disent les clients
         </h2>
 
-        <div className="grid gap-10 lg:grid-cols-12 lg:gap-10">
+        <Reveal>
+          <div className="mt-6 flex flex-wrap items-center gap-x-5 gap-y-2">
+            <span aria-hidden="true" className="text-[19px] tracking-[0.14em] text-terra-ink">
+              ★★★★★
+            </span>
+            <span className="text-[13.5px] text-quiet">
+              Notes publiques Google et Tripadvisor, relevées en août 2026.
+            </span>
+          </div>
+        </Reveal>
+
+        <div className="mt-10 grid gap-10 lg:grid-cols-12 lg:gap-10">
           <div className="lg:col-span-3">
             <Reveal>
               <dl className="flex gap-12 lg:flex-col lg:gap-10">

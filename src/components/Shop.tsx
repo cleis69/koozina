@@ -42,13 +42,13 @@ export function Shop() {
               </p>
 
               <a
-                href={infos.whatsapp}
+                href={`${infos.whatsapp}?text=${encodeURIComponent("Bonjour Koozina Garden, je souhaite connaitre ce qui est disponible au shop.")}`}
                 target="_blank"
                 rel="noreferrer"
                 className="group mt-8 inline-flex h-12 items-center gap-3 rounded-[28px] border border-ink/25 px-7 text-ink transition-colors duration-[340ms] ease-editorial hover:border-ink hover:bg-ink hover:text-paper focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-3 focus-visible:outline-terra"
               >
                 <Dot className="transition-transform duration-[340ms] ease-editorial group-hover:scale-[1.6]" />
-                <span className="eyebrow">Demander sur WhatsApp</span>
+                <span className="eyebrow">Découvrir le shop</span>
               </a>
             </Reveal>
           </div>
