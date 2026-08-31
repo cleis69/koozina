@@ -1,88 +1,51 @@
-import { useRef } from "react";
-import { isCoarse, prefersReduced, useGsap } from "@/lib/anim";
 import { SectionHead } from "./primitives";
 import { Picture } from "./Picture";
 
-/** Cinq formats alternés : l'allure d'un reportage, pas d'une grille. */
-/** Uniquement des photos réelles du lieu, vérifiées une à une. */
+/**
+ * Uniquement des photos réelles du lieu, vérifiées une à une.
+ *
+ * Tous les visuels partagent désormais le même cadre 4/5 et la même largeur :
+ * les formats alternés donnaient un rail bancal, où l'œil butait sur chaque
+ * changement de hauteur au lieu de suivre le défilement.
+ */
 const TILES = [
   {
     name: "cour-arcades",
     alt: "La cour et ses arcades rayées, la fresque du poulpe sur le mur",
-    ratio: "3 / 2",
   },
-  {
-    name: "table-vichy",
-    alt: "Une table dressée sous les nappes vichy noir et blanc",
-    ratio: "4 / 3",
-  },
-  {
-    name: "bowls-quinoa",
-    alt: "Bols de quinoa, avocat et œuf poché servis en terre cuite",
-    ratio: "3 / 4",
-  },
+  { name: "table-vichy", alt: "Une table dressée sous les nappes vichy noir et blanc" },
+  { name: "bowls-quinoa", alt: "Bols de quinoa, avocat et œuf poché servis en terre cuite" },
   {
     name: "table-zellige",
     alt: "Table en zellige vert : tagine de crevettes, brochettes et mezze",
-    ratio: "16 / 9",
   },
-  { name: "tagine-cour", alt: "Tagine aux amandes, la cour en arrière-plan", ratio: "9 / 16" },
-  { name: "desserts", alt: "Basboussa à l'orange et crumble aux pommes", ratio: "4 / 3" },
+  { name: "tagine-cour", alt: "Tagine aux amandes, la cour en arrière-plan" },
+  { name: "desserts", alt: "Basboussa à l'orange et crumble aux pommes" },
 ];
 
 /**
- * 03 · Le jardin — le moment végétal, seule section vert profond.
+ * 03 · Le jardin — encre, pour ne pas prolonger le vert-noir de la carte.
  *
- * Galerie horizontale pinnée au scroll sur grand écran. Sur pointeur grossier,
- * en mouvement réduit, ou si GSAP ne charge pas, elle reste **un simple rail
- * à défilement horizontal natif** : c'est le même DOM, sans pin. Aucun état
- * n'est caché en CSS, donc l'échec du JS dégrade au lieu de casser.
+ * Le rail défile seul, à la même vitesse et au même format sur mobile comme
+ * sur grand écran. La piste est dupliquée et translatée de la moitié de sa
+ * largeur : à mi-parcours, la seconde copie occupe exactement la position de
+ * la première, la boucle est donc invisible.
+ *
+ * L'animation est en CSS, pas en JS : elle tourne hors du fil principal et
+ * continue pendant que la page charge. Le duplicata est masqué aux lecteurs
+ * d'écran, qui ne doivent entendre les six légendes qu'une fois.
+ *
+ * Sous `prefers-reduced-motion`, le défilement s'arrête et le rail redevient
+ * une bande à faire glisser à la main — le contenu reste entièrement joignable.
  */
 export function Jardin() {
-  const section = useRef<HTMLElement>(null);
-  const track = useRef<HTMLDivElement>(null);
-  const bar = useRef<HTMLSpanElement>(null);
-
-  useGsap(({ gsap, ScrollTrigger }) => {
-    const sec = section.current;
-    const tr = track.current;
-    if (!sec || !tr) return;
-    if (isCoarse() || prefersReduced()) return;
-    if (!window.matchMedia("(min-width: 1024px)").matches) return;
-
-    const distance = () => Math.max(0, tr.scrollWidth - window.innerWidth + 96);
-
-    const st = ScrollTrigger.create({
-      trigger: sec,
-      start: "top top",
-      end: () => `+=${distance()}`,
-      pin: true,
-      scrub: 0.6,
-      invalidateOnRefresh: true,
-      onUpdate: (self) => {
-        gsap.set(tr, { x: -distance() * self.progress });
-        if (bar.current) bar.current.style.transform = `scaleX(${self.progress})`;
-      },
-    });
-
-    return () => {
-      st.kill();
-      gsap.set(tr, { x: 0 });
-    };
-  }, []);
-
   return (
-    <section
-      ref={section}
-      id="jardin"
-      data-tone="dark"
-      className="sec sec-dark bg-forest text-paper"
-    >
+    <section id="jardin" data-tone="dark" className="sec sec-dark bg-ink text-paper">
       <div className="pad-x">
         <SectionHead
-          poids="moyen"
           num="03"
           label="Le jardin"
+          poids="moyen"
           title="Derrière"
           accent="le mur"
           intro="Un jardin caché à la bordure de la médina : les arcades, les nappes vichy, les herbes qui poussent à deux pas des fourneaux."
@@ -90,42 +53,28 @@ export function Jardin() {
         />
       </div>
 
-      {/* Rail : `overflow-x: auto` en base — le pin GSAP le pilote en plus,
-          il ne le remplace pas. */}
-      <div className="mt-9 overflow-x-auto pb-4 md:mt-12 lg:overflow-visible [scrollbar-width:thin]">
-        <div ref={track} className="flex w-max gap-5 pl-[var(--pad)] pr-[var(--pad)] md:gap-8">
-          {TILES.map((t, i) => (
-            <figure
-              key={t.name}
-              className="w-[68vw] shrink-0 sm:w-[44vw] lg:w-[30vw] xl:w-[26vw]"
-              style={i % 2 ? { marginTop: "clamp(20px,4vw,64px)" } : undefined}
-            >
-              <Picture
-                name={t.name}
-                alt={t.alt}
-                ratio={t.ratio}
-                sizes="(max-width: 640px) 68vw, (max-width: 1024px) 44vw, 28vw"
-              />
-              <figcaption className="mt-3 flex items-baseline gap-3">
-                <span className="font-display text-[11px] font-light text-peach">
-                  Fig. {String(i + 1).padStart(2, "0")}
-                </span>
-                <span className="text-[12.5px] leading-snug text-paper/75">{t.alt}</span>
-              </figcaption>
-            </figure>
-          ))}
+      <div
+        className="carrousel mt-9 overflow-hidden md:mt-12"
+        style={{ ["--duree" as string]: "48s" }}
+      >
+        <div className="carrousel-piste flex w-max gap-4 md:gap-6">
+          {[0, 1].map((copie) =>
+            TILES.map((t) => (
+              <figure
+                key={`${copie}-${t.name}`}
+                /* Largeur unique : « de la meme taille » sur mobile comme sur
+                   grand ecran, sans palier responsive. */
+                className="w-[280px] shrink-0"
+                {...(copie === 1 ? { "aria-hidden": "true" } : {})}
+              >
+                <Picture name={t.name} alt={copie === 1 ? "" : t.alt} ratio="4 / 5" sizes="300px" />
+                <figcaption className="mt-3 text-[12.5px] leading-snug text-paper/70">
+                  {t.alt}
+                </figcaption>
+              </figure>
+            )),
+          )}
         </div>
-      </div>
-
-      <div className="pad-x mt-10 hidden lg:block">
-        <span className="block h-px w-full bg-paper/20">
-          <span
-            ref={bar}
-            aria-hidden="true"
-            className="block h-px origin-left bg-peach"
-            style={{ transform: "scaleX(0)" }}
-          />
-        </span>
       </div>
     </section>
   );

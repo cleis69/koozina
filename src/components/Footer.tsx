@@ -5,24 +5,24 @@ import { sections } from "./sections";
 
 export function Footer() {
   return (
-    <footer className="relative bg-sand pb-[104px] pt-[clamp(48px,6vw,96px)] md:pb-9">
+    <footer className="relative bg-forest pb-[104px] pt-[clamp(48px,6vw,96px)] md:pb-9">
       <div className="pad-x">
         <div className="grid gap-14 lg:grid-cols-12 lg:gap-10">
           <div className="lg:col-span-4">
             <LogoBadge className="w-[min(58vw,232px)]" />
-            <p className="mt-8 max-w-[30ch] font-display text-[clamp(17px,1.7vw,21px)] font-light italic leading-[1.4] text-ink">
+            <p className="mt-8 max-w-[30ch] font-display text-[clamp(17px,1.7vw,21px)] font-light italic leading-[1.4] text-paper">
               {infos.baseline}
             </p>
           </div>
 
           <nav aria-label="Sections du site" className="lg:col-span-3 lg:col-start-6">
-            <h2 className="eyebrow text-sage-ink">Le site</h2>
+            <h2 className="eyebrow text-peach">Le site</h2>
             <ul className="mt-5 space-y-3">
               {sections.map((s) => (
                 <li key={s.id}>
                   <button
                     onClick={() => scrollToId(s.id)}
-                    className="tap press link-underline text-[14px] text-quiet transition-colors duration-300 hover:text-ink"
+                    className="tap press link-underline text-[14px] text-paper/70 transition-colors duration-300 hover:text-paper"
                   >
                     {s.label}
                   </button>
@@ -32,12 +32,12 @@ export function Footer() {
           </nav>
 
           <div className="lg:col-span-4 lg:col-start-9">
-            <h2 className="eyebrow text-sage-ink">Nous trouver</h2>
-            <address className="mt-5 space-y-3 text-[14px] not-italic leading-[1.7] text-quiet">
+            <h2 className="eyebrow text-peach">Nous trouver</h2>
+            <address className="mt-5 space-y-3 text-[14px] not-italic leading-[1.7] text-paper/70">
               <p className="max-w-[30ch]">{infos.address}</p>
               <p>Tous les jours · {infos.hours}</p>
               <p>
-                <a href={infos.phoneHref} className="tap link-underline hover:text-ink">
+                <a href={infos.phoneHref} className="tap link-underline hover:text-paper">
                   {infos.phone}
                 </a>
               </p>
@@ -46,7 +46,7 @@ export function Footer() {
                   href={infos.instagram}
                   target="_blank"
                   rel="noreferrer"
-                  className="tap link-underline hover:text-ink"
+                  className="tap link-underline hover:text-paper"
                 >
                   Instagram ↗
                 </a>
@@ -54,7 +54,7 @@ export function Footer() {
                   href={infos.whatsapp}
                   target="_blank"
                   rel="noreferrer"
-                  className="tap link-underline hover:text-ink"
+                  className="tap link-underline hover:text-paper"
                 >
                   WhatsApp ↗
                 </a>
@@ -66,7 +66,7 @@ export function Footer() {
         {/* Le vichy des nappes en séparateur — le seul motif autorisé. */}
         <div aria-hidden="true" className="vichy mt-10 h-[6px] w-full opacity-[0.16]" />
 
-        <div className="mt-7 flex flex-col gap-3 text-[12px] text-quiet sm:flex-row sm:items-center sm:justify-between">
+        <div className="mt-7 flex flex-col gap-3 text-[12px] text-paper/70 sm:flex-row sm:items-center sm:justify-between">
           <p>© {new Date().getFullYear()} Koozina Garden — Essaouira, Maroc.</p>
           <p className="flex items-center gap-2">
             Cuisine à l'huile d'olive et au beurre, hormis fritures.

@@ -380,3 +380,35 @@
     animation: none !important;
   }
 }
+
+/* ── Rail qui defile seul ──────────────────────────────────────────
+ * La piste contient deux copies de la meme serie. La translater de -50 %
+ * amene la seconde exactement la ou etait la premiere : la boucle ne se voit
+ * pas. En CSS plutot qu'en JS, l'animation tourne hors du fil principal.
+ */
+.carrousel-piste {
+  animation: defile var(--duree, 48s) linear infinite;
+}
+
+.carrousel:hover .carrousel-piste,
+.carrousel:focus-within .carrousel-piste {
+  animation-play-state: paused;
+}
+
+@keyframes defile {
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  /* Plus de defilement, mais le rail reste parcourable a la main : le
+     contenu ne doit jamais devenir inatteignable. */
+  .carrousel-piste {
+    animation: none;
+  }
+
+  .carrousel {
+    overflow-x: auto;
+  }
+}

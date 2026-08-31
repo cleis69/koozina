@@ -82,7 +82,7 @@ export function Reviews() {
   }, []);
 
   return (
-    <section aria-labelledby="avis-titre" className="sec bg-sand-2">
+    <section aria-labelledby="avis-titre" className="sec bg-peach">
       <div className="pad-x">
         {/* Le titre etait en sr-only : une section de preuve sociale muette
             pour l'oeil ne rassure personne. Les etoiles et les notes montent
@@ -96,7 +96,7 @@ export function Reviews() {
             <span aria-hidden="true" className="text-[19px] tracking-[0.14em] text-terra-ink">
               ★★★★★
             </span>
-            <span className="text-[13.5px] text-quiet">
+            <span className="text-[13.5px] text-forest/75">
               Notes publiques Google et Tripadvisor, relevées en août 2026.
             </span>
           </div>
@@ -107,7 +107,7 @@ export function Reviews() {
             <Reveal>
               <dl className="flex gap-12 lg:flex-col lg:gap-10">
                 <div>
-                  <dt className="eyebrow text-quiet">Google</dt>
+                  <dt className="eyebrow text-forest/75">Google</dt>
                   <dd className="mt-2 font-display text-[clamp(36px,4.6vw,62px)] font-light leading-none tracking-[-0.03em] text-ink">
                     <Compteur to={4.8} dec={1} suffix="" />
                     <span
@@ -119,7 +119,7 @@ export function Reviews() {
                   </dd>
                 </div>
                 <div>
-                  <dt className="eyebrow text-quiet">Tripadvisor</dt>
+                  <dt className="eyebrow text-forest/75">Tripadvisor</dt>
                   <dd className="mt-2 font-display text-[clamp(36px,4.6vw,62px)] font-light leading-none tracking-[-0.03em] text-ink">
                     <Compteur to={4.9} dec={1} suffix="" />
                     <span
@@ -160,7 +160,7 @@ export function Reviews() {
                     >
                       « {a.texte} »
                     </p>
-                    <footer className="mt-6 flex flex-wrap items-center gap-x-3 gap-y-1 text-[12.5px] text-quiet">
+                    <footer className="mt-6 flex flex-wrap items-center gap-x-3 gap-y-1 text-[12.5px] text-forest/75">
                       <cite className="not-italic">{a.nom}</cite>
                       <span aria-hidden="true" className="h-px w-6 bg-ink/25" />
                       <span>Avis Google · {a.date}</span>
