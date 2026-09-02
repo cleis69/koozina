@@ -1,0 +1,75 @@
+# Publication du site sur GitHub Pages.
+#
+# Le projet est en rendu serveur (TanStack Start + Nitro), or Pages ne sert
+# que des fichiers statiques. La chaine construit donc un serveur Node, le
+# fait tourner le temps de capturer la page rendue, et publie ce HTML fige
+# avec les assets. Le site n'ayant qu'une seule route, un prerendu suffit.
+#
+# La base est "/koozina/" : sur un site de projet, Pages sert le depot dans
+# un sous-chemin. Tous les chemins d'assets passent par src/lib/asset.ts, qui
+# lit import.meta.env.BASE_URL — sans quoi photos, marque et favicons
+# renverraient 404, y compris ceux charges depuis le bundle.
+
+name: Publier sur GitHub Pages
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  construire:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+
+      - name: Installer les dependances
+        run: bun install --frozen-lockfile
+
+      - name: Construire
+        env:
+          NITRO_PRESET: node-server
+        run: bun run vite build --base=/koozina/
+
+      - name: Figer la page rendue
+        run: |
+          PORT=3111 node .output/server/index.mjs &
+          SERVEUR=$!
+          for i in $(seq 1 40); do
+            if curl -sf --max-time 5 http://localhost:3111/koozina/ -o /dev/null; then break; fi
+            sleep 1
+          done
+          curl -sfL --max-time 60 http://localhost:3111/koozina/ -o .output/public/index.html
+          kill $SERVEUR || true
+          cp .output/public/index.html .output/public/404.html
+          touch .output/public/.nojekyll
+          test -s .output/public/index.html || { echo "page vide"; exit 1; }
+          echo "page figee : $(wc -c < .output/public/index.html) octets"
+
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: .output/public
+
+  publier:
+    needs: construire
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deploiement.outputs.page_url }}
+    steps:
+      - id: deploiement
+        uses: actions/deploy-pages@v4
