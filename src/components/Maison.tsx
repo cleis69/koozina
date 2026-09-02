@@ -22,9 +22,17 @@ const VALEURS = [
 /**
  * 01 · La maison — le manifeste.
  *
- * Composition éditoriale : le texte tient les colonnes 2–6, l'image occupe
- * 8–13 et déborde volontairement hors de la marge droite (`-mr-[var(--pad)]`).
- * L'asymétrie est décidée, pas subie : la colonne du numéro reste vide.
+ * Composition éditoriale : le texte tient les colonnes 1–5, l'image 8–12.
+ *
+ * L'image ne déborde plus hors de la marge droite. Mesuré à 1440 px, elle
+ * filait jusqu'au bord de l'écran (1440) quand la photo du shop et celle des
+ * événements s'arrêtaient toutes deux à 1386, sur la marge. Un seul bloc de
+ * la page sortait donc du cadre : ce n'était plus un parti pris, c'était une
+ * exception. Les trois photos partagent désormais le même bord droit.
+ *
+ * Format : 5/4 au lieu de 4/5. En portrait la photo faisait 732 px de haut
+ * contre 431 pour le shop — près du double, pour un propos secondaire. Le
+ * paysage la ramène à hauteur de texte, et la section tient dans l'écran.
  */
 export function Maison() {
   return (
@@ -65,21 +73,24 @@ export function Maison() {
             </Reveal>
           </div>
 
-          {/* L'image déborde hors de la marge : c'est ce débord qui donne
-              l'échelle éditoriale. Sur mobile elle revient dans la grille. */}
-          <div className="lg:col-span-5 lg:col-start-8 lg:-mr-[var(--pad)]">
+          {/* Colonnes 8–12 : le bord droit de l'image tombe exactement sur la
+              marge, comme le titre et comme les autres photos de la page. */}
+          <div className="lg:col-span-5 lg:col-start-8">
             <div className="relative">
               <Picture
                 name="tagine-cour"
                 alt="Un tagine aux amandes servi dans la cour, les arcades rayées en arrière-plan"
-                ratio="4 / 5"
-                sizes="(max-width: 1024px) 100vw, 42vw"
+                ratio="5 / 4"
+                sizes="(max-width: 1024px) 100vw, 38vw"
               />
               {/* Pastille : rose poudré, la couleur des fleurs — jamais le rouge,
-                  qui reste réservé à l'action. */}
-              <div className="absolute -bottom-7 left-6 flex h-[104px] w-[104px] flex-col items-center justify-center rounded-full bg-terra-ink text-center md:-left-10 md:h-[128px] md:w-[128px]">
+                  qui reste réservé à l'action.
+                  Elle tenait à -40 px hors du cadre, dans la gouttière : c'est
+                  ce décalage qu'on lisait comme un défaut d'alignement. Elle
+                  revient dans l'image, calée sur son coin. */}
+              <div className="absolute bottom-5 left-5 flex h-[92px] w-[92px] flex-col items-center justify-center rounded-full bg-terra-ink text-center md:bottom-6 md:left-6 md:h-[112px] md:w-[112px]">
                 <span className="eyebrow text-[8.5px] text-paper/90">Fait</span>
-                <span className="font-display text-[22px] font-light leading-none text-paper md:text-[27px]">
+                <span className="font-display text-[21px] font-light leading-none text-paper md:text-[25px]">
                   100%
                 </span>
                 <span className="eyebrow text-[8.5px] text-paper/90">Maison</span>
@@ -95,8 +106,14 @@ export function Maison() {
         <div className="mt-10 grid gap-x-10 gap-y-7 border-t border-ink/12 pt-7 md:mt-12 md:grid-cols-3">
           {VALEURS.map((v, i) => (
             <Reveal key={v.titre} tempo="green" delay={i * 0.08}>
-              <article>
-                <h3 className="font-display text-[clamp(17px,1.6vw,21px)] tracking-[-0.02em] text-ink">
+              <article className="group">
+                <h3 className="flex items-baseline gap-2 font-display text-[clamp(17px,1.6vw,21px)] tracking-[-0.02em] text-ink transition-transform duration-300 ease-editorial group-hover:translate-x-[3px]">
+                  {/* Le point rouge sort de la marge au survol : la
+                      ponctuation du site, rendue vivante. */}
+                  <span
+                    aria-hidden="true"
+                    className="inline-block h-[5px] w-[5px] shrink-0 -translate-x-1 rounded-full bg-terra-ink opacity-0 transition-[opacity,transform] duration-300 ease-editorial group-hover:translate-x-0 group-hover:opacity-100"
+                  />
                   {v.titre}
                 </h3>
                 <p className="mt-2.5 max-w-[34ch] text-[13.5px] leading-[1.65] text-quiet">

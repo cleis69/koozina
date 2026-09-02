@@ -22,14 +22,15 @@ const RESPIRATIONS: Record<number, { name: string; alt: string; ratio: string }>
 /**
  * 02 · La carte.
  *
- * Composition en deux colonnes plutôt qu'en trois : neuf catégories alignées
- * sur trois colonnes égales produisent un mur de texte, pas un menu. Ici la
- * lecture descend en colonnes larges, les catégories respirent, et deux photos
- * viennent casser la verticalité aux tiers — c'est le rythme d'une carte
- * imprimée, pas d'un tableau.
+ * Cinq onglets, plus neuf. Neuf onglets débordaient sur deux rangées et
+ * faisaient lire trois fois le mot « boisson » : « Juices », « Smoothies » et
+ * « Hot drinks » disaient la même famille, comme « Lunch », « Meat & match »
+ * et « Fraîcheurs du jardin » disaient la même — un plat. Les familles sont
+ * réunies (Plats, Boissons) et le détail redescend d'un cran, en intertitres
+ * dans le panneau. Le lecteur choisit un moment du repas, puis lit la variante.
  *
- * Balisage : une <dl> par catégorie, le nom du plat en <dt>, description et
- * prix en <dd>. C'est la structure qu'attend un lecteur d'écran sur une carte.
+ * Balisage : une <dl> par groupe, le nom du plat en <dt>, description et prix
+ * en <dd>. C'est la structure qu'attend un lecteur d'écran sur une carte.
  */
 export function Carte() {
   const [actif, setActif] = useState(0);
@@ -113,7 +114,7 @@ export function Carte() {
                 aria-controls={`panneau-${cat.id}`}
                 tabIndex={i === actif ? 0 : -1}
                 onClick={() => setActif(i)}
-                className={`tap press type-mass shrink-0 rounded-full border-2 px-5 py-3 text-[12.5px] transition-colors duration-200 ease-editorial focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-peach ${
+                className={`tap press type-mass shrink-0 rounded-full border-2 px-5 py-3 text-[12.5px] transition-[color,background-color,border-color,transform] duration-200 ease-editorial hover:-translate-y-[2px] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-peach ${
                   i === actif
                     ? "border-peach bg-peach text-forest"
                     : "border-paper/30 text-paper hover:border-paper"
@@ -124,55 +125,83 @@ export function Carte() {
             ))}
           </div>
 
-          {menu.map((cat, i) => (
-            <div
-              key={cat.id}
-              id={`panneau-${cat.id}`}
-              role="tabpanel"
-              aria-labelledby={`onglet-${cat.id}`}
-              hidden={i !== actif}
-              className="mt-8 md:mt-10"
-            >
-              <div className="grid gap-x-16 gap-y-10 lg:grid-cols-2 lg:gap-x-24">
+          {menu.map((cat, i) => {
+            /* Un seul groupe sans titre : les plats coulent eux-memes sur deux
+               colonnes, comme avant. Plusieurs groupes : ce sont les groupes
+               qui coulent, et chacun reste d'un seul tenant — un intitule ne
+               doit jamais se retrouver seul en pied de colonne. */
+            const simple = cat.groups.length === 1 && !cat.groups[0]!.title;
+
+            return (
+              <div
+                key={cat.id}
+                id={`panneau-${cat.id}`}
+                role="tabpanel"
+                aria-labelledby={`onglet-${cat.id}`}
+                hidden={i !== actif}
+                className="mt-8 md:mt-10"
+              >
                 {cat.subtitle ? (
-                  <p className="text-right text-[11px] uppercase tracking-[0.18em] text-mint/50 lg:col-span-2">
+                  <p className="mb-6 text-right text-[11px] uppercase tracking-[0.18em] text-mint/50">
                     {cat.subtitle}
                   </p>
                 ) : null}
 
-                <dl className="space-y-0 lg:col-span-2 lg:columns-2 lg:gap-x-24">
-                  {cat.dishes.map((d) => (
-                    <div key={d.name} className="break-inside-avoid pb-4">
-                      <div className="flex items-baseline gap-3">
-                        <dt className="font-display text-[clamp(15.5px,1.4vw,18.5px)] font-normal leading-snug text-paper">
-                          {d.name}
-                        </dt>
-                        <span
-                          aria-hidden="true"
-                          className="mb-[4px] min-w-4 flex-1 border-b border-dotted border-paper/25"
-                        />
-                        <dd className="shrink-0 font-display text-[16px] tabular-nums text-peach">
-                          {d.price != null ? (
-                            /* Prix colle a l'unite, comme la maquette : « 95dh ». */
-                            <>{d.price}dh</>
-                          ) : (
-                            <span className="text-[11px] italic text-paper/70">
-                              {d.note ?? "—"}
-                            </span>
-                          )}
-                        </dd>
-                      </div>
-                      {d.desc ? (
-                        <dd className="mt-1.5 max-w-[46ch] text-[12.5px] leading-[1.5] text-paper/70">
-                          {d.desc}
-                        </dd>
+                <div className={simple ? "" : "lg:columns-2 lg:gap-x-24"}>
+                  {cat.groups.map((g) => (
+                    <section key={g.title ?? cat.id} className="break-inside-avoid pb-9 last:pb-0">
+                      {g.title ? (
+                        <div className="mb-4 flex items-baseline gap-3 border-b border-paper/15 pb-2">
+                          <h3 className="type-mass text-[clamp(17px,1.7vw,22px)] text-peach">
+                            {g.title}
+                          </h3>
+                          {g.subtitle ? (
+                            <span className="eyebrow text-[9.5px] text-mint/50">{g.subtitle}</span>
+                          ) : null}
+                        </div>
                       ) : null}
-                    </div>
+
+                      <dl className={simple ? "lg:columns-2 lg:gap-x-24" : ""}>
+                        {g.dishes.map((d) => (
+                          <div key={d.name} className="group/plat break-inside-avoid pb-4">
+                            <div className="flex items-baseline gap-3">
+                              {/* Le plat repond au survol : le nom avance d'un
+                                  cheveu, le pointille se densifie, le prix
+                                  monte d'un demi-pixel. Trois micro-decalages
+                                  qui disent « ceci est une ligne », sans rien
+                                  ajouter a l'ecran. */}
+                              <dt className="font-display text-[clamp(15.5px,1.4vw,18.5px)] font-normal leading-snug text-paper transition-transform duration-300 ease-editorial group-hover/plat:translate-x-[3px]">
+                                {d.name}
+                              </dt>
+                              <span
+                                aria-hidden="true"
+                                className="mb-[4px] min-w-4 flex-1 border-b border-dotted border-paper/25 transition-colors duration-300 ease-editorial group-hover/plat:border-peach/55"
+                              />
+                              <dd className="shrink-0 font-display text-[16px] tabular-nums text-peach transition-transform duration-300 ease-editorial group-hover/plat:-translate-y-[2px]">
+                                {d.price != null ? (
+                                  /* Prix colle a l'unite, comme la maquette : « 95dh ». */
+                                  <>{d.price}dh</>
+                                ) : (
+                                  <span className="text-[11px] italic text-paper/70">
+                                    {d.note ?? "—"}
+                                  </span>
+                                )}
+                              </dd>
+                            </div>
+                            {d.desc ? (
+                              <dd className="mt-1.5 max-w-[46ch] text-[12.5px] leading-[1.5] text-paper/70">
+                                {d.desc}
+                              </dd>
+                            ) : null}
+                          </div>
+                        ))}
+                      </dl>
+                    </section>
                   ))}
-                </dl>
+                </div>
               </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
 
         {/* Micro-CTA au point de decision : on vient de lire les plats et les

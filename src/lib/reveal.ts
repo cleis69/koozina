@@ -81,6 +81,50 @@ function isInViewport(el: Element) {
   return r.top < window.innerHeight && r.bottom > 0;
 }
 
+/**
+ * Parallaxe verticale au defilement.
+ *
+ * La photo avance moins vite que la page : quelques pourcents suffisent, au
+ * dela on ne lit plus de la profondeur mais un glissement. `scrub: true` lie
+ * la position au scroll — pas de tween qui court apres la molette.
+ *
+ * La cible doit etre le calque *interieur* du cadre, plus haut que lui (116%
+ * dans `Picture`), sinon le deplacement decouvre le fond sous l'image.
+ *
+ * Meme regle de surete que `revealOnScroll` : rien n'est cache au depart, et
+ * en mouvement reduit la fonction ne fait rien du tout.
+ */
+export function parallaxOnScroll(
+  gsap: Gsap,
+  _ScrollTrigger: ST,
+  target: Element,
+  cadre: Element,
+  amplitude = 6,
+) {
+  if (prefersReduced()) return null;
+
+  const tw = gsap.fromTo(
+    target,
+    { yPercent: -amplitude },
+    {
+      yPercent: amplitude,
+      ease: "none",
+      immediateRender: false,
+      scrollTrigger: {
+        trigger: cadre,
+        start: "top bottom",
+        end: "bottom top",
+        scrub: 0.6,
+      },
+    },
+  );
+
+  return () => {
+    tw.scrollTrigger?.kill();
+    tw.kill();
+  };
+}
+
 /** Tempo de reveal standard, indexé sur la couleur de la section. */
 export const revealVars = (tempo: keyof typeof E, delay = 0) => ({
   from: { opacity: 0, y: 44 },

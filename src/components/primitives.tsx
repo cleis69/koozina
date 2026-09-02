@@ -42,7 +42,10 @@ export function SplitTitle({
         ScrollTrigger,
         chars,
         {
-          from: { yPercent: 108 },
+          // 128 et non 108 : `ch-mask` porte desormais 0.2em de padding bas
+          // pour laisser passer les jambages, soit ~23% d'une boite a 0.88em.
+          // A 108% une amorce de glyphe restait visible sous le masque.
+          from: { yPercent: 128 },
           yPercent: 0,
           duration: E.ink.d,
           ease: E.ink.ease,

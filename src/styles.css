@@ -289,6 +289,17 @@
   display: inline-block;
   overflow: hidden;
   vertical-align: top;
+  /* Les jambages etaient coupes net.
+     `type-mass` pose line-height: 0.88 — la boite d'un caractere est donc plus
+     courte que le glyphe, et `overflow: hidden` tranchait tout ce qui passe
+     sous la ligne de base : le « p » de « poulpe », le « q » de « coquelicot »,
+     la cedille de « Fraicheurs ». On rend au masque la hauteur du jambage
+     (l'overflow est clippe au bord de la boite de padding, pas du contenu),
+     puis on la reprend en marge negative pour ne rien deplacer dans la
+     composition. En em : suit l'echelle du titre comme celle de l'accent.
+     Le voile du reveal descend a -128% en consequence (voir SplitTitle). */
+  padding-bottom: 0.2em;
+  margin-bottom: -0.2em;
 }
 
 /* ── Zone tactile ────────────────────────────────────────────────

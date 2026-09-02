@@ -68,18 +68,30 @@ export function Header() {
   return (
     <>
       <header className="pad-x fixed inset-x-0 top-0 z-[80] flex items-center justify-between gap-4 py-[18px]">
+        {/* Le wordmark porte sa propre capsule.
+            KOOZINA est creme et GARDEN peche : deux couleurs claires, posees
+            jusqu'ici a meme la page. Sur le hero sombre elles se lisaient, mais
+            des la section « La maison » — fond papier — le nom disparaissait
+            purement et simplement, creme sur creme. Le fond translucide de la
+            nav vient donc aussi sous le logo : meme verre, meme bordure, meme
+            passage a l'opaque au defilement. Le nom tient sur les six sections. */}
         <button
           onClick={() => scrollToId("top")}
-          className="tap press flex shrink-0 items-center gap-3"
+          className="tap press group flex shrink-0 items-center gap-3 rounded-full border border-mint/15 py-[7px] pl-[9px] pr-5 transition-[background-color,transform] duration-300 ease-editorial hover:-translate-y-[1px] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-mint"
+          style={{
+            background: solide ? "rgba(39,46,27,0.72)" : "rgba(39,46,27,0.42)",
+            backdropFilter: "blur(14px)",
+            WebkitBackdropFilter: "blur(14px)",
+          }}
           aria-label="Koozina Garden — haut de page"
         >
           <LogoMark
             couleur
             title="Koozina Garden"
-            className="h-9 w-9 shrink-0 drop-shadow-[0_2px_10px_rgba(32,30,29,0.45)]"
+            className="h-9 w-9 shrink-0 transition-transform duration-[600ms] ease-editorial group-hover:rotate-[-6deg] group-hover:scale-[1.06]"
           />
           {/* Wordmark empile : KOOZINA creme, GARDEN peche. */}
-          <span className="hidden flex-col leading-none drop-shadow-[0_2px_10px_rgba(32,30,29,0.45)] sm:flex">
+          <span className="hidden flex-col leading-none sm:flex">
             <span className="font-display text-[19px] tracking-[0.02em] text-paper">KOOZINA</span>
             <span className="font-display text-[19px] tracking-[0.02em] text-peach">GARDEN</span>
           </span>
